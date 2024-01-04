@@ -1,1 +1,1 @@
-# project-chess
+# chess-game
