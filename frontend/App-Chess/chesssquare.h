@@ -10,12 +10,12 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
-    ChessSquare(const QString &imagePath, const QString &position, QWidget *parent = nullptr);
+    ChessSquare(bool dark, const QString &position, QWidget *parent = nullptr);
 
     void setChessPiece(ChessPiece *piece);
     ChessPiece *getChessPiece() const;
 
-    void highlightSquare(const QColor &color);
+    void highlightSquare();
     void resetSquareColor();
 
 signals:
@@ -27,7 +27,9 @@ protected:
 
 private:
     QString squarePosition;
-    QColor originalColor;
+    QColor normalColor;
+    QColor highlightedColor;
+    bool isHighlighted;
     ChessPiece *chessPiece = nullptr;
 };
 

@@ -1,55 +1,49 @@
 #include "chesssquare.h"
 #include <QMouseEvent>
+#include <QColor>
 
-ChessSquare::ChessSquare(const QString &imagePath, const QString &position, QWidget *parent)
+ChessSquare::ChessSquare(bool dark, const QString &position, QWidget *parent)
     : QLabel(parent), squarePosition(position)
 {
-    setFixedSize(80,80);
+    setFixedSize(80, 80);
     setMargin(0);
-    setPixmap(QPixmap(imagePath).scaled(size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     setScaledContents(true); // Ensure the square image fits the label size
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setAlignment(Qt::AlignCenter);
 
-    originalColor = palette().color(QPalette::Window);
+    normalColor = dark ? QColor(101, 67, 33) : QColor(193, 154, 107);
+    highlightedColor = dark ? QColor(255, 220, 185) : QColor(255, 236, 210);
+    isHighlighted = false;
 }
 
 void ChessSquare::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 
-    // Example: Highlight the square with a yellow color
-    highlightSquare(Qt::yellow);
+    highlightSquare();
 
-    // Additional logic for handling the chess piece click
     emit clicked(squarePosition);
 }
 
-void ChessSquare::highlightSquare(const QColor &color)
+void ChessSquare::highlightSquare()
 {
-    // Set the square color to the specified color
-    setStyleSheet(QString("background-color: %1;").arg(color.name()));
+    setStyleSheet(QString("background-color: %1;").arg(highlightedColor.name()));
 }
 
 void ChessSquare::resetSquareColor()
 {
-    // Reset the square color to the original color
-    setStyleSheet(QString("background-color: %1;").arg(originalColor.name()));
+    setStyleSheet(QString("background-color: %1;").arg(normalColor.name()));
 }
 
 void ChessSquare::paintEvent(QPaintEvent *event)
 {
-    QLabel::paintEvent(event);
+    QLabel::paintEvent(event); // Call the base class paint event
 
     QPainter painter(this);
-
-    // Set the composition mode to use the source over the destination
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    // Set the brush color to the original color
-    painter.setBrush(originalColor);
-
-    // Draw a filled rectangle with the original color over the entire QLabel
+    QBrush brush(isHighlighted ? highlightedColor : normalColor);
+    painter.setBrush(brush);
     painter.drawRect(rect());
 }
 

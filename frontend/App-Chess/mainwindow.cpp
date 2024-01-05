@@ -23,15 +23,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::initializeChessboard()
 {
-    bool black = false;
+    bool dark = false;
     for (char row = '1'; row <= '8'; ++row)
     {
-        black = !black;
+        dark = !dark;
         for (char col = 'A'; col <= 'H'; ++col)
         {
             QString position = QString("%1%2").arg(col).arg(row);
             QString squareImagePath;
-            if (black)
+            if (dark)
             {
                 squareImagePath = "../App-Chess/resources/square_brown_dark_1x_ns.png";
             }
@@ -39,8 +39,8 @@ void MainWindow::initializeChessboard()
             {
                 squareImagePath = "../App-Chess/resources/square_brown_light_1x_ns.png";
             }
-            black = !black;
-            ChessSquare *square = new ChessSquare(squareImagePath, position, this);
+            ChessSquare *square = new ChessSquare(dark, position, this);
+            dark = !dark;
             chessboardLayout->addWidget(square, '8' - row, col - 'A');
 
             ChessPiece::PieceType pieceType;
