@@ -19,7 +19,6 @@ public:
 
 private:
     bool whiteTurn;
-    //std::array<ChessSquare, 64> squares;
 
 signals:
 };

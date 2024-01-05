@@ -45,14 +45,14 @@ void ChessSquare::paintEvent(QPaintEvent *event)
 }
 
 
-void ChessSquare::setChessPiece(ChessPiece *piece)
+void ChessSquare::setChessPiece(std::unique_ptr<ChessPiece> piece)
 {
-    chessPiece = piece;
+    chessPiece = std::move(piece);
     if (chessPiece)
         chessPiece->setParent(this);
 }
 
 ChessPiece *ChessSquare::getChessPiece() const
 {
-    return chessPiece;
+    return chessPiece.get();
 }

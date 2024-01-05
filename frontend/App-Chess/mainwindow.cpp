@@ -5,12 +5,13 @@
 #include <QTextStream>
 #include <QApplication>
 #include <QPainter>
+#include <memory>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    chessboardLayout = new QGridLayout(ui->centralwidget);
+    chessboardLayout = std::make_unique<QGridLayout>(ui->centralwidget);
     chessboardLayout->setSpacing(0);
     chessboardLayout->setAlignment(Qt::AlignCenter);
     initializeChessboard();
@@ -79,8 +80,8 @@ void MainWindow::initializeChessboard()
                 continue;
             }
 
-            ChessPiece *piece = new ChessPiece(pieceImagePath, pieceType, square);
-            square->setChessPiece(piece);
+            auto piece = std::make_unique<ChessPiece>(pieceImagePath, pieceType, square);
+            square->setChessPiece(std::move(piece));
             connect(square, &ChessSquare::clicked, this, &MainWindow::onSquareClicked);
         }
     }
