@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void updateChessboard();
 
 private slots:
     void onSquareClicked(const QString &position);

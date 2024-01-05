@@ -30,15 +30,6 @@ void MainWindow::initializeChessboard()
         for (char col = 'A'; col <= 'H'; ++col)
         {
             QString position = QString("%1%2").arg(col).arg(row);
-            QString squareImagePath;
-            if (dark)
-            {
-                squareImagePath = "../App-Chess/resources/square_brown_dark_1x_ns.png";
-            }
-            else
-            {
-                squareImagePath = "../App-Chess/resources/square_brown_light_1x_ns.png";
-            }
             ChessSquare *square = new ChessSquare(dark, position, this);
             dark = !dark;
             chessboardLayout->addWidget(square, '8' - row, col - 'A');
@@ -95,13 +86,43 @@ void MainWindow::initializeChessboard()
     }
 }
 
+void MainWindow::updateChessboard() {
+    for (int row = 0; row < 8; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            ChessSquare *square = qobject_cast<ChessSquare*>(chessboardLayout->itemAtPosition(row, col)->widget());
+
+            if (square) {
+                ChessPiece *piece = square->getChessPiece();
+
+                // Update the chess piece representation based on the game state
+                if (piece) {
+                    // Example: Change the image path of the piece
+                    QTextStream(stdout) << "Type: " << piece->getPieceType() << "\n";
+                    square->highlightSquare();
+
+                } else {
+                    // Example: Set an empty image path if the square has no piece
+
+                }
+            }
+        }
+    }
+}
+
+
 void MainWindow::onSquareClicked(const QString &position)
 {
     ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
+
+    //clickedSquare = qobject_cast<ChessSquare*>(chessboardLayout->itemAtPosition('1','A')->widget());
+
     if (clickedSquare)
     {
         ChessPiece *clickedPiece = clickedSquare->getChessPiece();
+        clickedSquare->setChessPiece(nullptr);
         QTextStream(stdout) << "Position: " << position << "\n";
+        updateChessboard();
+
         // Implement your game logic here
         // You can use clickedPiece->getPieceType(), clickedPiece->isWhite(), etc.
     }

@@ -19,9 +19,6 @@ ChessSquare::ChessSquare(bool dark, const QString &position, QWidget *parent)
 void ChessSquare::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-
-    highlightSquare();
-
     emit clicked(squarePosition);
 }
 
