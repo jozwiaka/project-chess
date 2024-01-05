@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\dev\chess-game\frontend\App-Chess\mainwindow.ui'
+# Form implementation generated from reading ui file 'c:\dev\project-chess\frontend\App-Chess\mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
