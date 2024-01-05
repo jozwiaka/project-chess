@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include "chesssquare.h"
 #include <memory>
+#include "ChessGame.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,9 +26,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QGridLayout> chessboardLayout;
+    std::unique_ptr<ChessGame> chessGame;
 
     void initializeChessboard();
-    // Add any other private methods for game logic
 };
 
 #endif // MAINWINDOW_H

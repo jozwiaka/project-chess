@@ -1,4 +1,6 @@
 #include "chessgame.h"
+#include "chesssquare.h"
+#include <memory>
 
 ChessGame::ChessGame(QObject *parent)
     : QObject{parent}, whiteTurn(true)
