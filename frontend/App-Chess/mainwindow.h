@@ -21,7 +21,7 @@ public:
     void updateChessboard();
 
 private slots:
-    void onSquareClicked(const QString &position);
+    void onSquareClicked(const ChessSquare::Position& position);
 
 private:
     Ui::MainWindow *ui;

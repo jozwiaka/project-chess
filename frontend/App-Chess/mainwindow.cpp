@@ -6,14 +6,17 @@
 #include <QApplication>
 #include <QPainter>
 #include <memory>
+#include "chessgame.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), chessGame(std::make_unique<ChessGame>())
 {
     ui->setupUi(this);
+
     chessboardLayout = std::make_unique<QGridLayout>(ui->centralwidget);
     chessboardLayout->setSpacing(0);
     chessboardLayout->setAlignment(Qt::AlignCenter);
+
     initializeChessboard();
 }
 
@@ -30,7 +33,7 @@ void MainWindow::initializeChessboard()
         dark = !dark;
         for (char col = 'A'; col <= 'H'; ++col)
         {
-            QString position = QString("%1%2").arg(col).arg(row);
+            ChessSquare::Position position{col, row};
             ChessSquare *square = new ChessSquare(dark, position, this);
             dark = !dark;
             chessboardLayout->addWidget(square, '8' - row, col - 'A');
@@ -111,7 +114,7 @@ void MainWindow::updateChessboard() {
 }
 
 
-void MainWindow::onSquareClicked(const QString &position)
+void MainWindow::onSquareClicked(const ChessSquare::Position& position)
 {
     ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
 
@@ -121,7 +124,7 @@ void MainWindow::onSquareClicked(const QString &position)
     {
         ChessPiece *clickedPiece = clickedSquare->getChessPiece();
         clickedSquare->setChessPiece(nullptr);
-        QTextStream(stdout) << "Position: " << position << "\n";
+        QTextStream(stdout) << "Position: " << position.x << position.y << "\n";
         // updateChessboard();
 
         // Implement your game logic here

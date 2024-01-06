@@ -11,7 +11,12 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
-    ChessSquare(bool dark, const QString &position, QWidget *parent = nullptr);
+    struct Position {
+        char x, y;
+    };
+
+public:
+    ChessSquare(bool dark, const Position& position, QWidget *parent = nullptr);
 
     void setChessPiece(std::unique_ptr<ChessPiece> piece);
     ChessPiece *getChessPiece() const;
@@ -20,14 +25,14 @@ public:
     void resetSquareColor();
 
 signals:
-    void clicked(const QString &position);
+    void clicked(const Position& position);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    QString squarePosition;
+    Position position;
     QColor normalColor;
     QColor highlightedColor;
     bool isHighlighted;

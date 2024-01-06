@@ -9,6 +9,10 @@
 class ChessGame : public QObject
 {
     Q_OBJECT
+
+public:
+
+
 public:
     explicit ChessGame(QObject *parent = nullptr);
 
@@ -16,6 +20,9 @@ public:
 
     void makeMove(const QString& fromSquare, const QString& toSquare);
     bool isCheckmate() const;
+
+signals:
+    void moveMade(const QString& fromSquare, const QString& toSquare);
 
 private:
     bool whiteTurn;

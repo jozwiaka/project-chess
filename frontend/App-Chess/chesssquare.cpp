@@ -2,8 +2,8 @@
 #include <QMouseEvent>
 #include <QColor>
 
-ChessSquare::ChessSquare(bool dark, const QString &position, QWidget *parent)
-    : QLabel(parent), squarePosition(position)
+ChessSquare::ChessSquare(bool dark, const Position& position, QWidget *parent)
+    : QLabel(parent), position(position)
 {
     setFixedSize(80, 80);
     setMargin(0);
@@ -19,7 +19,7 @@ ChessSquare::ChessSquare(bool dark, const QString &position, QWidget *parent)
 void ChessSquare::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    emit clicked(squarePosition);
+    emit clicked(position);
 }
 
 void ChessSquare::highlightSquare()
