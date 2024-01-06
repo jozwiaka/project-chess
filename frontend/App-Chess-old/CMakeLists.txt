@@ -14,17 +14,20 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        chessview.cpp
-        chessview.h
-        chessview.ui
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(App-Chess
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        chessmodel.h chessmodel.cpp
-        chesscontroller.h chesscontroller.cpp
+        cnnmodel.h cnnmodel.cpp
+        chessgame.h chessgame.cpp
+        chesspiece.h chesspiece.cpp
+        chesssquare.h chesssquare.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET App-Chess APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

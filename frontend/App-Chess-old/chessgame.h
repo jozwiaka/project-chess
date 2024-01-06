@@ -2,7 +2,6 @@
 #define CHESSGAME_H
 
 #include <QObject>
-#include <array>
 #include "chesssquare.h"
 #include "chesspiece.h"
 
@@ -11,7 +10,9 @@ class ChessGame : public QObject
     Q_OBJECT
 
 public:
-
+    enum class Color {
+        WHITE, BLACK
+    };
 
 public:
     explicit ChessGame(QObject *parent = nullptr);
@@ -25,7 +26,7 @@ signals:
     void moveMade(const QString& fromSquare, const QString& toSquare);
 
 private:
-    bool whiteTurn;
+    Color currentTurn;
 
 signals:
 };

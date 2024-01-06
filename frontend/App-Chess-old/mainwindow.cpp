@@ -125,7 +125,7 @@ void MainWindow::onSquareClicked(const ChessSquare::Position& position)
         ChessPiece *clickedPiece = clickedSquare->getChessPiece();
         clickedSquare->setChessPiece(nullptr);
         QTextStream(stdout) << "Position: " << position.x << position.y << "\n";
-        // updateChessboard();
+        //updateChessboard();
 
         // Implement your game logic here
         // You can use clickedPiece->getPieceType(), clickedPiece->isWhite(), etc.

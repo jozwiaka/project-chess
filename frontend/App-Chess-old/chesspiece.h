@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QLabel>
 #include <QPainter>
+#include "chessgame.h"
 
 class ChessPiece : public QLabel
 {
@@ -11,6 +12,7 @@ class ChessPiece : public QLabel
 
 public:
     enum PieceType {
+        Empty,
         Pawn,
         Rook,
         Knight,
@@ -19,11 +21,13 @@ public:
         King
     };
 
+
+
 public:
-    ChessPiece(const QString &imagePath, PieceType type, QWidget *parent = nullptr);
+    ChessPiece(const QString &imagePath, PieceType type, ChessGame::Color color, QWidget *parent = nullptr);
 
     PieceType getPieceType() const;
-    bool isWhite() const;
+    ChessPiece getColor() const;
     void setSelected(bool selected);
     bool isSelected() const;
 

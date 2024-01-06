@@ -3,18 +3,18 @@
 #include <memory>
 
 ChessGame::ChessGame(QObject *parent)
-    : QObject{parent}, whiteTurn(true)
+    : QObject{parent}, currentTurn(Color::WHITE)
 {}
 
 void ChessGame::startGame()
 {
-    whiteTurn = true;
+    currentTurn = Color::WHITE;
 }
 
 void ChessGame::makeMove(const QString& fromSquare, const QString& toSquare)
 {
 
-    whiteTurn = !whiteTurn;
+    currentTurn = Color::WHITE;
 }
 
 bool ChessGame::isCheckmate() const {

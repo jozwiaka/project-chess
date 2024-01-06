@@ -1,4 +1,6 @@
-#include "mainwindow.h"
+#include "chessview.h"
+#include "chesscontroller.h"
+#include "chessmodel.h"
 
 #include <QApplication>
 
@@ -6,10 +8,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    MainWindow w;
-    w.adjustSize();
-    w.setFixedSize(w.size());
-    w.show();
+    ChessModel model;
+    ChessView view;
+
+    ChessController controller(&model, &view);
+
+    view.show();
 
     return a.exec();
 }
