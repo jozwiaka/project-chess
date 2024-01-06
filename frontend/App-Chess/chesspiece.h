@@ -11,7 +11,6 @@ class ChessPiece : public QLabel
 
 public:
     enum PieceType {
-        Empty,
         Pawn,
         Rook,
         Knight,
@@ -28,7 +27,7 @@ public:
 
 
 public:
-    ChessPiece(const QString &imagePath, PieceType type, Color color, QWidget *parent = nullptr);
+    ChessPiece(PieceType type, Color color, QWidget *parent = nullptr);
 
     PieceType GetPieceType() const;
     Color GetColor() const;
