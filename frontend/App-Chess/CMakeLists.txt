@@ -25,6 +25,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         chessmodel.h chessmodel.cpp
         chesscontroller.h chesscontroller.cpp
+
+        chesssquare.h chesssquare.cpp
+        cnnmodel.h cnnmodel.cpp
+        chesspiece.h chesspiece.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET App-Chess APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
 
     ChessModel model;
     ChessView view;
-
     ChessController controller(&model, &view);
 
     view.show();

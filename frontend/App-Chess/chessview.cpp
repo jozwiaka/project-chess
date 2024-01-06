@@ -3,9 +3,9 @@
 
 ChessView::ChessView(QWidget *parent)
     : QMainWindow(parent)
-    , ui(std::make_unique<Ui::ChessView>())
+    , m_Ui(std::make_unique<Ui::ChessView>())
 {
-    ui->setupUi(this);
+    m_Ui->setupUi(this);
 }
 
 ChessView::~ChessView()

@@ -19,6 +19,6 @@ public:
     ~ChessView();
 
 private:
-    std::unique_ptr<Ui::ChessView> ui;
+    std::unique_ptr<Ui::ChessView> m_Ui;
 };
 #endif // CHESSVIEW_H
