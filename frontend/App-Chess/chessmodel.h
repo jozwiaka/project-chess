@@ -26,6 +26,8 @@ public:
 
     ~ChessModel();
 
+    void MakeMove(std::shared_ptr<ChessSquare> fromSquare, std::shared_ptr<ChessSquare> toSquare);
+
 signals:
    void UpdateGraphics();
 

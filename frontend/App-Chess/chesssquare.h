@@ -34,7 +34,9 @@ public:
     ChessSquare(bool dark, const Position& position, QWidget *parent = nullptr);
 
     void SetChessPiece(std::unique_ptr<ChessPiece> piece);
-    ChessPiece *GetChessPiece() const;
+    std::unique_ptr<ChessPiece> GetChessPiece();
+    const ChessPiece& GetChessPieceRef() const;
+    bool IsChessPiece() const;
 
     void HighlightSquare();
     void ResetSquareColor();

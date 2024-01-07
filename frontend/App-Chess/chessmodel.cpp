@@ -69,14 +69,23 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
     return m_Chessboard;
 }
 
-void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position) {
+void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
+{
     for(auto& row : m_Chessboard)
     {
         for(auto& square : row)
         {
-            if(square->GetPosition()==position)
+            if(square->GetPosition() == position)
             {
-                qDebug()<<position.x<<position.y<<"\n";
+                if(square->IsChessPiece())
+                {
+                    auto& piece = square->GetChessPieceRef();
+                    if(piece.GetColor()==m_CurrentTurn)
+                    {
+                        square->SetStatus(ChessSquare::Status::Active);
+                        qDebug()<<position.x<<position.y<<"\n";
+                    }
+                }
                 break;
             }
         }
@@ -86,7 +95,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
     {
         for(int c=0;c<8;++c)
         {
-            m_Chessboard[r][c]->SetStatus(ChessSquare::Status::Active);
+           // m_Chessboard[r][c]->SetStatus(ChessSquare::Status::Active);
         }
     }
 
@@ -94,4 +103,9 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 }
 
 ChessModel::~ChessModel(){
+}
+
+void ChessModel::MakeMove(std::shared_ptr<ChessSquare> fromSquare, std::shared_ptr<ChessSquare> toSquare) {
+    m_CurrentTurn = Color::White ? Color::Black : Color::White;
+    toSquare->SetChessPiece(std::move(fromSquare->GetChessPiece()));
 }

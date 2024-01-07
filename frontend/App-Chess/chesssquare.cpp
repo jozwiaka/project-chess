@@ -60,9 +60,18 @@ void ChessSquare::SetChessPiece(std::unique_ptr<ChessPiece> piece)
     }
 }
 
-ChessPiece *ChessSquare::GetChessPiece() const
+std::unique_ptr<ChessPiece> ChessSquare::GetChessPiece()
 {
-    return m_ChessPiece.get();
+    return std::move(m_ChessPiece);
+}
+
+const ChessPiece& ChessSquare::GetChessPieceRef() const
+{
+    if(m_ChessPiece)
+    {
+        return *m_ChessPiece;
+    }
+
 }
 
 void ChessSquare::SetStatus(Status status)
@@ -76,4 +85,8 @@ ChessSquare::Status ChessSquare::GetStatus() const {
 
 ChessSquare::Position ChessSquare::GetPosition() const {
     return m_Position;
+}
+
+bool ChessSquare::IsChessPiece() const {
+    return m_ChessPiece != nullptr;
 }
