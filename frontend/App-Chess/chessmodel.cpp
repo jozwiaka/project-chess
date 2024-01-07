@@ -1,5 +1,6 @@
 #include "chessmodel.h"
 #include <memory>
+#include <QDebug>
 
 ChessModel::ChessModel(QObject *parent)
     : QObject{parent}, m_CurrentTurn{Color::White}
@@ -68,8 +69,8 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
     return m_Chessboard;
 }
 
-void ChessModel::ChessboardChanged(){
-
+void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position) {
+    qDebug()<<position.x<<position.y<<"\n";
 }
 
 ChessModel::~ChessModel(){

@@ -22,7 +22,7 @@ public:
 
     QVector<QVector<std::shared_ptr<ChessSquare>>> GetChessboard();
 
-    void ChessboardChanged();
+    void UpdateModelOnSquareClick(const ChessSquare::Position& position);
 
     ~ChessModel();
 

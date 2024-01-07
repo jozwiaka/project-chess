@@ -22,13 +22,15 @@ class ChessView : public QMainWindow
 public:
     ChessView(QWidget *parent = nullptr);
     void CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard);
+
     void OnSquareClicked(const ChessSquare::Position& position);
 
-    void MoveMade();
+    void UpdateChessboardGraphics(const ChessSquare::Position& position);
+
     ~ChessView();
 
 signals:
-    void UpdateChessboard();
+    void SquareClicked(const ChessSquare::Position& position);
 
 private:
     std::unique_ptr<Ui::ChessView> m_Ui;

@@ -29,18 +29,11 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
 
 void ChessView::OnSquareClicked(const ChessSquare::Position& position)
 {
-    ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
-
-    if (clickedSquare)
-    {
-        ChessPiece *clickedPiece = clickedSquare->GetChessPiece();
-        QTextStream(stdout) << "Position: " << position.x << position.y << "\n";
-        //UpdateChessboard();
-
-    }
-}
-
-void ChessView::MoveMade() {
-
+    // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
+    emit SquareClicked(position);
+    // if (clickedSquare)
+    // {
+    //     ChessPiece *clickedPiece = clickedSquare->GetChessPiece();
+    // }
 }
 
