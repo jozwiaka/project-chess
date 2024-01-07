@@ -99,21 +99,21 @@ void ChessModel::ClearStatuses() {
             }
         }
     }
-   // m_ActiveSquare = nullptr;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 {
+
     ChessSquare* foundSquare = FindSquare(position);
 
     if(m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::AvailableMove || foundSquare->GetStatus() == ChessSquare::Status::AvailableCapture))
     {
-        MakeMove(m_ActiveSquare, foundSquare);
+        MakeMove(foundSquare);
         ClearStatuses();
         return;
     }
-    ClearStatuses();
 
+    ClearStatuses();
 
     m_Chessboard[3][2]->SetStatus(ChessSquare::Status::AvailableMove);
 
@@ -157,7 +157,9 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 ChessModel::~ChessModel(){
 }
 
-void ChessModel::MakeMove(ChessSquare* fromSquare, ChessSquare* toSquare) {
-    m_CurrentTurn = Color::White ? Color::Black : Color::White;
-    toSquare->SetChessPiece(std::move(fromSquare->GetChessPiece()));
+void ChessModel::MakeMove(ChessSquare* toSquare) {
+    if(m_ActiveSquare) {
+        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+        toSquare->SetChessPiece(std::move(m_ActiveSquare->GetChessPiece()));
+    }
 }

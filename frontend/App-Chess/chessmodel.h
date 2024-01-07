@@ -26,7 +26,7 @@ public:
 
     ~ChessModel();
 
-    void MakeMove(ChessSquare* fromSquare, ChessSquare* toSquare);
+    void MakeMove(ChessSquare* toSquare);
 
 signals:
     void UpdateGraphics();
