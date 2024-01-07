@@ -97,11 +97,33 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
                     if(piece.GetColor()==m_CurrentTurn)
                     {
                         square->SetStatus(ChessSquare::Status::Active);
-                        qDebug()<<position.x<<position.y<<"\n";
+
+                        switch (piece.GetPieceType())
+                        {
+                        case ChessPiece::Rook:
+                            break;
+                        case ChessPiece::Knight:
+                            break;
+                        case ChessPiece::Bishop:
+                            break;
+                        case ChessPiece::Queen:
+                            break;
+                        case ChessPiece::King:
+                            break;
+                        case ChessPiece::Pawn:
+                            break;
+                        }
                     }
                 }
                 break;
             }
+        }
+    }
+
+    for (char row = 0; row < 8; ++row)
+    {
+        for (char col = 0; col < 8; ++col)
+        {
         }
     }
 

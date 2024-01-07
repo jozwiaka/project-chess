@@ -39,7 +39,7 @@ void ChessSquare::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    if(m_Status == Status::Active)
+    if(m_Status == Status::AvailableMove)
     {
         painter.setPen(Qt::NoPen);
         painter.setBrush(Qt::gray);
