@@ -5,6 +5,7 @@ ChessView::ChessView(QWidget *parent)
     : QMainWindow(parent), m_Ui(std::make_unique<Ui::ChessView>())
 {
     m_Ui->setupUi(this);
+    //this->updatesEnabled();
 }
 
 ChessView::~ChessView()
@@ -26,9 +27,9 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
             connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
-
-
 }
+
+
 
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {

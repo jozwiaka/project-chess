@@ -27,6 +27,12 @@ public:
 
     void UpdateChessboardGraphics();
 
+    void PlacePon(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard)
+    {
+        auto piece = std::make_unique<ChessPiece>(ChessPiece::PieceType::Pawn, ChessPiece::Color::Black,chessboard[3][3].get());
+        chessboard[1][1]->SetChessPiece(std::move(piece));
+    }
+
     ~ChessView();
 
 signals:

@@ -104,7 +104,6 @@ void ChessModel::ClearStatuses() {
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 {
-
     auto piece = std::make_unique<ChessPiece>(ChessPiece::PieceType::Pawn, Color::Black,m_Chessboard[3][3].get());
     m_Chessboard[3][3]->SetChessPiece(std::move(piece));
 

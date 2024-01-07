@@ -12,7 +12,5 @@ int main(int argc, char *argv[])
     ChessView view;
     ChessController controller(&model, &view);
 
-    view.show();
-
     return a.exec();
 }
