@@ -42,6 +42,13 @@ void ChessSquare::paintEvent(QPaintEvent *event)
     QBrush brush(m_IsHighlighted ? m_HighlightedColor : m_NormalColor);
     painter.setBrush(brush);
     painter.drawRect(rect());
+
+    if(m_Status == Status::Active)
+    {
+        painter.setBrush(Qt::gray);
+        int radius = 10;
+        painter.drawEllipse(40 - radius, 40 - radius, 2 * radius, 2 * radius);
+    }
 }
 
 
@@ -64,4 +71,16 @@ void ChessSquare::SetStatus(Status status)
 
 ChessSquare::Status ChessSquare::GetStatus() const {
     return m_Status;
+}
+
+// void ChessSquare::DrawCircle(QPainter& painter) {
+
+//     painter.setBrush(Qt::gray);
+//     int radius = 10;
+//     painter.drawEllipse(40 - radius, 40 - radius, 2 * radius, 2 * radius);
+
+// }
+
+void ChessSquare::ResetCircle() {
+
 }

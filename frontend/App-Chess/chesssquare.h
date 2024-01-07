@@ -34,6 +34,9 @@ public:
     void HighlightSquare();
     void ResetSquareColor();
 
+    void DrawCircle();
+    void ResetCircle();
+
     void SetStatus(Status status);
     Status GetStatus() const;
 signals:

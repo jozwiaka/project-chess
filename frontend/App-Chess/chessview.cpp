@@ -21,7 +21,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 7 - row, col);
+            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 8 - 1 - row, col);
             connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
@@ -44,15 +44,19 @@ void ChessView::UpdateChessboardGraphics()
         for (int col = 0; col < 8; ++col)
         {
             ChessSquare *square = qobject_cast<ChessSquare*>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
+
+            // switch (control) {
+            // case value:
+
+            //     break;
+            // default:
+            //     break;
+            // }
             if(square->GetStatus()==ChessSquare::Status::Active)
             {
                 square->HighlightSquare();
+                // square->DrawCircle();
             }
-
-            // if (square) {
-            //     ChessPiece *piece = square->GetChessPiece();
-
-            // }
         }
     }
 }
