@@ -31,12 +31,9 @@ void ChessView::OnSquareClicked(const ChessSquare::Position& position)
 {
     ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
 
-    //clickedSquare = qobject_cast<std::shared_ptr<ChessSquare>>(chessboardLayout->itemAtPosition('1','A')->widget());
-
     if (clickedSquare)
     {
         ChessPiece *clickedPiece = clickedSquare->GetChessPiece();
-        clickedSquare->SetChessPiece(nullptr);
         QTextStream(stdout) << "Position: " << position.x << position.y << "\n";
         //UpdateChessboard();
 

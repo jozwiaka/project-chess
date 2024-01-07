@@ -34,6 +34,8 @@ public:
     void HighlightSquare();
     void ResetSquareColor();
 
+    void SetStatus(Status status);
+    Status GetStatus() const;
 signals:
     void Clicked(const Position& position);
 

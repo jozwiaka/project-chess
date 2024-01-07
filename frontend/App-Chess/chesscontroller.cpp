@@ -6,6 +6,6 @@ ChessController::ChessController(ChessModel* model, ChessView* view, QObject *pa
     m_Model->InitializeChessboard();
     m_View->CreateChessboardGraphics(m_Model->GetChessboard());
 
-    //connect(m_Model, &ChessModel::ChessboardChanged, m_View, &ChessView::UpdateChessboard);
-    //connect(m_View, &ChessView::MoveMade, m_Model, &ChessModel::MakeMove);
+    connect(m_Model, &ChessModel::ChessboardChanged, m_View, &ChessView::UpdateChessboard);
+    connect(m_View, &ChessView::MoveMade, m_Model, &ChessModel::MakeMove);
 }

@@ -56,3 +56,12 @@ ChessPiece *ChessSquare::GetChessPiece() const
 {
     return m_ChessPiece.get();
 }
+
+void ChessSquare::SetStatus(Status status)
+{
+    m_Status = status;
+}
+
+ChessSquare::Status ChessSquare::GetStatus() const {
+    return m_Status;
+}
