@@ -104,9 +104,6 @@ void ChessModel::ClearStatuses() {
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 {
-    auto piece = std::make_unique<ChessPiece>(ChessPiece::PieceType::Pawn, Color::Black,m_Chessboard[3][3].get());
-    m_Chessboard[3][3]->SetChessPiece(std::move(piece));
-
     ChessSquare* foundSquare = FindSquare(position);
 
 
@@ -117,14 +114,14 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 
     ClearStatuses();
 
-    if(m_Chessboard[3][2]->IsChessPiece())
-    {
-        qDebug()<<"Ok\n";
-    }
-    else
-    {
-        m_Chessboard[3][2]->SetStatus(ChessSquare::Status::AvailableMove);
-    }
+    // if(m_Chessboard[3][2]->IsChessPiece())
+    // {
+    //     qDebug()<<"Ok\n";
+    // }
+    // else
+    // {
+    //     m_Chessboard[3][2]->SetStatus(ChessSquare::Status::AvailableMove);
+    // }
 
 
     if(foundSquare->IsChessPiece())

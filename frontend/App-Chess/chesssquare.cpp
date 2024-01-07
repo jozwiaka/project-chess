@@ -57,6 +57,7 @@ void ChessSquare::SetChessPiece(std::unique_ptr<ChessPiece> piece)
     {
         m_ChessPiece = std::move(piece);
         m_ChessPiece->setParent(this);
+        m_ChessPiece->show();
     }
 }
 

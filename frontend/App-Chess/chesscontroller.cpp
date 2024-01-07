@@ -10,8 +10,4 @@ ChessController::ChessController(ChessModel* model, ChessView* view, QObject *pa
     connect(m_View, &ChessView::SquareClicked, m_Model, &ChessModel::UpdateModelOnSquareClick);
     connect(m_Model, &ChessModel::UpdateGraphics, m_View, &ChessView::UpdateChessboardGraphics);
 
-    //m_View->PlacePon(m_Model->GetChessboard());
-    m_View->show();
-
-    m_View->PlacePon(m_Model->GetChessboard()); //does not show up
 }
