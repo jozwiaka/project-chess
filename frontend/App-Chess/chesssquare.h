@@ -11,11 +11,16 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
+    using ChessboardType = std::vector<std::vector<std::shared_ptr<ChessSquare>>>;
+
+public:
     struct Position {
         char x, y;
     };
 
 public:
+    ChessSquare() = default;
+
     ChessSquare(bool dark, const Position& position, QWidget *parent = nullptr);
 
     void SetChessPiece(std::unique_ptr<ChessPiece> piece);

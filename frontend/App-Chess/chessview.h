@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include <memory>
+#include "chesssquare.h"
+#include "chesspiece.h"
+#include <QGridLayout>
+#include "chessmodel.h"
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,9 +21,13 @@ class ChessView : public QMainWindow
 
 public:
     ChessView(QWidget *parent = nullptr);
+    void InitializeChessboard(QVector<QVector<ChessSquare*>> chessboard);
+    void OnSquareClicked(const ChessSquare::Position& position);
     ~ChessView();
 
 private:
     std::unique_ptr<Ui::ChessView> m_Ui;
+    std::unique_ptr<QGridLayout> m_ChessboardLayout;
+
 };
 #endif // CHESSVIEW_H

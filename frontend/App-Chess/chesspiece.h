@@ -27,6 +27,8 @@ public:
 
 
 public:
+    ChessPiece() = default;
+
     ChessPiece(PieceType type, Color color, QWidget *parent = nullptr);
 
     PieceType GetPieceType() const;
