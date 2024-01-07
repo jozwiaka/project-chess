@@ -26,14 +26,19 @@ public:
 
     ~ChessModel();
 
-    void MakeMove(std::shared_ptr<ChessSquare> fromSquare, std::shared_ptr<ChessSquare> toSquare);
+    void MakeMove(ChessSquare* fromSquare, ChessSquare* toSquare);
 
 signals:
-   void UpdateGraphics();
+    void UpdateGraphics();
+
+private:
+    ChessSquare* FindSquare(const ChessSquare::Position& position);
+    void ClearStatuses();
 
 private:
     QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;
     Color m_CurrentTurn;
+    ChessSquare* m_ActiveSquare = nullptr;
 };
 
 #endif // CHESSMODEL_H

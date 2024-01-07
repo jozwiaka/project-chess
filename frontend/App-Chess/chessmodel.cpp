@@ -69,8 +69,23 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
     return m_Chessboard;
 }
 
-void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
-{
+ChessSquare* ChessModel::FindSquare(const ChessSquare::Position& position) {
+    ChessSquare* foundSquare = nullptr;
+    for(auto& row : m_Chessboard)
+    {
+        for(auto& square : row)
+        {
+            if(square->GetPosition() == position)
+            {
+                foundSquare = square.get();
+                break;
+            }
+        }
+    }
+    return foundSquare;
+}
+
+void ChessModel::ClearStatuses() {
     for(auto& row : m_Chessboard)
     {
         for(auto& square : row)
@@ -84,37 +99,46 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
             }
         }
     }
+   // m_ActiveSquare = nullptr;
+}
 
-    for(auto& row : m_Chessboard)
+void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
+{
+    ChessSquare* foundSquare = FindSquare(position);
+
+    if(m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::AvailableMove || foundSquare->GetStatus() == ChessSquare::Status::AvailableCapture))
     {
-        for(auto& square : row)
-        {
-            if(square->GetPosition() == position)
-            {
-                if(square->IsChessPiece())
-                {
-                    auto& piece = square->GetChessPieceRef();
-                    if(piece.GetColor()==m_CurrentTurn)
-                    {
-                        square->SetStatus(ChessSquare::Status::Active);
+        MakeMove(m_ActiveSquare, foundSquare);
+        ClearStatuses();
+        return;
+    }
+    ClearStatuses();
 
-                        switch (piece.GetPieceType())
-                        {
-                        case ChessPiece::Rook:
-                            break;
-                        case ChessPiece::Knight:
-                            break;
-                        case ChessPiece::Bishop:
-                            break;
-                        case ChessPiece::Queen:
-                            break;
-                        case ChessPiece::King:
-                            break;
-                        case ChessPiece::Pawn:
-                            break;
-                        }
-                    }
-                }
+
+    m_Chessboard[3][2]->SetStatus(ChessSquare::Status::AvailableMove);
+
+    if(foundSquare->IsChessPiece())
+    {
+        auto& piece = foundSquare->GetChessPieceRef();
+        if(piece.GetColor()==m_CurrentTurn)
+        {
+            foundSquare->SetStatus(ChessSquare::Status::Active);
+            m_ActiveSquare = foundSquare;
+
+            switch (piece.GetPieceType())
+            {
+            case ChessPiece::Rook:
+                break;
+            case ChessPiece::Knight:
+                break;
+            case ChessPiece::Bishop:
+                break;
+            case ChessPiece::Queen:
+                break;
+            case ChessPiece::King:
+                break;
+            case ChessPiece::Pawn:
+
                 break;
             }
         }
@@ -133,7 +157,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 ChessModel::~ChessModel(){
 }
 
-void ChessModel::MakeMove(std::shared_ptr<ChessSquare> fromSquare, std::shared_ptr<ChessSquare> toSquare) {
+void ChessModel::MakeMove(ChessSquare* fromSquare, ChessSquare* toSquare) {
     m_CurrentTurn = Color::White ? Color::Black : Color::White;
     toSquare->SetChessPiece(std::move(fromSquare->GetChessPiece()));
 }
