@@ -26,6 +26,8 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
             connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
+
+
 }
 
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
@@ -56,7 +58,6 @@ void ChessView::UpdateChessboardGraphics()
             default:
                 break;
             }
-
         }
     }
 }
