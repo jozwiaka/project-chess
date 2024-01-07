@@ -10,11 +10,11 @@ void ChessModel::InitializeChessboard(){
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
-        QVector<ChessSquare*> rowVector;
+        QVector<std::shared_ptr<ChessSquare>> rowVector;
         for (char col = 'A'; col <= 'H'; ++col)
         {
             ChessSquare::Position position{col, row};
-            ChessSquare* square = new ChessSquare(dark, position);
+            std::shared_ptr<ChessSquare> square = std::make_shared<ChessSquare>(dark, position);
             dark = !dark;
 
             if(row=='1'||row=='2'||row=='7'||row=='8'){
@@ -64,7 +64,7 @@ void ChessModel::InitializeChessboard(){
                     break;
                 }
 
-                auto piece = std::make_unique<ChessPiece>(pieceType, color, square);
+                auto piece = std::make_unique<ChessPiece>(pieceType, color, square.get());
                 square->SetChessPiece(std::move(piece));
             }
             rowVector.push_back(square);
@@ -73,16 +73,9 @@ void ChessModel::InitializeChessboard(){
     }
 }
 
-QVector<QVector<ChessSquare*>> ChessModel::GetChessboard() {
+QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
     return m_Chessboard;
 }
 
 ChessModel::~ChessModel(){
-    for (char row = 0; row < 8; ++row)
-    {
-        for (char col = 0; col < 8; ++col)
-        {
-            delete m_Chessboard[row][col];
-        }
-    }
 }

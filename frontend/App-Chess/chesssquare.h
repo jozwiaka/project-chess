@@ -11,9 +11,6 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
-    using ChessboardType = std::vector<std::vector<std::shared_ptr<ChessSquare>>>;
-
-public:
     struct Position {
         char x, y;
     };

@@ -21,7 +21,7 @@ class ChessView : public QMainWindow
 
 public:
     ChessView(QWidget *parent = nullptr);
-    void InitializeChessboard(QVector<QVector<ChessSquare*>> chessboard);
+    void InitializeChessboard(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard);
     void OnSquareClicked(const ChessSquare::Position& position);
     ~ChessView();
 

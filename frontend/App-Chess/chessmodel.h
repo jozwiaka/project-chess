@@ -20,7 +20,7 @@ public:
 
     void InitializeChessboard();
 
-    QVector<QVector<ChessSquare*>> GetChessboard();
+    QVector<QVector<std::shared_ptr<ChessSquare>>> GetChessboard();
 
     ~ChessModel();
 
@@ -28,7 +28,7 @@ public:
 signals:
 
 private:
-    QVector<QVector<ChessSquare*>> m_Chessboard;
+    QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;
 };
 
 #endif // CHESSMODEL_H

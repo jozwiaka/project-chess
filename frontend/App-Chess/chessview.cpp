@@ -12,7 +12,7 @@ ChessView::~ChessView()
 {
 }
 
-void ChessView::InitializeChessboard(QVector<QVector<ChessSquare*>> chessboard){
+void ChessView::InitializeChessboard(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard){
     m_ChessboardLayout = std::make_unique<QGridLayout>(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
@@ -21,8 +21,8 @@ void ChessView::InitializeChessboard(QVector<QVector<ChessSquare*>> chessboard){
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col], row, col);
-            connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
+            m_ChessboardLayout->addWidget(chessboard[row][col].get(), row, col);
+            connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
 }
@@ -31,7 +31,7 @@ void ChessView::OnSquareClicked(const ChessSquare::Position& position)
 {
     ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
 
-    //clickedSquare = qobject_cast<ChessSquare*>(chessboardLayout->itemAtPosition('1','A')->widget());
+    //clickedSquare = qobject_cast<std::shared_ptr<ChessSquare>>(chessboardLayout->itemAtPosition('1','A')->widget());
 
     if (clickedSquare)
     {
