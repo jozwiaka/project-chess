@@ -70,7 +70,17 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position) {
-    qDebug()<<position.x<<position.y<<"\n";
+    for(auto& row : m_Chessboard)
+    {
+        for(auto& square : row)
+        {
+            if(square->GetPosition()==position)
+            {
+                qDebug()<<position.x<<position.y<<"\n";
+                break;
+            }
+        }
+    }
 
     for(int r=0;r<8;++r)
     {

@@ -13,6 +13,11 @@ class ChessSquare : public QLabel
 public:
     struct Position {
         char x, y;
+
+        bool operator==(const Position& other)
+        {
+            return this->x==other.x&&this->y==other.y;
+        }
     };
 
     enum class Status {
@@ -36,6 +41,8 @@ public:
 
     void SetStatus(Status status);
     Status GetStatus() const;
+
+    Position GetPosition() const;
 signals:
     void Clicked(const Position& position);
 

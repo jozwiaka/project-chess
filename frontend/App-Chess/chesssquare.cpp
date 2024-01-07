@@ -74,3 +74,6 @@ ChessSquare::Status ChessSquare::GetStatus() const {
     return m_Status;
 }
 
+ChessSquare::Position ChessSquare::GetPosition() const {
+    return m_Position;
+}
