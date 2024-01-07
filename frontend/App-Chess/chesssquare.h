@@ -47,6 +47,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    size_t m_Size;
     Position m_Position;
     Status m_Status;
     QColor m_NormalColor;

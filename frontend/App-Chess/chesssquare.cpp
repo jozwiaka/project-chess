@@ -3,17 +3,17 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const Position& position, QWidget *parent)
-    : QLabel(parent), m_Position(position), m_Status(Status::Normal)
+    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80)
 {
-    setFixedSize(80, 80);
+    setFixedSize(m_Size, m_Size);
     setMargin(0);
     setScaledContents(true); // Ensure the square image fits the label size
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setAlignment(Qt::AlignCenter);
-
     m_NormalColor = dark ? QColor(101, 67, 33) : QColor(193, 154, 107);
     m_HighlightedColor = dark ? QColor(255, 220, 185) : QColor(255, 236, 210);
     m_IsHighlighted = false;
+    ResetSquareColor();
 }
 
 void ChessSquare::mousePressEvent(QMouseEvent *event)
@@ -39,15 +39,12 @@ void ChessSquare::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    QBrush brush(m_IsHighlighted ? m_HighlightedColor : m_NormalColor);
-    painter.setBrush(brush);
-    painter.drawRect(rect());
-
     if(m_Status == Status::Active)
     {
+        painter.setPen(Qt::NoPen);
         painter.setBrush(Qt::gray);
         int radius = 10;
-        painter.drawEllipse(40 - radius, 40 - radius, 2 * radius, 2 * radius);
+        painter.drawEllipse(m_Size/2 - radius, m_Size/2 - radius, 2 * radius, 2 * radius);
     }
 }
 

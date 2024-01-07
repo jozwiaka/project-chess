@@ -16,6 +16,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
     m_ChessboardLayout = std::make_unique<QGridLayout>(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
+    m_ChessboardLayout->setContentsMargins(0, 0, 0, 0);
 
     for (char row = 0; row < 8; ++row)
     {
