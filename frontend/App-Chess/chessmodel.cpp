@@ -17,7 +17,7 @@ void ChessModel::InitializeChessboard(){
         for (char col = 'A'; col <= 'H'; ++col)
         {
             ChessSquare::Position position{col, row};
-            std::shared_ptr<ChessSquare> square = std::make_shared<ChessSquare>(dark, position);
+            auto square =  std::make_shared<ChessSquare>(dark, position);
             dark = !dark;
 
             if(row=='1'||row=='2'||row=='7'||row=='8'){
@@ -71,6 +71,16 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position) {
     qDebug()<<position.x<<position.y<<"\n";
+
+    for(int r=0;r<8;++r)
+    {
+        for(int c=0;c<8;++c)
+        {
+            m_Chessboard[r][c]->SetStatus(ChessSquare::Status::Active);
+        }
+    }
+
+    emit UpdateGraphics();
 }
 
 ChessModel::~ChessModel(){

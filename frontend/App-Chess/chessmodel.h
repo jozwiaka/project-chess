@@ -27,7 +27,7 @@ public:
     ~ChessModel();
 
 signals:
-    void MakeMove();
+   void UpdateGraphics();
 
 private:
     QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;

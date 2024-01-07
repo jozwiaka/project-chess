@@ -93,7 +93,7 @@ void MainWindow::initializeChessboard()
 void MainWindow::updateChessboard() {
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
-            ChessSquare *square = qobject_cast<ChessSquare*>(chessboardLayout->itemAtPosition(row, col)->widget());
+            ChessSquare *square = qobject_cast<std::shared_ptr<ChessSquare>>(chessboardLayout->itemAtPosition(row, col)->widget());
 
             if (square) {
                 ChessPiece *piece = square->getChessPiece();
@@ -118,7 +118,7 @@ void MainWindow::onSquareClicked(const ChessSquare::Position& position)
 {
     ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
 
-    //clickedSquare = qobject_cast<ChessSquare*>(chessboardLayout->itemAtPosition('1','A')->widget());
+    //clickedSquare = qobject_cast<std::shared_ptr<ChessSquare>>(chessboardLayout->itemAtPosition('1','A')->widget());
 
     if (clickedSquare)
     {

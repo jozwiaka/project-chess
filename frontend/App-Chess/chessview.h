@@ -25,7 +25,7 @@ public:
 
     void OnSquareClicked(const ChessSquare::Position& position);
 
-    void UpdateChessboardGraphics(const ChessSquare::Position& position);
+    void UpdateChessboardGraphics();
 
     ~ChessView();
 

@@ -2,8 +2,7 @@
 #include "./ui_chessview.h"
 
 ChessView::ChessView(QWidget *parent)
-    : QMainWindow(parent)
-    , m_Ui(std::make_unique<Ui::ChessView>())
+    : QMainWindow(parent), m_Ui(std::make_unique<Ui::ChessView>())
 {
     m_Ui->setupUi(this);
 }
@@ -12,7 +11,8 @@ ChessView::~ChessView()
 {
 }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard){
+void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard)
+{
     m_ChessboardLayout = std::make_unique<QGridLayout>(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
@@ -21,13 +21,13 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 8-row, col);
+            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 7 - row, col);
             connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
 }
 
-void ChessView::OnSquareClicked(const ChessSquare::Position& position)
+void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
     // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
     emit SquareClicked(position);
@@ -37,3 +37,22 @@ void ChessView::OnSquareClicked(const ChessSquare::Position& position)
     // }
 }
 
+void ChessView::UpdateChessboardGraphics()
+{
+    for (int row = 0; row < 8; ++row)
+    {
+        for (int col = 0; col < 8; ++col)
+        {
+            ChessSquare *square = qobject_cast<ChessSquare*>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
+            if(square->GetStatus()==ChessSquare::Status::Active)
+            {
+                square->HighlightSquare();
+            }
+
+            // if (square) {
+            //     ChessPiece *piece = square->GetChessPiece();
+
+            // }
+        }
+    }
+}
