@@ -75,6 +75,20 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
     {
         for(auto& square : row)
         {
+            if(square->GetStatus()==ChessSquare::Status::Active
+                || square->GetStatus()==ChessSquare::Status::AvailableCapture
+                || square->GetStatus()==ChessSquare::Status::AvailableMove
+                || square->GetStatus()==ChessSquare::Status::LastMove)
+            {
+                square->SetStatus(ChessSquare::Status::Normal);
+            }
+        }
+    }
+
+    for(auto& row : m_Chessboard)
+    {
+        for(auto& square : row)
+        {
             if(square->GetPosition() == position)
             {
                 if(square->IsChessPiece())
@@ -88,14 +102,6 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
                 }
                 break;
             }
-        }
-    }
-
-    for(int r=0;r<8;++r)
-    {
-        for(int c=0;c<8;++c)
-        {
-           // m_Chessboard[r][c]->SetStatus(ChessSquare::Status::Active);
         }
     }
 

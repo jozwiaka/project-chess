@@ -32,10 +32,6 @@ void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
     // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
     emit SquareClicked(position);
-    // if (clickedSquare)
-    // {
-    //     ChessPiece *clickedPiece = clickedSquare->GetChessPiece();
-    // }
 }
 
 void ChessView::UpdateChessboardGraphics()
@@ -44,20 +40,23 @@ void ChessView::UpdateChessboardGraphics()
     {
         for (int col = 0; col < 8; ++col)
         {
-            ChessSquare *square = qobject_cast<ChessSquare*>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
+            ChessSquare *square = qobject_cast<ChessSquare *>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
 
-            // switch (control) {
-            // case value:
-
-            //     break;
-            // default:
-            //     break;
-            // }
-            if(square->GetStatus()==ChessSquare::Status::Active)
-            {
+            switch (square->GetStatus()) {
+            case ChessSquare::Status::Normal:
+                square->ResetSquareColor();
+                break;
+            case ChessSquare::Status::Active:
+            case ChessSquare::Status::LastMove:
                 square->HighlightSquare();
-                // square->DrawCircle();
+                break;
+            case ChessSquare::Status::AvailableMove:
+                // square->HighlightSquare();
+                break;
+            default:
+                break;
             }
+
         }
     }
 }
