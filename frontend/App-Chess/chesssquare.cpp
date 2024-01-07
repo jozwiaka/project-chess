@@ -46,14 +46,18 @@ void ChessSquare::paintEvent(QPaintEvent *event)
         int radius = 10;
         painter.drawEllipse(m_Size/2 - radius, m_Size/2 - radius, 2 * radius, 2 * radius);
     }
+
+    update();
 }
 
 
 void ChessSquare::SetChessPiece(std::unique_ptr<ChessPiece> piece)
 {
-    m_ChessPiece = std::move(piece);
-    if (m_ChessPiece)
+    if(piece)
+    {
+        m_ChessPiece = std::move(piece);
         m_ChessPiece->setParent(this);
+    }
 }
 
 ChessPiece *ChessSquare::GetChessPiece() const
@@ -70,14 +74,3 @@ ChessSquare::Status ChessSquare::GetStatus() const {
     return m_Status;
 }
 
-// void ChessSquare::DrawCircle(QPainter& painter) {
-
-//     painter.setBrush(Qt::gray);
-//     int radius = 10;
-//     painter.drawEllipse(40 - radius, 40 - radius, 2 * radius, 2 * radius);
-
-// }
-
-void ChessSquare::ResetCircle() {
-
-}
