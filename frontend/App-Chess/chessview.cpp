@@ -12,7 +12,7 @@ ChessView::~ChessView()
 {
 }
 
-void ChessView::InitializeChessboard(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard){
+void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard){
     m_ChessboardLayout = std::make_unique<QGridLayout>(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
@@ -41,5 +41,9 @@ void ChessView::OnSquareClicked(const ChessSquare::Position& position)
         //UpdateChessboard();
 
     }
+}
+
+void ChessView::MoveMade() {
+
 }
 

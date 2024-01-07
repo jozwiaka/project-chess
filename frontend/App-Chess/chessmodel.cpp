@@ -2,15 +2,17 @@
 #include <memory>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}
+    : QObject{parent}, m_CurrentTurn{Color::White}
 {}
 
 void ChessModel::InitializeChessboard(){
     bool dark = false;
+    m_Chessboard.reserve(8);
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
         QVector<std::shared_ptr<ChessSquare>> rowVector;
+        rowVector.reserve(8);
         for (char col = 'A'; col <= 'H'; ++col)
         {
             ChessSquare::Position position{col, row};
@@ -18,19 +20,8 @@ void ChessModel::InitializeChessboard(){
             dark = !dark;
 
             if(row=='1'||row=='2'||row=='7'||row=='8'){
+                ChessPiece::Color color = (row=='1'||row=='2') ? ChessPiece::Color::White  : ChessPiece::Color::Black;
                 ChessPiece::PieceType pieceType;
-                ChessPiece::Color color;
-                switch (row)
-                {
-                case '1':
-                case '2':
-                    color = ChessPiece::Color::White;
-                    break;
-                case '7':
-                case '8':
-                    color = ChessPiece::Color::Black;
-                    break;
-                }
 
                 switch (row)
                 {
@@ -75,6 +66,10 @@ void ChessModel::InitializeChessboard(){
 
 QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
     return m_Chessboard;
+}
+
+void ChessModel::ChessboardChanged(){
+
 }
 
 ChessModel::~ChessModel(){

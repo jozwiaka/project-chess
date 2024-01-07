@@ -22,13 +22,16 @@ public:
 
     QVector<QVector<std::shared_ptr<ChessSquare>>> GetChessboard();
 
+    void ChessboardChanged();
+
     ~ChessModel();
 
-
 signals:
+    void MakeMove();
 
 private:
     QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;
+    Color m_CurrentTurn;
 };
 
 #endif // CHESSMODEL_H

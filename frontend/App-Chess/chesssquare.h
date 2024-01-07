@@ -15,6 +15,14 @@ public:
         char x, y;
     };
 
+    enum class Status {
+        Normal,
+        Active,
+        LastMove,
+        AvailableMove,
+        AvailableCapture,
+    };
+
 public:
     ChessSquare() = default;
 
@@ -35,6 +43,7 @@ protected:
 
 private:
     Position m_Position;
+    Status m_Status;
     QColor m_NormalColor;
     QColor m_HighlightedColor;
     bool m_IsHighlighted;
