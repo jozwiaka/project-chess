@@ -21,7 +21,7 @@ void ChessView::InitializeChessboard(QVector<QVector<std::shared_ptr<ChessSquare
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col].get(), row, col);
+            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 8-row, col);
             connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
