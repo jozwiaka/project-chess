@@ -99,6 +99,7 @@ void ChessModel::ClearStatuses() {
             }
         }
     }
+    m_ActiveSquare = nullptr;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
@@ -109,8 +110,6 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
     if(m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::AvailableMove || foundSquare->GetStatus() == ChessSquare::Status::AvailableCapture))
     {
         MakeMove(foundSquare);
-        ClearStatuses();
-        return;
     }
 
     ClearStatuses();
