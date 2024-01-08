@@ -413,18 +413,29 @@ void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         !m_Chessboard[s->GetPosition().x][0]->GetChessPiece()->IsMoved() &&
         CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 1})) &&
         CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 2})) &&
-        CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 3})))
+        CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 3})) &&
+        !GetSquareByPosition({s->GetPosition().x, 1})->IsBlockedForKing() &&
+        !GetSquareByPosition({s->GetPosition().x, 2})->IsBlockedForKing() &&
+        !GetSquareByPosition({s->GetPosition().x, 3})->IsBlockedForKing())
     {
-        m_Chessboard[s->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+        if (!setSquaresBlockedForKing)
+        {
+            m_Chessboard[s->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+        }
     }
 
     if (
         !piece->IsMoved() &&
         !m_Chessboard[s->GetPosition().x][7]->GetChessPiece()->IsMoved() &&
         CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 6})) &&
-        CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 5})))
+        CheckIfFreeSquare(GetSquareByPosition({s->GetPosition().x, 5})) &&
+        !GetSquareByPosition({s->GetPosition().x, 6})->IsBlockedForKing() &&
+        !GetSquareByPosition({s->GetPosition().x, 5})->IsBlockedForKing())
     {
-        m_Chessboard[s->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+        if (!setSquaresBlockedForKing)
+        {
+            m_Chessboard[s->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+        }
     }
 }
 
