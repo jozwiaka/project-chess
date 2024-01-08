@@ -43,6 +43,7 @@ private:
 
     bool CheckIfFreeSquare(ChessSquare *square);
     bool CheckIfEnemy(ChessSquare *square);
+    bool CheckIfAlly(ChessSquare *square);
     ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
 
 private:
