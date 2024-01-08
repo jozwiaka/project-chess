@@ -799,5 +799,44 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         toSquare->SetStatus(ChessSquare::Status::PreviousMove);
 
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+        CheckValidKingMovesAndCheck();
+    }
+}
+
+void ChessModel::CheckValidKingMovesAndCheck()
+{
+    for (auto &row : m_Chessboard)
+    {
+        for (auto *s : row)
+        {
+            ChessPiece *piece = s->GetChessPiece();
+            if (piece)
+            {
+                if (piece->GetColor() != m_CurrentTurn)
+                {
+                    switch (piece->GetPieceType())
+                    {
+                    case ChessPiece::Rook:
+                        SetRookValidMoves(s, true);
+                        break;
+                    case ChessPiece::Knight:
+                        SetKnightValidMoves(s, true);
+                        break;
+                    case ChessPiece::Bishop:
+                        SetBishopValidMoves(s, true);
+                        break;
+                    case ChessPiece::Queen:
+                        SetQueenValidMoves(s, true);
+                        break;
+                    case ChessPiece::King:
+                        SetKingValidMoves(s, true);
+                        break;
+                    case ChessPiece::Pawn:
+                        SetPawnValidMoves(s, true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
