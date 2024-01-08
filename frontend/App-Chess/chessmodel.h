@@ -49,7 +49,9 @@ private:
 private:
     QVector<QVector<ChessSquare *>> m_Chessboard;
     Color m_CurrentTurn;
-    ChessSquare *m_ActiveSquare = nullptr;
+    ChessSquare *m_ActiveSquare;
+    bool m_Check;
+    bool m_CheckMate;
 };
 
 #endif // CHESSMODEL_H

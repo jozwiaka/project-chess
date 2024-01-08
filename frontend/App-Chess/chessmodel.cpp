@@ -2,7 +2,7 @@
 #include <QDebug>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false)
 {
 }
 
@@ -473,14 +473,13 @@ void ChessModel::SetQueenValidMoves()
 }
 void ChessModel::SetKingValidMoves()
 {
-
     ChessPiece *piece = m_ActiveSquare->GetChessPiece();
     const int X = m_ActiveSquare->GetPosition().x;
     const int Y = m_ActiveSquare->GetPosition().y;
 
-    for (int x = X - 1; x <= X+1; ++x)
+    for (int x = X - 1; x <= X + 1; ++x)
     {
-        for (int y = Y - 1; y <= Y+1; ++y)
+        for (int y = Y - 1; y <= Y + 1; ++y)
         {
             ChessSquare *square = GetSquareByPosition({x, y});
             if (CheckIfFreeSquare(square))
