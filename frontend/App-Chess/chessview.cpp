@@ -52,7 +52,7 @@ void ChessView::UpdateChessboardGraphics()
                 square->UnsetBorder();
                 break;
             case ChessSquare::Status::Active:
-            case ChessSquare::Status::LastMove:
+            case ChessSquare::Status::PreviousMove:
                 square->SetHighlightBckgroundColor();
                 break;
             case ChessSquare::Status::ValidMove:

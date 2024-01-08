@@ -17,7 +17,7 @@ void ChessModel::InitializeChessboard()
         rowVector.reserve(8);
         for (char col = 'A'; col <= 'H'; ++col)
         {
-            ChessSquare::Position position{row-'1', col-'A'};
+            ChessSquare::Position position{row - '1', col - 'A'};
             auto square = new ChessSquare(dark, position);
             dark = !dark;
 
@@ -72,38 +72,59 @@ QVector<QVector<ChessSquare *>> ChessModel::GetChessboard()
     return m_Chessboard;
 }
 
-void ChessModel::ClearStatuses()
+void ChessModel::ClearActiveAndValidMoveStatuses()
 {
     for (auto &row : m_Chessboard)
     {
         for (auto &square : row)
         {
-            if (square->GetStatus() == ChessSquare::Status::Active || square->GetStatus() == ChessSquare::Status::ValidCapture || square->GetStatus() == ChessSquare::Status::ValidMove || square->GetStatus() == ChessSquare::Status::LastMove)
+            if (square->GetStatus() == ChessSquare::Status::Active || square->GetStatus() == ChessSquare::Status::ValidCapture || square->GetStatus() == ChessSquare::Status::ValidMove)
             {
                 square->SetStatus(ChessSquare::Status::Normal);
             }
         }
     }
-    m_ActiveSquare = nullptr;
+}
+
+void ChessModel::ClearPreviousMoveStatuses()
+{
+    for (auto &row : m_Chessboard)
+    {
+        for (auto &square : row)
+        {
+            if (square->GetStatus() == ChessSquare::Status::PreviousMove)
+            {
+                square->SetStatus(ChessSquare::Status::Normal);
+            }
+        }
+    }
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
     ChessSquare *foundSquare = GetSquareByPosition(position);
 
-    if(!foundSquare)
+    if (!foundSquare)
     {
         return;
     }
 
+    bool isGoingToMakeMove = false;
+
     if (m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::ValidMove || foundSquare->GetStatus() == ChessSquare::Status::ValidCapture))
+    {
+        isGoingToMakeMove = true;
+    }
+
+    ClearActiveAndValidMoveStatuses();
+
+    m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+
+    if (isGoingToMakeMove)
     {
         MakeMove(foundSquare);
     }
-
-    ClearStatuses();
-
-    m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+    m_ActiveSquare = nullptr;
 
     if (foundSquare->GetChessPiece())
     {
@@ -147,26 +168,38 @@ void ChessModel::SetQueenValidMoves() {}
 void ChessModel::SetKingValidMoves() {}
 void ChessModel::SetPawnValidMoves()
 {
-    ChessPiece* piece = m_ActiveSquare->GetChessPiece();
-    if(!piece->IsMoved())
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    if (!piece->IsMoved())
     {
-
     }
-
 }
 
-bool ChessModel::CheckIfPositionIsValid(const ChessSquare::Position& position) {
-    // if()
-    // {
+bool ChessModel::CheckIfPositionIsValidToMoveTo(const ChessSquare::Position &position)
+{
+    ChessSquare *square = GetSquareByPosition(position);
+    if (!square)
+        return false;
 
-    // }
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    if (!piece)
+    {
+        return true;
+    }
+
+    if (piece->GetPieceType() == ChessPiece::PieceType::King)
+    {
+        return false;
+    }
+
+    if (piece->GetColor() == m_CurrentTurn)
+        return false;
 
     return true;
 }
 
-ChessSquare* ChessModel::GetSquareByPosition(const ChessSquare::Position& position)
+ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::Position &position)
 {
-    if(position.x>=0&&position.x<=7&&position.y>=0&&position.y<=7)
+    if (position.x >= 0 && position.x <= 7 && position.y >= 0 && position.y <= 7)
         return m_Chessboard[position.x][position.y];
 
     return nullptr;
@@ -199,5 +232,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
         toSquare->SetChessPiece(m_ActiveSquare->GetChessPiece());
         m_ActiveSquare->GetChessPiece()->SetMoved();
+        ClearPreviousMoveStatuses();
+        m_ActiveSquare->SetStatus(ChessSquare::Status::PreviousMove);
+        toSquare->SetStatus(ChessSquare::Status::PreviousMove);
     }
 }

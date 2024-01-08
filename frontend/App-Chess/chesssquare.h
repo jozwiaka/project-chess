@@ -22,7 +22,7 @@ public:
     enum class Status {
         Normal,
         Active,
-        LastMove,
+        PreviousMove,
         ValidMove,
         ValidCapture,
     };

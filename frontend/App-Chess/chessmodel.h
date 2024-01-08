@@ -31,7 +31,8 @@ signals:
     void UpdateGraphics();
 
 private:
-    void ClearStatuses();
+    void ClearActiveAndValidMoveStatuses();
+    void ClearPreviousMoveStatuses();
 
     void SetRookValidMoves();
     void SetKnightValidMoves();
@@ -40,7 +41,7 @@ private:
     void SetKingValidMoves();
     void SetPawnValidMoves();
 
-    bool CheckIfPositionIsValid(const ChessSquare::Position& position);
+    bool CheckIfPositionIsValidToMoveTo(const ChessSquare::Position& position);
     ChessSquare* GetSquareByPosition(const ChessSquare::Position& position);
 
 private:
