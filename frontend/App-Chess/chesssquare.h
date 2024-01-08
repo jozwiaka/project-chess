@@ -35,8 +35,11 @@ public:
     void SetChessPiece(ChessPiece* piece);
     ChessPiece* GetChessPiece();
 
-    void HighlightSquare();
-    void ResetSquareColor();
+    void SetHighlightBckgroundColor();
+    void SetNormalBackgroundColor();
+
+    void SetBorder();
+    void UnsetBorder();
 
     void SetStatus(Status status);
     Status GetStatus() const;
@@ -47,7 +50,6 @@ signals:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
 
 private:
     size_t m_Size;
@@ -55,7 +57,6 @@ private:
     Status m_Status;
     QColor m_NormalColor;
     QColor m_HighlightedColor;
-    bool m_IsHighlighted;
     ChessPiece* m_ChessPiece;
 };
 

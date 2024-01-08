@@ -12,8 +12,8 @@ ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
     setAlignment(Qt::AlignCenter);
     m_NormalColor = dark ? QColor(101, 67, 33) : QColor(193, 154, 107);
     m_HighlightedColor = dark ? QColor(255, 220, 185) : QColor(255, 236, 210);
-    m_IsHighlighted = false;
-    ResetSquareColor();
+    SetNormalBackgroundColor();
+
 }
 
 void ChessSquare::mousePressEvent(QMouseEvent *event)
@@ -22,49 +22,32 @@ void ChessSquare::mousePressEvent(QMouseEvent *event)
     emit Clicked(m_Position);
 }
 
-void ChessSquare::HighlightSquare()
+void ChessSquare::SetHighlightBckgroundColor()
 {
     setStyleSheet(QString("background-color: %1;").arg(m_HighlightedColor.name()));
 }
 
-void ChessSquare::ResetSquareColor()
+void ChessSquare::SetNormalBackgroundColor()
 {
     setStyleSheet(QString("background-color: %1;").arg(m_NormalColor.name()));
 }
 
-void ChessSquare::paintEvent(QPaintEvent *event)
-{
-    QLabel::paintEvent(event); // Call the base class paint event
 
-    QPainter painter(this);
-    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+void ChessSquare::SetBorder(){
+    QString currentStyleSheet = styleSheet();
+    currentStyleSheet += "border: 3px solid green;";
+    setStyleSheet(currentStyleSheet);
+}
 
-    int radius = 0;
-    switch (m_Status)
-    {
-    case Status::ValidMove:
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(Qt::gray);
-        radius = 10;
-        painter.drawEllipse(m_Size / 2 - radius, m_Size / 2 - radius, 2 * radius, 2 * radius);
-        break;
-
-    case Status::ValidCapture:
-        QPen pen(Qt::gray);
-        pen.setWidth(10);
-        painter.setPen(pen);
-        painter.setBrush(Qt::NoBrush);
-        radius = m_Size / 2;
-        painter.drawEllipse(m_Size / 2 - radius, m_Size / 2 - radius, 2 * radius, 2 * radius);
-        break;
-    }
-
-    update();
+void ChessSquare::UnsetBorder(){
+    QString currentStyleSheet = styleSheet();
+    currentStyleSheet.replace("border: 3px solid green;", "");
+    setStyleSheet(currentStyleSheet);
 }
 
 void ChessSquare::SetChessPiece(ChessPiece *piece)
 {
-    if(m_ChessPiece)
+    if (m_ChessPiece)
     {
         delete m_ChessPiece;
     }
@@ -95,4 +78,3 @@ ChessSquare::Position ChessSquare::GetPosition() const
 {
     return m_Position;
 }
-
