@@ -31,14 +31,16 @@ signals:
     void UpdateGraphics();
 
 private:
-    ChessSquare* FindSquare(const ChessSquare::Position& position);
     void ClearStatuses();
+
     void SetRookValidMoves();
     void SetKnightValidMoves();
     void SetBishopValidMoves();
     void SetQueenValidMoves();
     void SetKingValidMoves();
     void SetPawnValidMoves();
+
+    bool CheckIfPositionIsValid(const ChessSquare::Position& position);
 
 private:
     QVector<QVector<ChessSquare*>> m_Chessboard;

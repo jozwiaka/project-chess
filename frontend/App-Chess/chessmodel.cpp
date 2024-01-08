@@ -17,7 +17,7 @@ void ChessModel::InitializeChessboard()
         rowVector.reserve(8);
         for (char col = 'A'; col <= 'H'; ++col)
         {
-            ChessSquare::Position position{row, col};
+            ChessSquare::Position position{row-'1', col-'A'};
             auto square = new ChessSquare(dark, position);
             dark = !dark;
 
@@ -72,11 +72,6 @@ QVector<QVector<ChessSquare *>> ChessModel::GetChessboard()
     return m_Chessboard;
 }
 
-ChessSquare *ChessModel::FindSquare(const ChessSquare::Position &position)
-{
-    return m_Chessboard[position.x - '1'][position.y - 'A'];
-}
-
 void ChessModel::ClearStatuses()
 {
     for (auto &row : m_Chessboard)
@@ -94,7 +89,7 @@ void ChessModel::ClearStatuses()
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
-    ChessSquare *foundSquare = FindSquare(position);
+    ChessSquare *foundSquare = m_Chessboard[position.x][position.y];
 
     if (m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::ValidMove || foundSquare->GetStatus() == ChessSquare::Status::ValidCapture))
     {
@@ -147,13 +142,16 @@ void ChessModel::SetQueenValidMoves() {}
 void ChessModel::SetKingValidMoves() {}
 void ChessModel::SetPawnValidMoves()
 {
-    for (int x = 0; x < 8; ++x)
+    ChessPiece* piece = m_ActiveSquare->GetChessPiece();
+    if(!piece->IsMoved())
     {
-        for (int y = 0; y < 8; ++y)
-        {
 
-        }
     }
+
+}
+
+bool ChessModel::CheckIfPositionIsValid(const ChessSquare::Position& position) {
+    return true;
 }
 
 ChessModel::~ChessModel()

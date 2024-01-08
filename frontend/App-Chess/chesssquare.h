@@ -11,7 +11,7 @@ class ChessSquare : public QLabel
 
 public:
     struct Position {
-        char x, y;
+        int x, y;
 
         bool operator==(const Position& other)
         {
