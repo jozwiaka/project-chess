@@ -234,9 +234,9 @@ void ChessModel::SetBishopValidMoves() {
         }
     }
 
-    for(int y = Y+1;y<=7;++y)
+    for(int x = X+1;x<=7;++x)
     {
-        ChessSquare* square = GetSquareByPosition({X+y-Y,y});
+        ChessSquare* square = GetSquareByPosition({x,Y-(x-X)});
         if(CheckIfFreeSquare(square))
             square->SetStatus(ChessSquare::Status::ValidMove);
         else if(CheckIfEnemy(square))
@@ -250,9 +250,9 @@ void ChessModel::SetBishopValidMoves() {
         }
     }
 
-    for(int y = Y-1;y>=0;--y)
+    for(int x = X-1;x>=0;--x)
     {
-        ChessSquare* square = GetSquareByPosition({X+y-Y,y});
+        ChessSquare* square = GetSquareByPosition({x,Y-(x-X)});
         if(CheckIfFreeSquare(square))
             square->SetStatus(ChessSquare::Status::ValidMove);
         else if(CheckIfEnemy(square))
@@ -265,6 +265,38 @@ void ChessModel::SetBishopValidMoves() {
             break;
         }
     }
+
+    // for(int y = Y+1;y<=7;++y)
+    // {
+    //     ChessSquare* square = GetSquareByPosition({X+y-Y,y});
+    //     if(CheckIfFreeSquare(square))
+    //         square->SetStatus(ChessSquare::Status::ValidMove);
+    //     else if(CheckIfEnemy(square))
+    //     {
+    //         square->SetStatus(ChessSquare::Status::ValidCapture);
+    //         break;
+    //     }
+    //     else if(CheckIfAlly(square))
+    //     {
+    //         break;
+    //     }
+    // }
+
+    // for(int y = Y-1;y>=0;--y)
+    // {
+    //     ChessSquare* square = GetSquareByPosition({X+y-Y,y});
+    //     if(CheckIfFreeSquare(square))
+    //         square->SetStatus(ChessSquare::Status::ValidMove);
+    //     else if(CheckIfEnemy(square))
+    //     {
+    //         square->SetStatus(ChessSquare::Status::ValidCapture);
+    //         break;
+    //     }
+    //     else if(CheckIfAlly(square))
+    //     {
+    //         break;
+    //     }
+    // }
 }
 
 void ChessModel::SetQueenValidMoves() {}
