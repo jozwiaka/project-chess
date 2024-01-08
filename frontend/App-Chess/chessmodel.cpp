@@ -54,7 +54,7 @@ void ChessModel::InitializeChessboard()
                     break;
                 case '2':
                 case '7':
-                    pieceType = ChessPiece::Queen;
+                    pieceType = ChessPiece::King;
                     break;
                 }
 
@@ -164,7 +164,8 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
     emit UpdateGraphics();
 }
 
-void ChessModel::SetRookValidMoves() {
+void ChessModel::SetRookValidMoves()
+{
     ChessPiece *piece = m_ActiveSquare->GetChessPiece();
     const int X = m_ActiveSquare->GetPosition().x;
     const int Y = m_ActiveSquare->GetPosition().y;
@@ -216,7 +217,6 @@ void ChessModel::SetRookValidMoves() {
             break;
         }
     }
-
 
     for (int y = Y - 1; y >= 0; --y)
     {
@@ -337,7 +337,8 @@ void ChessModel::SetBishopValidMoves()
     }
 }
 
-void ChessModel::SetQueenValidMoves() {
+void ChessModel::SetQueenValidMoves()
+{
     ChessPiece *piece = m_ActiveSquare->GetChessPiece();
     const int X = m_ActiveSquare->GetPosition().x;
     const int Y = m_ActiveSquare->GetPosition().y;
@@ -389,7 +390,6 @@ void ChessModel::SetQueenValidMoves() {
             break;
         }
     }
-
 
     for (int y = Y - 1; y >= 0; --y)
     {
@@ -471,7 +471,30 @@ void ChessModel::SetQueenValidMoves() {
         }
     }
 }
-void ChessModel::SetKingValidMoves() {}
+void ChessModel::SetKingValidMoves()
+{
+
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    const int X = m_ActiveSquare->GetPosition().x;
+    const int Y = m_ActiveSquare->GetPosition().y;
+
+    for (int x = X - 1; x <= X+1; ++x)
+    {
+        for (int y = Y - 1; y <= Y+1; ++y)
+        {
+            ChessSquare *square = GetSquareByPosition({x, y});
+            if (CheckIfFreeSquare(square))
+                square->SetStatus(ChessSquare::Status::ValidMove);
+            else if (CheckIfEnemy(square))
+            {
+                square->SetStatus(ChessSquare::Status::ValidCapture);
+            }
+            else if (CheckIfAlly(square))
+            {
+            }
+        }
+    }
+}
 
 void ChessModel::SetPawnValidMoves()
 {
