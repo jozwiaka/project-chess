@@ -41,8 +41,8 @@ private:
     void SetKingValidMoves();
     void SetPawnValidMoves();
 
-    bool CheckIfFreeSquare(ChessSquare* square);
-    bool CheckIfEnemy(ChessSquare* square);
+    bool CheckIfFreeSquare(ChessSquare *square);
+    bool CheckIfEnemy(ChessSquare *square);
     ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
 
 private:

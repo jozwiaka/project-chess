@@ -207,6 +207,17 @@ void ChessModel::SetPawnValidMoves()
         }
     }
 
+    for(int y = Y -1;y<=Y+1;y+=2)
+    {
+        ChessSquare* square = GetSquareByPosition({X,y});
+        if(CheckIfEnemy(square))
+        {
+            if(square->GetChessPiece()->IsEnPassant())
+                m_Chessboard[X+i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+        }
+    }
+
+
 
 }
 
@@ -263,6 +274,13 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     if (m_ActiveSquare)
     {
         ChessPiece* pieceToMove = m_ActiveSquare->GetChessPiece();
+        if(
+            m_ActiveSquare->GetPosition().y-toSquare->GetPosition().y !=0 &&
+            pieceToMove->GetPieceType()==ChessPiece::PieceType::Pawn)
+        {
+
+        }
+
         ChessPiece* pieceAtTargetSquare = toSquare->GetChessPiece();
 
         if(pieceAtTargetSquare)
