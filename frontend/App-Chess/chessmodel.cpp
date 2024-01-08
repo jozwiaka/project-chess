@@ -165,7 +165,26 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 }
 
 void ChessModel::SetRookValidMoves() {}
-void ChessModel::SetKnightValidMoves() {}
+
+void ChessModel::SetKnightValidMoves()
+{
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    const int X = m_ActiveSquare->GetPosition().x;
+    const int Y = m_ActiveSquare->GetPosition().y;
+
+    for(int x = X-2;x==X+2;x+=2)
+    {
+        for(int y = Y-1;y==Y+1;y+=1)
+        {
+            ChessSquare* square = GetSquareByPosition({x,y});
+            if(CheckIfFreeSquare(square))
+                square->SetStatus(ChessSquare::Status::ValidMove);
+            else if(CheckIfEnemy(square))
+                square->SetStatus(ChessSquare::Status::ValidCapture);
+        }
+    }
+}
+
 void ChessModel::SetBishopValidMoves() {}
 void ChessModel::SetQueenValidMoves() {}
 void ChessModel::SetKingValidMoves() {}
@@ -188,7 +207,7 @@ void ChessModel::SetPawnValidMoves()
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
         {
-            m_Chessboard[x][Y]->SetStatus(ChessSquare::Status::ValidMove);
+            square->SetStatus(ChessSquare::Status::ValidMove);
         }
         else
         {
@@ -201,7 +220,7 @@ void ChessModel::SetPawnValidMoves()
         ChessSquare *square = GetSquareByPosition({X + i, y});
         if (CheckIfEnemy(square))
         {
-            m_Chessboard[X + i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+            square->SetStatus(ChessSquare::Status::ValidCapture);
         }
     }
 
