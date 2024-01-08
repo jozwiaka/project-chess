@@ -27,6 +27,7 @@ public:
         PreviousMove,
         ValidMove,
         ValidCapture,
+        Check,
     };
 
 public:

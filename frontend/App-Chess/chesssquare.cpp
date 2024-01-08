@@ -23,22 +23,22 @@ void ChessSquare::mousePressEvent(QMouseEvent *event)
 
 void ChessSquare::SetHighlightBackgroundColor()
 {
-    setStyleSheet(QString("background-color: %1;").arg(m_HighlightedColor.name()));
+    setStyleSheet(QString("background-color: %1;border: none;").arg(m_HighlightedColor.name()));
 }
 
 void ChessSquare::SetNormalBackgroundColor()
 {
-    setStyleSheet(QString("background-color: %1;").arg(m_NormalColor.name()));
+    setStyleSheet(QString("background-color: %1;border: none;").arg(m_NormalColor.name()));
 }
 
 void ChessSquare::SetValidBackgroundColor()
 {
-    setStyleSheet(QString("background-color: lightgreen;"));
+    setStyleSheet(QString("background-color: lightgreen; border: 1px solid black;"));
 }
 
 void ChessSquare::SetCheckBackgroundColor()
 {
-    setStyleSheet(QString("background-color: red;"));
+    setStyleSheet(QString("background-color: red; border: 1px solid black;"));
 }
 
 void ChessSquare::SetChessPiece(ChessPiece *piece)

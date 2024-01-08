@@ -57,6 +57,8 @@ void ChessView::UpdateChessboardGraphics()
             case ChessSquare::Status::ValidCapture:
                 square->SetValidBackgroundColor();
                 break;
+            case ChessSquare::Status::Check:
+                square->SetCheckBackgroundColor();
             default:
                 break;
             }
