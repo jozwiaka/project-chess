@@ -58,6 +58,7 @@ private:
     QColor m_NormalColor;
     QColor m_HighlightedColor;
     ChessPiece* m_ChessPiece;
+    bool m_GloballyValid;
 };
 
 #endif // CHESSSQUARE_H
