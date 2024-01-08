@@ -328,10 +328,10 @@ void ChessModel::SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
         {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
+            if (!setSquaresBlockedForKing)
+            {
                 square->SetStatus(ChessSquare::Status::ValidMove);
+            }
         }
         else
         {
@@ -342,7 +342,14 @@ void ChessModel::SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
     for (int y = Y - 1; y <= Y + 1; y += 2)
     {
         ChessSquare *square = GetSquareByPosition({X + i, y});
-        if (CheckIfEnemy(square))
+        if (CheckIfFreeSquare(square) || CheckIfAlly(square))
+        {
+            if (setSquaresBlockedForKing)
+            {
+                square->SetBlockedForKing(true);
+            }
+        }
+        else if (CheckIfEnemy(square))
         {
             if (setSquaresBlockedForKing)
             {
