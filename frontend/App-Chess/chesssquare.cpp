@@ -96,7 +96,3 @@ ChessSquare::Position ChessSquare::GetPosition() const
     return m_Position;
 }
 
-bool ChessSquare::IsChessPiece() const
-{
-    return m_ChessPiece != nullptr;
-}

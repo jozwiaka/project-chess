@@ -105,7 +105,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
     m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
-    if (foundSquare->IsChessPiece())
+    if (foundSquare->GetChessPiece())
     {
         ChessPiece *piece = foundSquare->GetChessPiece();
         if (piece->GetColor() == m_CurrentTurn)
@@ -149,15 +149,19 @@ void ChessModel::SetPawnValidMoves() {}
 
 ChessModel::~ChessModel()
 {
-    for (auto &row : m_Chessboard)
+    for (int x = 0;x<8;++x)
     {
-        for (auto &square : row)
+        for (int y = 0; y<8;++y)
         {
-            if (square->IsChessPiece())
+            ChessSquare* square = m_Chessboard[x][y];
+            if(square)
             {
-                delete square->GetChessPiece();
+                if (square->GetChessPiece())
+                {
+                    delete square->GetChessPiece();
+                }
+                delete square;
             }
-            delete square;
         }
     }
 }

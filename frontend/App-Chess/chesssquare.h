@@ -34,8 +34,6 @@ public:
 
     void SetChessPiece(ChessPiece* piece);
     ChessPiece* GetChessPiece();
-    const ChessPiece& GetChessPieceRef() const;
-    bool IsChessPiece() const;
 
     void HighlightSquare();
     void ResetSquareColor();
