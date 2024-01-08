@@ -44,6 +44,9 @@ public:
     void SetStatus(Status status);
     Status GetStatus() const;
 
+    bool IsBlockedForKing();
+    void SetBlockedForKing(bool blockedForKing);
+
     Position GetPosition() const;
 signals:
     void Clicked(const Position& position);
@@ -58,7 +61,7 @@ private:
     QColor m_NormalColor;
     QColor m_HighlightedColor;
     ChessPiece* m_ChessPiece;
-    bool m_GloballyValid;
+    bool m_BlockedForKing;
 };
 
 #endif // CHESSSQUARE_H

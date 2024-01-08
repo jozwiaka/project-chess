@@ -101,6 +101,7 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
             ChessPiece *piece = square->GetChessPiece();
             if (piece)
                 piece->SetEnPassant(false);
+            square->SetBlockedForKing(false);
         }
     }
 }
@@ -166,7 +167,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
     emit UpdateGraphics();
 }
 
-void ChessModel::SetRookValidMoves(ChessSquare *s)
+void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;
@@ -237,7 +238,7 @@ void ChessModel::SetRookValidMoves(ChessSquare *s)
     }
 }
 
-void ChessModel::SetKnightValidMoves(ChessSquare *s)
+void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;
@@ -268,7 +269,7 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s)
     }
 }
 
-void ChessModel::SetBishopValidMoves(ChessSquare *s)
+void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;
@@ -339,7 +340,7 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s)
     }
 }
 
-void ChessModel::SetQueenValidMoves(ChessSquare *s)
+void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;
@@ -474,7 +475,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s)
     }
 }
 
-void ChessModel::SetPawnValidMoves(ChessSquare *s)
+void ChessModel::SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;
@@ -520,7 +521,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *s)
     }
 }
 
-void ChessModel::SetKingValidMoves(ChessSquare *s)
+void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing)
 {
     ChessPiece *piece = s->GetChessPiece();
     const int X = s->GetPosition().x;

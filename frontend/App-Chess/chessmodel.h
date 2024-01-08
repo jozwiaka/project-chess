@@ -34,12 +34,12 @@ private:
     void ClearActiveAndValidMoveStatuses();
     void ClearPreviousMoveStatusesAndEnPassants();
 
-    void SetRookValidMoves(ChessSquare *s);
-    void SetKnightValidMoves(ChessSquare *s);
-    void SetBishopValidMoves(ChessSquare *s);
-    void SetQueenValidMoves(ChessSquare *s);
-    void SetKingValidMoves(ChessSquare *s);
-    void SetPawnValidMoves(ChessSquare *s);
+    void SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
+    void SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
+    void SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
+    void SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
+    void SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
+    void SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing = false);
 
     bool CheckIfFreeSquare(ChessSquare *square);
     bool CheckIfEnemy(ChessSquare *square);
