@@ -54,12 +54,21 @@ void ChessModel::InitializeChessboard()
                     break;
                 case '2':
                 case '7':
-                    pieceType = ChessPiece::King;
+                    pieceType = ChessPiece::Pawn;
                     break;
+                default:
+                    continue;
                 }
 
-                auto piece = new ChessPiece(pieceType, color, square);
-                square->SetChessPiece(piece);
+                if(
+                    pieceType!=ChessPiece::Queen &&
+                    pieceType!=ChessPiece::Bishop &&
+                    pieceType!=ChessPiece::Knight
+                    )
+                {
+                    auto piece = new ChessPiece(pieceType, color, square);
+                    square->SetChessPiece(piece);
+                }
             }
             rowVector.push_back(square);
         }
@@ -162,6 +171,48 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
     }
 
     emit UpdateGraphics();
+}
+
+void ChessModel::SetKingValidMoves()
+{
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    const int X = m_ActiveSquare->GetPosition().x;
+    const int Y = m_ActiveSquare->GetPosition().y;
+
+    for (int x = X - 1; x <= X + 1; ++x)
+    {
+        for (int y = Y - 1; y <= Y + 1; ++y)
+        {
+            ChessSquare *square = GetSquareByPosition({x, y});
+            if (CheckIfFreeSquare(square))
+                square->SetStatus(ChessSquare::Status::ValidMove);
+            else if (CheckIfEnemy(square))
+            {
+                square->SetStatus(ChessSquare::Status::ValidCapture);
+            }
+        }
+    }
+
+    if(
+        !piece->IsMoved() &&
+        !m_Chessboard[m_ActiveSquare->GetPosition().x][0]->GetChessPiece()->IsMoved() &&
+        CheckIfFreeSquare(GetSquareByPosition({m_ActiveSquare->GetPosition().x,1})) &&
+        CheckIfFreeSquare(GetSquareByPosition({m_ActiveSquare->GetPosition().x,2})) &&
+        CheckIfFreeSquare(GetSquareByPosition({m_ActiveSquare->GetPosition().x,3}))
+        )
+    {
+        m_Chessboard[m_ActiveSquare->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+    }
+
+    if(
+        !piece->IsMoved() &&
+        !m_Chessboard[m_ActiveSquare->GetPosition().x][7]->GetChessPiece()->IsMoved() &&
+        CheckIfFreeSquare(GetSquareByPosition({m_ActiveSquare->GetPosition().x,6})) &&
+        CheckIfFreeSquare(GetSquareByPosition({m_ActiveSquare->GetPosition().x,5}))
+        )
+    {
+        m_Chessboard[m_ActiveSquare->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+    }
 }
 
 void ChessModel::SetRookValidMoves()
@@ -468,26 +519,6 @@ void ChessModel::SetQueenValidMoves()
         else if (CheckIfAlly(square))
         {
             break;
-        }
-    }
-}
-void ChessModel::SetKingValidMoves()
-{
-    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
-    const int X = m_ActiveSquare->GetPosition().x;
-    const int Y = m_ActiveSquare->GetPosition().y;
-
-    for (int x = X - 1; x <= X + 1; ++x)
-    {
-        for (int y = Y - 1; y <= Y + 1; ++y)
-        {
-            ChessSquare *square = GetSquareByPosition({x, y});
-            if (CheckIfFreeSquare(square))
-                square->SetStatus(ChessSquare::Status::ValidMove);
-            else if (CheckIfEnemy(square))
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
         }
     }
 }
