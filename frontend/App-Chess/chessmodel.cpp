@@ -172,25 +172,21 @@ void ChessModel::SetPawnValidMoves()
     const int X = m_ActiveSquare->GetPosition().x;
     const int Y = m_ActiveSquare->GetPosition().y;
 
-    int i=1;
+    int i = 1;
 
-    if(m_CurrentTurn==Color::Black)
+    if (m_CurrentTurn == Color::Black)
     {
-        i=-1;
+        i = -1;
     }
 
-    for(int x = X + i; i*x<=i*(X+i*(piece->IsMoved()?1:2));x+=i)
+    for (int x = X + i; i * x <= i * (X + i * (piece->IsMoved() ? 1 : 2)); x += i)
     {
-        qDebug()<<"Ok1\n";
-        ChessSquare::Position position{x,Y};
-        if(CheckIfPositionIsValidToMoveTo(position))
+        ChessSquare::Position position{x, Y};
+        if (CheckIfPositionIsValidToMoveTo(position))
         {
-            qDebug()<<"Ok2\n";
             m_Chessboard[x][Y]->SetStatus(ChessSquare::Status::ValidMove);
         }
     }
-    qDebug()<<"---------\n\n";
-
 }
 
 bool ChessModel::CheckIfPositionIsValidToMoveTo(const ChessSquare::Position &position)
@@ -198,17 +194,13 @@ bool ChessModel::CheckIfPositionIsValidToMoveTo(const ChessSquare::Position &pos
     ChessSquare *square = GetSquareByPosition(position);
     if (!square)
         return false;
-qDebug()<<"Ok3\n";
     ChessPiece *piece = square->GetChessPiece();
     if (!piece)
         return true;
-qDebug()<<"Ok4\n";
     if (piece->GetPieceType() == ChessPiece::PieceType::King)
         return false;
-qDebug()<<"Ok5\n";
     if (piece->GetColor() == m_CurrentTurn)
         return false;
-qDebug()<<"Ok6\n";
     return true;
 }
 

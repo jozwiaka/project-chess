@@ -19,13 +19,13 @@ public:
 
     void InitializeChessboard();
 
-    QVector<QVector<ChessSquare*>> GetChessboard();
+    QVector<QVector<ChessSquare *>> GetChessboard();
 
-    void UpdateModelOnSquareClick(const ChessSquare::Position& position);
+    void UpdateModelOnSquareClick(const ChessSquare::Position &position);
 
     ~ChessModel();
 
-    void MakeMove(ChessSquare* toSquare);
+    void MakeMove(ChessSquare *toSquare);
 
 signals:
     void UpdateGraphics();
@@ -41,13 +41,13 @@ private:
     void SetKingValidMoves();
     void SetPawnValidMoves();
 
-    bool CheckIfPositionIsValidToMoveTo(const ChessSquare::Position& position);
-    ChessSquare* GetSquareByPosition(const ChessSquare::Position& position);
+    bool CheckIfPositionIsValidToMoveTo(const ChessSquare::Position &position);
+    ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
 
 private:
-    QVector<QVector<ChessSquare*>> m_Chessboard;
+    QVector<QVector<ChessSquare *>> m_Chessboard;
     Color m_CurrentTurn;
-    ChessSquare* m_ActiveSquare = nullptr;
+    ChessSquare *m_ActiveSquare = nullptr;
 };
 
 #endif // CHESSMODEL_H
