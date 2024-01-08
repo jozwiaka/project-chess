@@ -32,7 +32,7 @@ signals:
 
 private:
     void ClearActiveAndValidMoveStatuses();
-    void ClearPreviousMoveStatuses();
+    void ClearPreviousMoveStatusesAndEnPassants();
 
     void SetRookValidMoves();
     void SetKnightValidMoves();

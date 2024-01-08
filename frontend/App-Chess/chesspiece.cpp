@@ -1,7 +1,7 @@
 #include "chesspiece.h"
 
 ChessPiece::ChessPiece(PieceType type, Color color, QWidget *parent)
-    : QLabel(parent), m_PieceType(type), m_Color(color), m_Selected(false), m_Moved(false)
+    : QLabel(parent), m_PieceType(type), m_Color(color), m_Selected(false), m_Moved(false), m_EnPassant(false)
 {
     QString pieceImagePath;
     switch (m_PieceType)
@@ -59,4 +59,14 @@ void ChessPiece::SetMoved() {
 
 bool ChessPiece::IsMoved() {
     return m_Moved;
+}
+
+bool ChessPiece::IsEnPassant()
+{
+    return m_EnPassant;
+}
+
+void ChessPiece::SetEnPassant(bool enPassant)
+{
+    m_EnPassant = enPassant;
 }

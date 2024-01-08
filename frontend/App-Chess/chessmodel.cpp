@@ -86,7 +86,7 @@ void ChessModel::ClearActiveAndValidMoveStatuses()
     }
 }
 
-void ChessModel::ClearPreviousMoveStatuses()
+void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
 {
     for (auto &row : m_Chessboard)
     {
@@ -96,9 +96,13 @@ void ChessModel::ClearPreviousMoveStatuses()
             {
                 square->SetStatus(ChessSquare::Status::Normal);
             }
+            ChessPiece* piece = square->GetChessPiece();
+            if(piece)
+                piece->SetEnPassant(false);
         }
     }
 }
+
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
@@ -118,7 +122,8 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
     ClearActiveAndValidMoveStatuses();
 
-    m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+
+    //m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
     if (isGoingToMakeMove)
     {
@@ -166,6 +171,7 @@ void ChessModel::SetKnightValidMoves() {}
 void ChessModel::SetBishopValidMoves() {}
 void ChessModel::SetQueenValidMoves() {}
 void ChessModel::SetKingValidMoves() {}
+
 void ChessModel::SetPawnValidMoves()
 {
     ChessPiece *piece = m_ActiveSquare->GetChessPiece();
@@ -256,18 +262,30 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     }
     if (m_ActiveSquare)
     {
-        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+        ChessPiece* pieceToMove = m_ActiveSquare->GetChessPiece();
+        ChessPiece* pieceAtTargetSquare = toSquare->GetChessPiece();
 
-        if(toSquare->GetChessPiece())
-            delete toSquare->GetChessPiece();
-        toSquare->SetChessPiece(m_ActiveSquare->GetChessPiece());
+        if(pieceAtTargetSquare)
+            delete pieceAtTargetSquare;
 
+        toSquare->SetChessPiece(pieceToMove);
         m_ActiveSquare->SetChessPiece(nullptr);
 
-        toSquare->GetChessPiece()->SetMoved();
+        pieceToMove->SetMoved();
 
-        ClearPreviousMoveStatuses();
+        ClearPreviousMoveStatusesAndEnPassants();
+
+        if(
+            m_ActiveSquare->GetPosition().x - toSquare->GetPosition().x == 2 &&
+            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn
+            )
+        {
+            pieceToMove->SetEnPassant(true);
+        }
+
         m_ActiveSquare->SetStatus(ChessSquare::Status::PreviousMove);
         toSquare->SetStatus(ChessSquare::Status::PreviousMove);
+
+        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
     }
 }

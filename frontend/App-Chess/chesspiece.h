@@ -33,16 +33,22 @@ public:
 
     PieceType GetPieceType() const;
     Color GetColor() const;
+
     void SetSelected(bool selected);
     bool IsSelected() const;
+
     bool IsMoved();
     void SetMoved();
+
+    bool IsEnPassant();
+    void SetEnPassant(bool enPassant);
 
 private:
     PieceType m_PieceType;
     Color m_Color;
     bool m_Selected;
     bool m_Moved;
+    bool m_EnPassant;
 
 signals:
 };
