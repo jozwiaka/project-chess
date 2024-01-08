@@ -2,7 +2,7 @@
 #include <QMouseEvent>
 #include <QColor>
 
-ChessSquare::ChessSquare(bool dark, const Position& position, QWidget *parent)
+ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
     : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80), m_ChessPiece(nullptr)
 {
     setFixedSize(m_Size, m_Size);
@@ -39,29 +39,44 @@ void ChessSquare::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    if(m_Status == Status::ValidMove)
+    int radius = 0;
+    switch (m_Status)
     {
+    case Status::ValidMove:
         painter.setPen(Qt::NoPen);
         painter.setBrush(Qt::gray);
-        int radius = 10;
-        painter.drawEllipse(m_Size/2 - radius, m_Size/2 - radius, 2 * radius, 2 * radius);
+        radius = 10;
+        painter.drawEllipse(m_Size / 2 - radius, m_Size / 2 - radius, 2 * radius, 2 * radius);
+        break;
+
+    case Status::ValidCapture:
+        QPen pen(Qt::gray);
+        pen.setWidth(10);
+        painter.setPen(pen);
+        painter.setBrush(Qt::NoBrush);
+        radius = m_Size / 2;
+        painter.drawEllipse(m_Size / 2 - radius, m_Size / 2 - radius, 2 * radius, 2 * radius);
+        break;
     }
 
     update();
 }
 
-
-void ChessSquare::SetChessPiece(ChessPiece* piece)
+void ChessSquare::SetChessPiece(ChessPiece *piece)
 {
-    if(piece)
+    if(m_ChessPiece)
     {
-        m_ChessPiece = std::move(piece);
+        delete m_ChessPiece;
+    }
+    if (piece)
+    {
+        m_ChessPiece = piece;
         m_ChessPiece->setParent(this);
         m_ChessPiece->show();
     }
 }
 
-ChessPiece* ChessSquare::GetChessPiece()
+ChessPiece *ChessSquare::GetChessPiece()
 {
     return m_ChessPiece;
 }
@@ -71,14 +86,17 @@ void ChessSquare::SetStatus(Status status)
     m_Status = status;
 }
 
-ChessSquare::Status ChessSquare::GetStatus() const {
+ChessSquare::Status ChessSquare::GetStatus() const
+{
     return m_Status;
 }
 
-ChessSquare::Position ChessSquare::GetPosition() const {
+ChessSquare::Position ChessSquare::GetPosition() const
+{
     return m_Position;
 }
 
-bool ChessSquare::IsChessPiece() const {
+bool ChessSquare::IsChessPiece() const
+{
     return m_ChessPiece != nullptr;
 }
