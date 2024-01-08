@@ -176,134 +176,26 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int y = Y + 1; y <= 7; ++y)
     {
-        ChessSquare *square = GetSquareByPosition({X, y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({X, y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int y = Y - 1; y >= 0; --y)
     {
-        ChessSquare *square = GetSquareByPosition({X, y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({X, y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 }
 
@@ -317,27 +209,8 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         for (int y = Y - 1; y <= Y + 1; y += 2)
         {
-            ChessSquare *square = GetSquareByPosition({x, y});
-            if (CheckIfFreeSquare(square))
-                if (setSquaresBlockedForKing)
-                    square->SetBlockedForKing(true);
-                else
-                    square->SetStatus(ChessSquare::Status::ValidMove);
-            else if (CheckIfEnemy(square))
-            {
-                if (setSquaresBlockedForKing)
-                {
-                    if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                    {
-                        m_Check = true;
-                        square->SetStatus(ChessSquare::Status::Check);
-                    }
-                }
-                else
-                {
-                    square->SetStatus(ChessSquare::Status::ValidCapture);
-                }
-            }
+            if (CheckAndSet({x, y}, setSquaresBlockedForKing))
+                break;
         }
     }
 
@@ -345,27 +218,8 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         for (int x = X - 1; x <= X + 1; x += 2)
         {
-            ChessSquare *square = GetSquareByPosition({x, y});
-            if (CheckIfFreeSquare(square))
-                if (setSquaresBlockedForKing)
-                    square->SetBlockedForKing(true);
-                else
-                    square->SetStatus(ChessSquare::Status::ValidMove);
-            else if (CheckIfEnemy(square))
-            {
-                if (setSquaresBlockedForKing)
-                {
-                    if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                    {
-                        m_Check = true;
-                        square->SetStatus(ChessSquare::Status::Check);
-                    }
-                }
-                else
-                {
-                    square->SetStatus(ChessSquare::Status::ValidCapture);
-                }
-            }
+            if (CheckAndSet({x, y}, setSquaresBlockedForKing))
+                break;
         }
     }
 }
@@ -378,134 +232,26 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y + x - X}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y + x - X}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y - (x - X)}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y - (x - X)}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 }
 
@@ -517,266 +263,50 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int y = Y + 1; y <= 7; ++y)
     {
-        ChessSquare *square = GetSquareByPosition({X, y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({X, y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int y = Y - 1; y >= 0; --y)
     {
-        ChessSquare *square = GetSquareByPosition({X, y});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({X, y}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y + x - X}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y + x - X}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y - (x - X)}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
-        if (CheckIfFreeSquare(square))
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                square->SetStatus(ChessSquare::Status::ValidMove);
-        else if (CheckIfEnemy(square))
-        {
-            if (setSquaresBlockedForKing)
-            {
-                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                {
-                    m_Check = true;
-                    square->SetStatus(ChessSquare::Status::Check);
-                }
-            }
-            else
-            {
-                square->SetStatus(ChessSquare::Status::ValidCapture);
-            }
+        if (CheckAndSet({x, Y - (x - X)}, setSquaresBlockedForKing))
             break;
-        }
-        else if (CheckIfAlly(square))
-        {
-            if (setSquaresBlockedForKing)
-                square->SetBlockedForKing(true);
-            else
-                break;
-        }
     }
 }
 
@@ -1054,4 +584,39 @@ void ChessModel::CheckValidKingMovesAndCheck()
             }
         }
     }
+}
+
+bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool setSquaresBlockedForKing)
+{
+    ChessSquare *square = GetSquareByPosition(position);
+    if (CheckIfFreeSquare(square))
+        if (setSquaresBlockedForKing)
+            square->SetBlockedForKing(true);
+        else
+            square->SetStatus(ChessSquare::Status::ValidMove);
+    else if (CheckIfEnemy(square))
+    {
+        if (setSquaresBlockedForKing)
+        {
+            if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+            {
+                m_Check = true;
+                square->SetStatus(ChessSquare::Status::Check);
+            }
+        }
+        else
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+        }
+        return true;
+    }
+    else if (CheckIfAlly(square))
+    {
+        if (setSquaresBlockedForKing)
+            square->SetBlockedForKing(true);
+        else
+            return true;
+    }
+
+    return false;
 }

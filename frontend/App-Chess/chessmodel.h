@@ -48,6 +48,8 @@ private:
 
     ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
 
+    bool CheckAndSet(const ChessSquare::Position &position, bool setSquaresBlockedForKing);
+
 private:
     QVector<QVector<ChessSquare *>> m_Chessboard;
     Color m_CurrentTurn;
