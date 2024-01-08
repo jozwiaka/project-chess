@@ -277,7 +277,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             yDiff != 0 &&
             pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn)
         {
-            ChessSquare *square = GetSquareByPosition({m_ActiveSquare->GetPosition().x, m_ActiveSquare->GetPosition().y + yDiff});
+            ChessSquare::Position position {m_ActiveSquare->GetPosition().x, m_ActiveSquare->GetPosition().y + yDiff};
+            ChessSquare *square = GetSquareByPosition(position);
             ChessPiece* piece = square->GetChessPiece();
             if(piece)
             {
@@ -288,11 +289,9 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
                 }
             }
         }
-        else
-        {
-            if (toSquare->GetChessPiece())
-                delete toSquare->GetChessPiece();
-        }
+
+        if (toSquare->GetChessPiece())
+            delete toSquare->GetChessPiece();
 
         toSquare->SetChessPiece(pieceToMove);
         m_ActiveSquare->SetChessPiece(nullptr);
@@ -302,7 +301,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         ClearPreviousMoveStatusesAndEnPassants();
 
         if (
-            m_ActiveSquare->GetPosition().x - toSquare->GetPosition().x == 2 &&
+            qAbs(m_ActiveSquare->GetPosition().x - toSquare->GetPosition().x) == 2 &&
             pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn)
         {
             pieceToMove->SetEnPassant(true);
