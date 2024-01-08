@@ -591,10 +591,16 @@ bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool setSqua
 {
     ChessSquare *square = GetSquareByPosition(position);
     if (CheckIfFreeSquare(square))
+    {
         if (setSquaresBlockedForKing)
+        {
             square->SetBlockedForKing(true);
+        }
         else
+        {
             square->SetStatus(ChessSquare::Status::ValidMove);
+        }
+    }
     else if (CheckIfEnemy(square))
     {
         if (setSquaresBlockedForKing)
@@ -614,9 +620,13 @@ bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool setSqua
     else if (CheckIfAlly(square))
     {
         if (setSquaresBlockedForKing)
+        {
             square->SetBlockedForKing(true);
+        }
         else
+        {
             return true;
+        }
     }
 
     return false;
