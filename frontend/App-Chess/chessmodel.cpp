@@ -183,15 +183,21 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -205,15 +211,21 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -227,15 +239,21 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -249,15 +267,21 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 }
@@ -279,8 +303,11 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 else
                     square->SetStatus(ChessSquare::Status::ValidMove);
             else if (CheckIfEnemy(square))
-                if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                    m_Check = true;
+                if (setSquaresBlockedForKing)
+                {
+                    if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                        m_Check = true;
+                }
                 else
                     square->SetStatus(ChessSquare::Status::ValidCapture);
         }
@@ -297,8 +324,11 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 else
                     square->SetStatus(ChessSquare::Status::ValidMove);
             else if (CheckIfEnemy(square))
-                if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                    m_Check = true;
+                if (setSquaresBlockedForKing)
+                {
+                    if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                        m_Check = true;
+                }
                 else
                     square->SetStatus(ChessSquare::Status::ValidCapture);
         }
@@ -321,15 +351,21 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -343,15 +379,21 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -365,15 +407,21 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -387,15 +435,21 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 }
@@ -416,15 +470,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -438,15 +498,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -460,15 +526,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -482,15 +554,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -504,15 +582,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -526,15 +610,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -548,15 +638,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 
@@ -570,15 +666,21 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
                 square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             break;
         }
         else if (CheckIfAlly(square))
         {
-            square->SetBlockedForKing(true);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                break;
         }
     }
 }
@@ -617,8 +719,11 @@ void ChessModel::SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         ChessSquare *square = GetSquareByPosition({X + i, y});
         if (CheckIfEnemy(square))
         {
-            if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                m_Check = true;
+            if (setSquaresBlockedForKing)
+            {
+                if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                    m_Check = true;
+            }
             else
                 square->SetStatus(ChessSquare::Status::ValidCapture);
         }
@@ -653,8 +758,11 @@ void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                     square->SetStatus(ChessSquare::Status::ValidMove);
                 else if (CheckIfEnemy(square))
                 {
-                    if (setSquaresBlockedForKing && square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
-                        m_Check = true;
+                    if (setSquaresBlockedForKing)
+                    {
+                        if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                            m_Check = true;
+                    }
                     else if (!square->IsBlockedForKing())
                         square->SetStatus(ChessSquare::Status::ValidCapture);
                 }

@@ -13,7 +13,7 @@ ChessView::~ChessView()
     delete m_ChessboardLayout;
 }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard)
+void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
@@ -30,8 +30,6 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboa
     }
 }
 
-
-
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
     // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
@@ -46,7 +44,8 @@ void ChessView::UpdateChessboardGraphics()
         {
             ChessSquare *square = qobject_cast<ChessSquare *>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
 
-            switch (square->GetStatus()) {
+            switch (square->GetStatus())
+            {
             case ChessSquare::Status::Normal:
                 square->SetNormalBackgroundColor();
                 square->UnsetBorder();
