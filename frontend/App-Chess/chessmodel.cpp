@@ -398,7 +398,10 @@ void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
                     }
                     else if (CheckIfEnemy(square))
                     {
-                        square->SetStatus(ChessSquare::Status::ValidCapture);
+                        if (!setSquaresBlockedForKing)
+                        {
+                            square->SetStatus(ChessSquare::Status::ValidCapture);
+                        }
                     }
                 }
             }
