@@ -544,6 +544,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         toSquare->SetStatus(ChessSquare::Status::PreviousMove);
 
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+
         CheckValidKingMovesAndCheck();
     }
 }
