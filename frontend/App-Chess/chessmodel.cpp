@@ -337,7 +337,140 @@ void ChessModel::SetBishopValidMoves()
     }
 }
 
-void ChessModel::SetQueenValidMoves() {}
+void ChessModel::SetQueenValidMoves() {
+    ChessPiece *piece = m_ActiveSquare->GetChessPiece();
+    const int X = m_ActiveSquare->GetPosition().x;
+    const int Y = m_ActiveSquare->GetPosition().y;
+
+    for (int x = X + 1; x <= 7; ++x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int x = X - 1; x >= 0; --x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int y = Y + 1; y <= 7; ++y)
+    {
+        ChessSquare *square = GetSquareByPosition({X, y});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+
+    for (int y = Y - 1; y >= 0; --y)
+    {
+        ChessSquare *square = GetSquareByPosition({X, y});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int x = X + 1; x <= 7; ++x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int x = X - 1; x >= 0; --x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y + x - X});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int x = X + 1; x <= 7; ++x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+
+    for (int x = X - 1; x >= 0; --x)
+    {
+        ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
+        if (CheckIfFreeSquare(square))
+            square->SetStatus(ChessSquare::Status::ValidMove);
+        else if (CheckIfEnemy(square))
+        {
+            square->SetStatus(ChessSquare::Status::ValidCapture);
+            break;
+        }
+        else if (CheckIfAlly(square))
+        {
+            break;
+        }
+    }
+}
 void ChessModel::SetKingValidMoves() {}
 
 void ChessModel::SetPawnValidMoves()
