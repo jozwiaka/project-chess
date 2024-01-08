@@ -10,16 +10,18 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
-    struct Position {
+    struct Position
+    {
         int x, y;
 
-        bool operator==(const Position& other)
+        bool operator==(const Position &other)
         {
-            return this->x==other.x&&this->y==other.y;
+            return this->x == other.x && this->y == other.y;
         }
     };
 
-    enum class Status {
+    enum class Status
+    {
         Normal,
         Active,
         PreviousMove,
@@ -30,16 +32,17 @@ public:
 public:
     ChessSquare() = default;
 
-    ChessSquare(bool dark, const Position& position, QWidget *parent = nullptr);
+    ChessSquare(bool dark, const Position &position, QWidget *parent = nullptr);
 
-    void SetChessPiece(ChessPiece* piece);
-    ChessPiece* GetChessPiece();
+    void SetChessPiece(ChessPiece *piece);
+    ChessPiece *GetChessPiece();
 
-    void SetHighlightBckgroundColor();
+    void SetHighlightBackgroundColor();
     void SetNormalBackgroundColor();
 
-    void SetBorder();
-    void UnsetBorder();
+    void SetCheckBackgroundColor();
+
+    void SetValidBackgroundColor();
 
     void SetStatus(Status status);
     Status GetStatus() const;
@@ -49,7 +52,7 @@ public:
 
     Position GetPosition() const;
 signals:
-    void Clicked(const Position& position);
+    void Clicked(const Position &position);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -60,7 +63,7 @@ private:
     Status m_Status;
     QColor m_NormalColor;
     QColor m_HighlightedColor;
-    ChessPiece* m_ChessPiece;
+    ChessPiece *m_ChessPiece;
     bool m_BlockedForKing;
 };
 

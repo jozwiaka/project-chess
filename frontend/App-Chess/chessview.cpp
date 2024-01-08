@@ -48,15 +48,14 @@ void ChessView::UpdateChessboardGraphics()
             {
             case ChessSquare::Status::Normal:
                 square->SetNormalBackgroundColor();
-                square->UnsetBorder();
                 break;
             case ChessSquare::Status::Active:
             case ChessSquare::Status::PreviousMove:
-                square->SetHighlightBckgroundColor();
+                square->SetHighlightBackgroundColor();
                 break;
             case ChessSquare::Status::ValidMove:
             case ChessSquare::Status::ValidCapture:
-                square->SetBorder();
+                square->SetValidBackgroundColor();
                 break;
             default:
                 break;

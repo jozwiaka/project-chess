@@ -21,7 +21,7 @@ void ChessSquare::mousePressEvent(QMouseEvent *event)
     emit Clicked(m_Position);
 }
 
-void ChessSquare::SetHighlightBckgroundColor()
+void ChessSquare::SetHighlightBackgroundColor()
 {
     setStyleSheet(QString("background-color: %1;").arg(m_HighlightedColor.name()));
 }
@@ -31,19 +31,20 @@ void ChessSquare::SetNormalBackgroundColor()
     setStyleSheet(QString("background-color: %1;").arg(m_NormalColor.name()));
 }
 
-
-void ChessSquare::SetBorder(){
+void ChessSquare::SetValidBackgroundColor()
+{
     setStyleSheet(QString("background-color: lightgreen;"));
 }
 
-void ChessSquare::UnsetBorder(){
-    SetNormalBackgroundColor();
+void ChessSquare::SetCheckBackgroundColor()
+{
+    setStyleSheet(QString("background-color: red;"));
 }
 
 void ChessSquare::SetChessPiece(ChessPiece *piece)
 {
     m_ChessPiece = piece;
-    if(m_ChessPiece)
+    if (m_ChessPiece)
     {
         m_ChessPiece->setParent(this);
         m_ChessPiece->show();
