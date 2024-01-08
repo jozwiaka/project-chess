@@ -381,26 +381,25 @@ void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         for (int y = Y - 1; y <= Y + 1; ++y)
         {
             ChessSquare *square = GetSquareByPosition({x, y});
-            if (CheckIfFreeSquare(square))
+            if (square)
             {
-                if (setSquaresBlockedForKing)
-                    square->SetBlockedForKing(true);
-                else if (!square->IsBlockedForKing())
+                if (!square->IsBlockedForKing())
                 {
-                    square->SetStatus(ChessSquare::Status::ValidMove);
-                }
-                else if (CheckIfEnemy(square))
-                {
-                    if (setSquaresBlockedForKing)
+                    if (CheckIfFreeSquare(square))
                     {
-                        if (square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                        if (setSquaresBlockedForKing)
                         {
-                            m_Check = true;
-                            square->SetStatus(ChessSquare::Status::Check);
+                            square->SetBlockedForKing(true);
+                        }
+                        else
+                        {
+                            square->SetStatus(ChessSquare::Status::ValidMove);
                         }
                     }
-                    else if (!square->IsBlockedForKing())
+                    else if (CheckIfEnemy(square))
+                    {
                         square->SetStatus(ChessSquare::Status::ValidCapture);
+                    }
                 }
             }
         }
