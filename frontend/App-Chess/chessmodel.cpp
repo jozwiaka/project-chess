@@ -89,7 +89,12 @@ void ChessModel::ClearStatuses()
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
-    ChessSquare *foundSquare = m_Chessboard[position.x][position.y];
+    ChessSquare *foundSquare = GetSquareByPosition(position);
+
+    if(!foundSquare)
+    {
+        return;
+    }
 
     if (m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::ValidMove || foundSquare->GetStatus() == ChessSquare::Status::ValidCapture))
     {
@@ -98,7 +103,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
     ClearStatuses();
 
-    // m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+    m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
     if (foundSquare->GetChessPiece())
     {
@@ -151,7 +156,20 @@ void ChessModel::SetPawnValidMoves()
 }
 
 bool ChessModel::CheckIfPositionIsValid(const ChessSquare::Position& position) {
+    // if()
+    // {
+
+    // }
+
     return true;
+}
+
+ChessSquare* ChessModel::GetSquareByPosition(const ChessSquare::Position& position)
+{
+    if(position.x>=0&&position.x<=7&&position.y>=0&&position.y<=7)
+        return m_Chessboard[position.x][position.y];
+
+    return nullptr;
 }
 
 ChessModel::~ChessModel()

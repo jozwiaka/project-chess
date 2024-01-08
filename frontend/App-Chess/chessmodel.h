@@ -41,6 +41,7 @@ private:
     void SetPawnValidMoves();
 
     bool CheckIfPositionIsValid(const ChessSquare::Position& position);
+    ChessSquare* GetSquareByPosition(const ChessSquare::Position& position);
 
 private:
     QVector<QVector<ChessSquare*>> m_Chessboard;
