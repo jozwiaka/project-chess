@@ -489,9 +489,6 @@ void ChessModel::SetKingValidMoves()
             {
                 square->SetStatus(ChessSquare::Status::ValidCapture);
             }
-            else if (CheckIfAlly(square))
-            {
-            }
         }
     }
 }
