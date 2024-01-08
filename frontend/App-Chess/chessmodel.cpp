@@ -70,8 +70,7 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
 }
 
 ChessSquare* ChessModel::FindSquare(const ChessSquare::Position& position) {
-    ChessSquare* foundSquare = m_Chessboard[position.x-'1'][position.y-'A'].get();
-    return foundSquare;
+    return m_Chessboard[position.x-'1'][position.y-'A'].get();
 }
 
 void ChessModel::ClearStatuses() {
