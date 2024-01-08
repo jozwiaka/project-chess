@@ -52,7 +52,7 @@ void ChessView::UpdateChessboardGraphics()
             case ChessSquare::Status::LastMove:
                 square->HighlightSquare();
                 break;
-            case ChessSquare::Status::AvailableMove:
+            case ChessSquare::Status::ValidMove:
                 // square->HighlightSquare();
                 break;
             default:

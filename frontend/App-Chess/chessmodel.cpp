@@ -16,7 +16,7 @@ void ChessModel::InitializeChessboard(){
         rowVector.reserve(8);
         for (char col = 'A'; col <= 'H'; ++col)
         {
-            ChessSquare::Position position{col, row};
+            ChessSquare::Position position{row, col};
             auto square =  std::make_shared<ChessSquare>(dark, position);
             dark = !dark;
 
@@ -70,18 +70,7 @@ QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
 }
 
 ChessSquare* ChessModel::FindSquare(const ChessSquare::Position& position) {
-    ChessSquare* foundSquare = nullptr;
-    for(auto& row : m_Chessboard)
-    {
-        for(auto& square : row)
-        {
-            if(square->GetPosition() == position)
-            {
-                foundSquare = square.get();
-                break;
-            }
-        }
-    }
+    ChessSquare* foundSquare = m_Chessboard[position.x-'1'][position.y-'A'].get();
     return foundSquare;
 }
 
@@ -91,8 +80,8 @@ void ChessModel::ClearStatuses() {
         for(auto& square : row)
         {
             if(square->GetStatus()==ChessSquare::Status::Active
-                || square->GetStatus()==ChessSquare::Status::AvailableCapture
-                || square->GetStatus()==ChessSquare::Status::AvailableMove
+                || square->GetStatus()==ChessSquare::Status::ValidCapture
+                || square->GetStatus()==ChessSquare::Status::ValidMove
                 || square->GetStatus()==ChessSquare::Status::LastMove)
             {
                 square->SetStatus(ChessSquare::Status::Normal);
@@ -106,23 +95,12 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 {
     ChessSquare* foundSquare = FindSquare(position);
 
-
-    if(m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::AvailableMove || foundSquare->GetStatus() == ChessSquare::Status::AvailableCapture))
+    if(m_ActiveSquare && (foundSquare->GetStatus() == ChessSquare::Status::ValidMove || foundSquare->GetStatus() == ChessSquare::Status::ValidCapture))
     {
         MakeMove(foundSquare);
     }
 
     ClearStatuses();
-
-    // if(m_Chessboard[3][2]->IsChessPiece())
-    // {
-    //     qDebug()<<"Ok\n";
-    // }
-    // else
-    // {
-    //     m_Chessboard[3][2]->SetStatus(ChessSquare::Status::AvailableMove);
-    // }
-
 
     if(foundSquare->IsChessPiece())
     {
@@ -135,31 +113,37 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
             switch (piece.GetPieceType())
             {
             case ChessPiece::Rook:
+                SetRookValidMoves();
                 break;
             case ChessPiece::Knight:
+                SetKnightValidMoves();
                 break;
             case ChessPiece::Bishop:
+                SetBishopValidMoves();
                 break;
             case ChessPiece::Queen:
+                SetQueenValidMoves();
                 break;
             case ChessPiece::King:
+                SetKingValidMoves();
                 break;
             case ChessPiece::Pawn:
-
+                SetPawnValidMoves();
                 break;
             }
         }
     }
 
-    for (char row = 0; row < 8; ++row)
-    {
-        for (char col = 0; col < 8; ++col)
-        {
-        }
-    }
-
     emit UpdateGraphics();
 }
+
+void ChessModel::SetRookValidMoves(){}
+void ChessModel::SetKnightValidMoves(){}
+void ChessModel::SetBishopValidMoves(){}
+void ChessModel::SetQueenValidMoves(){}
+void ChessModel::SetKingValidMoves(){}
+void ChessModel::SetPawnValidMoves(){}
+
 
 ChessModel::~ChessModel(){
 }

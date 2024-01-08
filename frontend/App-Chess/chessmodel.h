@@ -34,6 +34,12 @@ signals:
 private:
     ChessSquare* FindSquare(const ChessSquare::Position& position);
     void ClearStatuses();
+    void SetRookValidMoves();
+    void SetKnightValidMoves();
+    void SetBishopValidMoves();
+    void SetQueenValidMoves();
+    void SetKingValidMoves();
+    void SetPawnValidMoves();
 
 private:
     QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;

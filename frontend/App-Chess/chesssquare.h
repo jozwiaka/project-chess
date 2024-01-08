@@ -24,8 +24,8 @@ public:
         Normal,
         Active,
         LastMove,
-        AvailableMove,
-        AvailableCapture,
+        ValidMove,
+        ValidCapture,
     };
 
 public:
