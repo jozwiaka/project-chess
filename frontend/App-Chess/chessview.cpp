@@ -2,18 +2,20 @@
 #include "./ui_chessview.h"
 
 ChessView::ChessView(QWidget *parent)
-    : QMainWindow(parent), m_Ui(std::make_unique<Ui::ChessView>())
+    : QMainWindow(parent), m_Ui(new Ui::ChessView())
 {
     m_Ui->setupUi(this);
 }
 
 ChessView::~ChessView()
 {
+    delete m_Ui;
+    delete m_ChessboardLayout;
 }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSquare>>> chessboard)
+void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard)
 {
-    m_ChessboardLayout = std::make_unique<QGridLayout>(m_Ui->centralwidget);
+    m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
     m_ChessboardLayout->setContentsMargins(0, 0, 0, 0);
@@ -22,8 +24,8 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<std::shared_ptr<ChessSq
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col].get(), 8 - 1 - row, col);
-            connect(chessboard[row][col].get(), &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
+            m_ChessboardLayout->addWidget(chessboard[row][col], 8 - 1 - row, col);
+            connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
 }

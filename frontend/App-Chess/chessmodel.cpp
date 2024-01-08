@@ -1,5 +1,4 @@
 #include "chessmodel.h"
-#include <memory>
 #include <QDebug>
 
 ChessModel::ChessModel(QObject *parent)
@@ -12,12 +11,12 @@ void ChessModel::InitializeChessboard(){
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
-        QVector<std::shared_ptr<ChessSquare>> rowVector;
+        QVector<ChessSquare*> rowVector;
         rowVector.reserve(8);
         for (char col = 'A'; col <= 'H'; ++col)
         {
             ChessSquare::Position position{row, col};
-            auto square =  std::make_shared<ChessSquare>(dark, position);
+            auto square =  new ChessSquare(dark, position);
             dark = !dark;
 
             if(row=='1'||row=='2'||row=='7'||row=='8'){
@@ -56,7 +55,7 @@ void ChessModel::InitializeChessboard(){
                     break;
                 }
 
-                auto piece = std::make_unique<ChessPiece>(pieceType, color, square.get());
+                auto piece = new ChessPiece(pieceType, color, square);
                 square->SetChessPiece(std::move(piece));
             }
             rowVector.push_back(square);
@@ -65,12 +64,12 @@ void ChessModel::InitializeChessboard(){
     }
 }
 
-QVector<QVector<std::shared_ptr<ChessSquare>>> ChessModel::GetChessboard() {
+QVector<QVector<ChessSquare*>> ChessModel::GetChessboard() {
     return m_Chessboard;
 }
 
 ChessSquare* ChessModel::FindSquare(const ChessSquare::Position& position) {
-    return m_Chessboard[position.x-'1'][position.y-'A'].get();
+    return m_Chessboard[position.x-'1'][position.y-'A'];
 }
 
 void ChessModel::ClearStatuses() {
@@ -103,13 +102,13 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position& position)
 
     if(foundSquare->IsChessPiece())
     {
-        auto& piece = foundSquare->GetChessPieceRef();
-        if(piece.GetColor()==m_CurrentTurn)
+        ChessPiece* piece = foundSquare->GetChessPiece();
+        if(piece->GetColor()==m_CurrentTurn)
         {
             foundSquare->SetStatus(ChessSquare::Status::Active);
             m_ActiveSquare = foundSquare;
 
-            switch (piece.GetPieceType())
+            switch (piece->GetPieceType())
             {
             case ChessPiece::Rook:
                 SetRookValidMoves();
@@ -145,6 +144,14 @@ void ChessModel::SetPawnValidMoves(){}
 
 
 ChessModel::~ChessModel(){
+    for(auto& row : m_Chessboard)
+    {
+        for(auto& square : row)
+        {
+            delete square->GetChessPiece();
+            delete square;
+        }
+    }
 }
 
 void ChessModel::MakeMove(ChessSquare* toSquare) {

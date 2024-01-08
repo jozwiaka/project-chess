@@ -3,7 +3,7 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const Position& position, QWidget *parent)
-    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80)
+    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80), m_ChessPiece(nullptr)
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
@@ -51,7 +51,7 @@ void ChessSquare::paintEvent(QPaintEvent *event)
 }
 
 
-void ChessSquare::SetChessPiece(std::unique_ptr<ChessPiece> piece)
+void ChessSquare::SetChessPiece(ChessPiece* piece)
 {
     if(piece)
     {
@@ -61,18 +61,9 @@ void ChessSquare::SetChessPiece(std::unique_ptr<ChessPiece> piece)
     }
 }
 
-std::unique_ptr<ChessPiece> ChessSquare::GetChessPiece()
+ChessPiece* ChessSquare::GetChessPiece()
 {
-    return std::move(m_ChessPiece);
-}
-
-const ChessPiece& ChessSquare::GetChessPieceRef() const
-{
-    if(m_ChessPiece)
-    {
-        return *m_ChessPiece;
-    }
-
+    return m_ChessPiece;
 }
 
 void ChessSquare::SetStatus(Status status)

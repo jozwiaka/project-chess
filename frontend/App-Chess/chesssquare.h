@@ -4,7 +4,6 @@
 #include <QLabel>
 #include "chesspiece.h"
 #include <QColor>
-#include <memory>
 
 class ChessSquare : public QLabel
 {
@@ -33,8 +32,8 @@ public:
 
     ChessSquare(bool dark, const Position& position, QWidget *parent = nullptr);
 
-    void SetChessPiece(std::unique_ptr<ChessPiece> piece);
-    std::unique_ptr<ChessPiece> GetChessPiece();
+    void SetChessPiece(ChessPiece* piece);
+    ChessPiece* GetChessPiece();
     const ChessPiece& GetChessPieceRef() const;
     bool IsChessPiece() const;
 
@@ -59,7 +58,7 @@ private:
     QColor m_NormalColor;
     QColor m_HighlightedColor;
     bool m_IsHighlighted;
-    std::unique_ptr<ChessPiece> m_ChessPiece;
+    ChessPiece* m_ChessPiece;
 };
 
 #endif // CHESSSQUARE_H

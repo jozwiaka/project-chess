@@ -6,7 +6,6 @@
 #include "cnnmodel.h"
 #include "chesssquare.h"
 #include <array>
-#include <memory>
 #include <QVector>
 
 class ChessModel : public QObject
@@ -20,7 +19,7 @@ public:
 
     void InitializeChessboard();
 
-    QVector<QVector<std::shared_ptr<ChessSquare>>> GetChessboard();
+    QVector<QVector<ChessSquare*>> GetChessboard();
 
     void UpdateModelOnSquareClick(const ChessSquare::Position& position);
 
@@ -42,7 +41,7 @@ private:
     void SetPawnValidMoves();
 
 private:
-    QVector<QVector<std::shared_ptr<ChessSquare>>> m_Chessboard;
+    QVector<QVector<ChessSquare*>> m_Chessboard;
     Color m_CurrentTurn;
     ChessSquare* m_ActiveSquare = nullptr;
 };
