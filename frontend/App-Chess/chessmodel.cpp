@@ -186,14 +186,31 @@ void ChessModel::SetPawnValidMoves()
         {
             m_Chessboard[x][Y]->SetStatus(ChessSquare::Status::ValidMove);
         }
-
+        else
+        {
+            break;
+        }
     }
+
+    for(int y = Y - 1;y<=Y+1;y+=2)
+    {
+        ChessSquare* square = GetSquareByPosition({X+i,y});
+        if(CheckIfEnemy(square))
+        {
+            m_Chessboard[X+i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+        }
+    }
+
+
 }
 
 bool ChessModel::CheckIfEnemy(ChessSquare* square) {
     if (!square)
         return false;
-    return square->GetChessPiece()->GetColor() != m_CurrentTurn;
+    ChessPiece* piece = square->GetChessPiece();
+    if(!piece)
+        return false;
+    return piece->GetColor() != m_CurrentTurn;
 }
 
 bool ChessModel::CheckIfFreeSquare(ChessSquare* square)
@@ -233,11 +250,22 @@ ChessModel::~ChessModel()
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
+    if(m_ActiveSquare==toSquare)
+    {
+        return;
+    }
     if (m_ActiveSquare)
     {
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+
+        if(toSquare->GetChessPiece())
+            delete toSquare->GetChessPiece();
         toSquare->SetChessPiece(m_ActiveSquare->GetChessPiece());
-        m_ActiveSquare->GetChessPiece()->SetMoved();
+
+        m_ActiveSquare->SetChessPiece(nullptr);
+
+        toSquare->GetChessPiece()->SetMoved();
+
         ClearPreviousMoveStatuses();
         m_ActiveSquare->SetStatus(ChessSquare::Status::PreviousMove);
         toSquare->SetStatus(ChessSquare::Status::PreviousMove);

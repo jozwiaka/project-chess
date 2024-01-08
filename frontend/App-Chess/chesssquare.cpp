@@ -13,7 +13,6 @@ ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
     m_NormalColor = dark ? QColor(101, 67, 33) : QColor(193, 154, 107);
     m_HighlightedColor = dark ? QColor(255, 220, 185) : QColor(255, 236, 210);
     SetNormalBackgroundColor();
-
 }
 
 void ChessSquare::mousePressEvent(QMouseEvent *event)
@@ -43,13 +42,9 @@ void ChessSquare::UnsetBorder(){
 
 void ChessSquare::SetChessPiece(ChessPiece *piece)
 {
-    if (m_ChessPiece)
+    m_ChessPiece = piece;
+    if(m_ChessPiece)
     {
-        delete m_ChessPiece;
-    }
-    if (piece)
-    {
-        m_ChessPiece = piece;
         m_ChessPiece->setParent(this);
         m_ChessPiece->show();
     }
