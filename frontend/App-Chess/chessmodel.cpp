@@ -181,27 +181,26 @@ void ChessModel::SetPawnValidMoves()
 
     for (int x = X + i; i * x <= i * (X + i * (piece->IsMoved() ? 1 : 2)); x += i)
     {
-        ChessSquare::Position position{x, Y};
-        if (CheckIfPositionIsValidToMoveTo(position))
+        ChessSquare* square = GetSquareByPosition({x,Y});
+        if (CheckIfFreeSquare(square))
         {
             m_Chessboard[x][Y]->SetStatus(ChessSquare::Status::ValidMove);
         }
+
     }
 }
 
-bool ChessModel::CheckIfPositionIsValidToMoveTo(const ChessSquare::Position &position)
-{
-    ChessSquare *square = GetSquareByPosition(position);
+bool ChessModel::CheckIfEnemy(ChessSquare* square) {
     if (!square)
         return false;
-    ChessPiece *piece = square->GetChessPiece();
-    if (!piece)
-        return true;
-    if (piece->GetPieceType() == ChessPiece::PieceType::King)
+    return square->GetChessPiece()->GetColor() != m_CurrentTurn;
+}
+
+bool ChessModel::CheckIfFreeSquare(ChessSquare* square)
+{
+    if (!square)
         return false;
-    if (piece->GetColor() == m_CurrentTurn)
-        return false;
-    return true;
+    return square->GetChessPiece() == nullptr;
 }
 
 ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::Position &position)
