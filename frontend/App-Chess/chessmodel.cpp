@@ -543,9 +543,9 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         m_ActiveSquare->SetStatus(ChessSquare::Status::PreviousMove);
         toSquare->SetStatus(ChessSquare::Status::PreviousMove);
 
-        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
-
         CheckValidKingMovesAndCheck();
+
+        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
     }
 }
 
@@ -558,7 +558,7 @@ void ChessModel::CheckValidKingMovesAndCheck()
             ChessPiece *piece = s->GetChessPiece();
             if (piece)
             {
-                if (piece->GetColor() != m_CurrentTurn)
+                if (piece->GetColor() == m_CurrentTurn)
                 {
                     switch (piece->GetPieceType())
                     {
