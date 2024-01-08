@@ -96,13 +96,12 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
             {
                 square->SetStatus(ChessSquare::Status::Normal);
             }
-            ChessPiece* piece = square->GetChessPiece();
-            if(piece)
+            ChessPiece *piece = square->GetChessPiece();
+            if (piece)
                 piece->SetEnPassant(false);
         }
     }
 }
-
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
@@ -122,8 +121,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
     ClearActiveAndValidMoveStatuses();
 
-
-    //m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+    // m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
     if (isGoingToMakeMove)
     {
@@ -187,7 +185,7 @@ void ChessModel::SetPawnValidMoves()
 
     for (int x = X + i; i * x <= i * (X + i * (piece->IsMoved() ? 1 : 2)); x += i)
     {
-        ChessSquare* square = GetSquareByPosition({x,Y});
+        ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
         {
             m_Chessboard[x][Y]->SetStatus(ChessSquare::Status::ValidMove);
@@ -198,39 +196,37 @@ void ChessModel::SetPawnValidMoves()
         }
     }
 
-    for(int y = Y - 1;y<=Y+1;y+=2)
+    for (int y = Y - 1; y <= Y + 1; y += 2)
     {
-        ChessSquare* square = GetSquareByPosition({X+i,y});
-        if(CheckIfEnemy(square))
+        ChessSquare *square = GetSquareByPosition({X + i, y});
+        if (CheckIfEnemy(square))
         {
-            m_Chessboard[X+i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+            m_Chessboard[X + i][y]->SetStatus(ChessSquare::Status::ValidCapture);
         }
     }
 
-    for(int y = Y -1;y<=Y+1;y+=2)
+    for (int y = Y - 1; y <= Y + 1; y += 2)
     {
-        ChessSquare* square = GetSquareByPosition({X,y});
-        if(CheckIfEnemy(square))
+        ChessSquare *square = GetSquareByPosition({X, y});
+        if (CheckIfEnemy(square))
         {
-            if(square->GetChessPiece()->IsEnPassant())
-                m_Chessboard[X+i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+            if (square->GetChessPiece()->IsEnPassant())
+                m_Chessboard[X + i][y]->SetStatus(ChessSquare::Status::ValidCapture);
         }
     }
-
-
-
 }
 
-bool ChessModel::CheckIfEnemy(ChessSquare* square) {
+bool ChessModel::CheckIfEnemy(ChessSquare *square)
+{
     if (!square)
         return false;
-    ChessPiece* piece = square->GetChessPiece();
-    if(!piece)
+    ChessPiece *piece = square->GetChessPiece();
+    if (!piece)
         return false;
     return piece->GetColor() != m_CurrentTurn;
 }
 
-bool ChessModel::CheckIfFreeSquare(ChessSquare* square)
+bool ChessModel::CheckIfFreeSquare(ChessSquare *square)
 {
     if (!square)
         return false;
@@ -267,24 +263,36 @@ ChessModel::~ChessModel()
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
-    if(m_ActiveSquare==toSquare)
+    if (m_ActiveSquare == toSquare)
     {
         return;
     }
     if (m_ActiveSquare)
     {
-        ChessPiece* pieceToMove = m_ActiveSquare->GetChessPiece();
-        if(
-            m_ActiveSquare->GetPosition().y-toSquare->GetPosition().y !=0 &&
-            pieceToMove->GetPieceType()==ChessPiece::PieceType::Pawn)
+        ChessPiece *pieceToMove = m_ActiveSquare->GetChessPiece();
+
+        int yDiff = toSquare->GetPosition().y - m_ActiveSquare->GetPosition().y;
+
+        if (
+            yDiff != 0 &&
+            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn)
         {
-
+            ChessSquare *square = GetSquareByPosition({m_ActiveSquare->GetPosition().x, m_ActiveSquare->GetPosition().y + yDiff});
+            ChessPiece* piece = square->GetChessPiece();
+            if(piece)
+            {
+                if(piece->IsEnPassant())
+                {
+                    delete square->GetChessPiece();
+                    square->SetChessPiece(nullptr);
+                }
+            }
         }
-
-        ChessPiece* pieceAtTargetSquare = toSquare->GetChessPiece();
-
-        if(pieceAtTargetSquare)
-            delete pieceAtTargetSquare;
+        else
+        {
+            if (toSquare->GetChessPiece())
+                delete toSquare->GetChessPiece();
+        }
 
         toSquare->SetChessPiece(pieceToMove);
         m_ActiveSquare->SetChessPiece(nullptr);
@@ -293,10 +301,9 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         ClearPreviousMoveStatusesAndEnPassants();
 
-        if(
+        if (
             m_ActiveSquare->GetPosition().x - toSquare->GetPosition().x == 2 &&
-            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn
-            )
+            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn)
         {
             pieceToMove->SetEnPassant(true);
         }
