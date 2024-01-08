@@ -177,10 +177,18 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
     {
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
-            square->SetStatus(ChessSquare::Status::ValidCapture);
+            if (
+                setSquaresBlockedForKing &&
+                square->GetChessPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                square->SetStatus(ChessSquare::Status::ValidCapture);
+            else
+                m_Check = true;
             break;
         }
         else if (CheckIfAlly(square))
@@ -193,7 +201,10 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
     {
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -209,7 +220,10 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
     {
         ChessSquare *square = GetSquareByPosition({X, y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -225,7 +239,10 @@ void ChessModel::SetRookValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
     {
         ChessSquare *square = GetSquareByPosition({X, y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -250,7 +267,10 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
         {
             ChessSquare *square = GetSquareByPosition({x, y});
             if (CheckIfFreeSquare(square))
-                square->SetStatus(ChessSquare::Status::ValidMove);
+                if (setSquaresBlockedForKing)
+                    square->SetBlockedForKing(true);
+                else
+                    square->SetStatus(ChessSquare::Status::ValidMove);
             else if (CheckIfEnemy(square))
                 square->SetStatus(ChessSquare::Status::ValidCapture);
         }
@@ -262,7 +282,10 @@ void ChessModel::SetKnightValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
         {
             ChessSquare *square = GetSquareByPosition({x, y});
             if (CheckIfFreeSquare(square))
-                square->SetStatus(ChessSquare::Status::ValidMove);
+                if (setSquaresBlockedForKing)
+                    square->SetBlockedForKing(true);
+                else
+                    square->SetStatus(ChessSquare::Status::ValidMove);
             else if (CheckIfEnemy(square))
                 square->SetStatus(ChessSquare::Status::ValidCapture);
         }
@@ -279,7 +302,10 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         ChessSquare *square = GetSquareByPosition({x, Y + x - X});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -295,7 +321,10 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         ChessSquare *square = GetSquareByPosition({x, Y + x - X});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -311,7 +340,10 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -327,7 +359,10 @@ void ChessModel::SetBishopValidMoves(ChessSquare *s, bool setSquaresBlockedForKi
     {
         ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -350,7 +385,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -366,7 +404,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -382,7 +423,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({X, y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -398,7 +442,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({X, y});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -414,7 +461,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y + x - X});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -430,7 +480,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y + x - X});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -446,7 +499,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -462,7 +518,10 @@ void ChessModel::SetQueenValidMoves(ChessSquare *s, bool setSquaresBlockedForKin
     {
         ChessSquare *square = GetSquareByPosition({x, Y - (x - X)});
         if (CheckIfFreeSquare(square))
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         else if (CheckIfEnemy(square))
         {
             square->SetStatus(ChessSquare::Status::ValidCapture);
@@ -493,7 +552,10 @@ void ChessModel::SetPawnValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
         {
-            square->SetStatus(ChessSquare::Status::ValidMove);
+            if (setSquaresBlockedForKing)
+                square->SetBlockedForKing(true);
+            else
+                square->SetStatus(ChessSquare::Status::ValidMove);
         }
         else
         {
@@ -533,7 +595,10 @@ void ChessModel::SetKingValidMoves(ChessSquare *s, bool setSquaresBlockedForKing
         {
             ChessSquare *square = GetSquareByPosition({x, y});
             if (CheckIfFreeSquare(square))
-                square->SetStatus(ChessSquare::Status::ValidMove);
+                if (setSquaresBlockedForKing)
+                    square->SetBlockedForKing(true);
+                else
+                    square->SetStatus(ChessSquare::Status::ValidMove);
             else if (CheckIfEnemy(square))
             {
                 square->SetStatus(ChessSquare::Status::ValidCapture);
