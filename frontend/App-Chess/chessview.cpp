@@ -49,7 +49,7 @@ void ChessView::UpdateChessboardGraphics()
             switch (square->GetStatus()) {
             case ChessSquare::Status::Normal:
                 square->SetNormalBackgroundColor();
-                // square->UnsetBorder();
+                square->UnsetBorder();
                 break;
             case ChessSquare::Status::Active:
             case ChessSquare::Status::LastMove:
@@ -57,7 +57,7 @@ void ChessView::UpdateChessboardGraphics()
                 break;
             case ChessSquare::Status::ValidMove:
             case ChessSquare::Status::ValidCapture:
-                // square->SetBorder();
+                square->SetBorder();
                 break;
             default:
                 break;

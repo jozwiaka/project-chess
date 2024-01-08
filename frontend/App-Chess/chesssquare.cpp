@@ -34,15 +34,11 @@ void ChessSquare::SetNormalBackgroundColor()
 
 
 void ChessSquare::SetBorder(){
-    QString currentStyleSheet = styleSheet();
-    currentStyleSheet += "border: 3px solid green;";
-    setStyleSheet(currentStyleSheet);
+    setStyleSheet(QString("background-color: lightgreen;"));
 }
 
 void ChessSquare::UnsetBorder(){
-    QString currentStyleSheet = styleSheet();
-    currentStyleSheet.replace("border: 3px solid green;", "");
-    setStyleSheet(currentStyleSheet);
+    SetNormalBackgroundColor();
 }
 
 void ChessSquare::SetChessPiece(ChessPiece *piece)

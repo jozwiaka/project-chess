@@ -1,7 +1,7 @@
 #include "chesspiece.h"
 
 ChessPiece::ChessPiece(PieceType type, Color color, QWidget *parent)
-    : QLabel(parent), m_PieceType(type), m_Color(color), m_Selected(false)
+    : QLabel(parent), m_PieceType(type), m_Color(color), m_Selected(false), m_Moved(false)
 {
     QString pieceImagePath;
     switch (m_PieceType)
@@ -51,4 +51,12 @@ void ChessPiece::SetSelected(bool isSelected)
 bool ChessPiece::IsSelected() const
 {
     return m_Selected;
+}
+
+void ChessPiece::SetMoved() {
+    m_Moved = true;
+}
+
+bool ChessPiece::IsMoved() {
+    return m_Moved;
 }

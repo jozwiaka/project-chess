@@ -35,11 +35,14 @@ public:
     Color GetColor() const;
     void SetSelected(bool selected);
     bool IsSelected() const;
+    bool IsMoved();
+    void SetMoved();
 
 private:
     PieceType m_PieceType;
     Color m_Color;
     bool m_Selected;
+    bool m_Moved;
 
 signals:
 };

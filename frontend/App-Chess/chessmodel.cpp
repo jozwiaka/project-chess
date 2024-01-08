@@ -103,7 +103,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
     ClearStatuses();
 
-    m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
+    // m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
     if (foundSquare->GetChessPiece())
     {
@@ -145,21 +145,31 @@ void ChessModel::SetKnightValidMoves() {}
 void ChessModel::SetBishopValidMoves() {}
 void ChessModel::SetQueenValidMoves() {}
 void ChessModel::SetKingValidMoves() {}
-void ChessModel::SetPawnValidMoves() {}
+void ChessModel::SetPawnValidMoves()
+{
+    for (int x = 0; x < 8; ++x)
+    {
+        for (int y = 0; y < 8; ++y)
+        {
+
+        }
+    }
+}
 
 ChessModel::~ChessModel()
 {
-    for (int x = 0;x<8;++x)
+    for (auto &row : m_Chessboard)
     {
-        for (int y = 0; y<8;++y)
+        for (auto *square : row)
         {
-            ChessSquare* square = m_Chessboard[x][y];
-            if(square)
+            if (square)
             {
                 if (square->GetChessPiece())
                 {
                     delete square->GetChessPiece();
+                    square->SetChessPiece(nullptr);
                 }
+
                 delete square;
             }
         }
@@ -172,5 +182,6 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     {
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
         toSquare->SetChessPiece(m_ActiveSquare->GetChessPiece());
+        m_ActiveSquare->GetChessPiece()->SetMoved();
     }
 }
