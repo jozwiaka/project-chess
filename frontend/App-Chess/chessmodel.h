@@ -50,6 +50,9 @@ private:
 
     bool CheckAndSet(const ChessSquare::Position &position, bool setSquaresBlockedForKing);
 
+    bool ValidMovesUnderCheck();
+    QVector<QVector<ChessSquare *>> DeepCopyChessboard();
+
 private:
     QVector<QVector<ChessSquare *>> m_Chessboard;
     Color m_CurrentTurn;

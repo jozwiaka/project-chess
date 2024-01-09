@@ -1,9 +1,11 @@
 #include "chessmodel.h"
 #include <QDebug>
+#include <QRandomGenerator>
 
 ChessModel::ChessModel(QObject *parent)
     : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false)
 {
+    QRandomGenerator::global()->bounded(Color::White, Color::Black+1);
 }
 
 ChessModel::~ChessModel()
@@ -121,7 +123,7 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
         }
     }
     m_Check = false;
-    m_CheckMate=false;
+    m_CheckMate = false;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
@@ -643,3 +645,5 @@ bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool setSqua
 
     return false;
 }
+
+bool ChessModel::ValidMovesUnderCheck() {}

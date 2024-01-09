@@ -20,7 +20,9 @@ class ChessView : public QMainWindow
 
 public:
     ChessView(QWidget *parent = nullptr);
-    void CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard);
+    void CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard, bool reversed = false);
+
+    void CreateMenuGraphics();
 
     void OnSquareClicked(const ChessSquare::Position& position);
 
@@ -34,6 +36,7 @@ signals:
 private:
     Ui::ChessView* m_Ui;
     QGridLayout* m_ChessboardLayout;
+    QGridLayout* m_MenuLayout;
 
 };
 #endif // CHESSVIEW_H

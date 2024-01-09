@@ -11,9 +11,15 @@ ChessView::~ChessView()
 {
     delete m_Ui;
     delete m_ChessboardLayout;
+    delete m_MenuLayout;
 }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard)
+// void ChessView::CreateMenuGraphics(QVector<QVector<ChessSquare *>> chessboard)
+// {
+
+// }
+
+void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard, bool reversed)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
@@ -24,7 +30,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col], 8 - 1 - row, col);
+            m_ChessboardLayout->addWidget(chessboard[row][col], reversed?row:8 - 1 - row, reversed?8-1-col:col);
             connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
