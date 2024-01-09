@@ -6,6 +6,21 @@ ChessModel::ChessModel(QObject *parent)
 {
 }
 
+ChessModel::~ChessModel()
+{
+    for (auto &row : m_Chessboard)
+    {
+        for (auto *square : row)
+        {
+            if (square)
+            {
+                square->RemoveChessPiece();
+                delete square;
+            }
+        }
+    }
+}
+
 void ChessModel::InitializeChessboard()
 {
     bool dark = false;
@@ -105,6 +120,8 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
             square->SetBlockedForKing(false);
         }
     }
+    m_Check = false;
+    m_CheckMate=false;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
@@ -479,21 +496,6 @@ ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::Position &positi
         return m_Chessboard[position.x][position.y];
 
     return nullptr;
-}
-
-ChessModel::~ChessModel()
-{
-    for (auto &row : m_Chessboard)
-    {
-        for (auto *square : row)
-        {
-            if (square)
-            {
-                square->RemoveChessPiece();
-                delete square;
-            }
-        }
-    }
 }
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
