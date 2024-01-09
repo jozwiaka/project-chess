@@ -1,8 +1,8 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(QWidget *parent)
-    : QMainWindow(parent), m_Ui(new Ui::ChessView())
+ChessView::ChessView(bool* computerTurn, QWidget *parent)
+    : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
 {
     m_Ui->setupUi(this);
 }
@@ -19,7 +19,7 @@ ChessView::~ChessView()
 
 // }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard, bool reversed)
+void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
@@ -30,7 +30,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col], reversed?row:8 - 1 - row, reversed?8-1-col:col);
+            m_ChessboardLayout->addWidget(chessboard[row][col], *m_ComputerTurn?row:8 - 1 - row, *m_ComputerTurn?8-1-col:col);
             connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
@@ -39,7 +39,10 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
     // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
-    emit SquareClicked(position);
+    if(!*m_ComputerTurn)
+    {
+        emit SquareClicked(position);
+    }
 }
 
 void ChessView::UpdateChessboardGraphics()

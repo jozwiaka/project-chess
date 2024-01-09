@@ -9,10 +9,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     ChessModel model;
-    ChessView view;
+    ChessView view{model.ComputerTurn};
     ChessController controller(&model, &view);
-
-    view.show();
 
     return a.exec();
 }

@@ -3,9 +3,8 @@
 #include <QRandomGenerator>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(QRandomGenerator::global()->bounded(0,2))
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(QRandomGenerator::global()->bounded(0, 2)))
 {
-
 }
 
 ChessModel::~ChessModel()
@@ -21,6 +20,7 @@ ChessModel::~ChessModel()
             }
         }
     }
+    delete ComputerTurn;
 }
 
 void ChessModel::InitializeChessboard()
@@ -542,7 +542,6 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         }
 
         toSquare->RemoveChessPiece();
-
         toSquare->SetChessPiece(pieceToMove);
         m_ActiveSquare->SetChessPiece(nullptr);
 
@@ -562,7 +561,10 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         CheckValidKingMovesAndCheck();
 
+        // ValidMovesUnderCheck();
+
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+        *ComputerTurn = !*ComputerTurn;
     }
 }
 
@@ -646,4 +648,40 @@ bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool blockSq
     return false;
 }
 
-bool ChessModel::ValidMovesUnderCheck() {}
+bool ChessModel::ValidMovesUnderCheck()
+{
+    for (auto &row : m_Chessboard)
+    {
+        for (auto *square : row)
+        {
+            ChessPiece *piece = square->GetChessPiece();
+            if (piece)
+            {
+                if (piece->GetColor() == m_CurrentTurn)
+                {
+                    switch (piece->GetPieceType())
+                    {
+                    case ChessPiece::PieceType::Rook:
+                        SetRookValidMoves(square, true);
+                        break;
+                    case ChessPiece::PieceType::Knight:
+                        SetKnightValidMoves(square, true);
+                        break;
+                    case ChessPiece::PieceType::Bishop:
+                        SetBishopValidMoves(square, true);
+                        break;
+                    case ChessPiece::PieceType::Queen:
+                        SetQueenValidMoves(square, true);
+                        break;
+                    case ChessPiece::PieceType::King:
+                        SetKingValidMoves(square, true);
+                        break;
+                    case ChessPiece::PieceType::Pawn:
+                        SetPawnValidMoves(square, true);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -19,8 +19,8 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView(QWidget *parent = nullptr);
-    void CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard, bool reversed = false);
+    ChessView(bool* computerTurn, QWidget *parent = nullptr);
+    void CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard);
 
     void CreateMenuGraphics();
 
@@ -37,6 +37,8 @@ private:
     Ui::ChessView* m_Ui;
     QGridLayout* m_ChessboardLayout;
     QGridLayout* m_MenuLayout;
+
+    bool *m_ComputerTurn;
 
 };
 #endif // CHESSVIEW_H

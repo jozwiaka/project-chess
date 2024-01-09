@@ -54,7 +54,7 @@ private:
     QVector<QVector<ChessSquare *>> DeepCopyChessboard();
 
 public:
-    bool ComputerTurn;
+    bool *ComputerTurn;
 
 private:
     QVector<QVector<ChessSquare *>> m_Chessboard;
