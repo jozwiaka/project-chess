@@ -3,7 +3,7 @@
 #include <QRandomGenerator>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(QRandomGenerator::global()->bounded(0, 2)))
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(false/*QRandomGenerator::global()->bounded(0, 2)*/))
 {
 }
 
@@ -564,7 +564,12 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         // ValidMovesUnderCheck();
 
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+
         *ComputerTurn = !*ComputerTurn;
+        if(*ComputerTurn)
+        {
+            MoveCNNModel();
+        }
     }
 }
 
@@ -684,4 +689,17 @@ bool ChessModel::ValidMovesUnderCheck()
             }
         }
     }
+}
+
+
+void ChessModel::MoveCNNModel() {
+    static QVector<ChessSquare::Position> moves{{4,7},{6,7},{4,6},{6,6}};
+    if(*ComputerTurn)
+    {
+        UpdateModelOnSquareClick(moves.back());
+        moves.pop_back();
+        UpdateModelOnSquareClick(moves.back());
+        moves.pop_back();
+    }
+
 }

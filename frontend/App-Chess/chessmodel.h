@@ -7,6 +7,7 @@
 #include "chesssquare.h"
 #include <array>
 #include <QVector>
+#include <QThread>
 
 class ChessModel : public QObject
 {
@@ -26,6 +27,8 @@ public:
     ~ChessModel();
 
     void MakeMove(ChessSquare *toSquare);
+
+    void MoveCNNModel();
 
 signals:
     void UpdateGraphics();
