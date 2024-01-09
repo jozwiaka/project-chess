@@ -38,6 +38,8 @@ public:
     void SetChessPiece(ChessPiece *piece);
     ChessPiece *GetChessPiece();
 
+    void RemoveChessPiece();
+
     void SetHighlightBackgroundColor();
     void SetNormalBackgroundColor();
 

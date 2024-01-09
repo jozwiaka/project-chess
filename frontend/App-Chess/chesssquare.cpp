@@ -56,6 +56,15 @@ ChessPiece *ChessSquare::GetChessPiece()
     return m_ChessPiece;
 }
 
+void ChessSquare::RemoveChessPiece()
+{
+    if(m_ChessPiece)
+    {
+        delete m_ChessPiece;
+        m_ChessPiece = nullptr;
+    }
+}
+
 void ChessSquare::SetStatus(Status status)
 {
     m_Status = status;

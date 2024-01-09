@@ -489,12 +489,7 @@ ChessModel::~ChessModel()
         {
             if (square)
             {
-                if (square->GetChessPiece())
-                {
-                    delete square->GetChessPiece();
-                    square->SetChessPiece(nullptr);
-                }
-
+                square->RemoveChessPiece();
                 delete square;
             }
         }
@@ -537,14 +532,12 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             {
                 if (piece->IsEnPassant())
                 {
-                    delete square->GetChessPiece();
-                    square->SetChessPiece(nullptr);
+                    square->RemoveChessPiece();
                 }
             }
         }
 
-        if (toSquare->GetChessPiece())
-            delete toSquare->GetChessPiece();
+        toSquare->RemoveChessPiece();
 
         toSquare->SetChessPiece(pieceToMove);
         m_ActiveSquare->SetChessPiece(nullptr);
