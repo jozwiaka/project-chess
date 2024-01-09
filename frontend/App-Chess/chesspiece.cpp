@@ -7,22 +7,22 @@ ChessPiece::ChessPiece(PieceType type, Color color, QWidget *parent)
     switch (m_PieceType)
     {
     case ChessPiece::Rook:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_rook_1x_ns.png" : "../App-Chess/resources/b_rook_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_rook_1x_ns.png" : "../../resources/b_rook_1x_ns.png";
         break;
     case ChessPiece::Knight:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_knight_1x_ns.png" : "../App-Chess/resources/b_knight_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_knight_1x_ns.png" : "../../resources/b_knight_1x_ns.png";
         break;
     case ChessPiece::Bishop:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_bishop_1x_ns.png" : "../App-Chess/resources/b_bishop_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_bishop_1x_ns.png" : "../../resources/b_bishop_1x_ns.png";
         break;
     case ChessPiece::Queen:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_queen_1x_ns.png" : "../App-Chess/resources/b_queen_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_queen_1x_ns.png" : "../../resources/b_queen_1x_ns.png";
         break;
     case ChessPiece::King:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_king_1x_ns.png" : "../App-Chess/resources/b_king_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_king_1x_ns.png" : "../../resources/b_king_1x_ns.png";
         break;
     case ChessPiece::Pawn:
-        pieceImagePath = (m_Color == Color::White) ? "../App-Chess/resources/w_pawn_1x_ns.png" : "../App-Chess/resources/b_pawn_1x_ns.png";
+        pieceImagePath = (m_Color == Color::White) ? "../../resources/w_pawn_1x_ns.png" : "../../resources/b_pawn_1x_ns.png";
         break;
     }
     setFixedSize(80,80);
