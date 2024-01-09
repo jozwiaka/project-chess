@@ -58,7 +58,7 @@ ChessPiece *ChessSquare::GetChessPiece()
 
 void ChessSquare::RemoveChessPiece()
 {
-    if(m_ChessPiece)
+    if (m_ChessPiece)
     {
         delete m_ChessPiece;
         m_ChessPiece = nullptr;
@@ -80,12 +80,12 @@ ChessSquare::Position ChessSquare::GetPosition() const
     return m_Position;
 }
 
-bool ChessSquare::IsBlockedForKing()
+bool ChessSquare::IsBlocked()
 {
     return m_Blocked;
 }
 
-void ChessSquare::SetBlockedForKing(bool blockedForKing)
+void ChessSquare::SetBlocked(bool blocked)
 {
-    m_Blocked = blockedForKing;
+    m_Blocked = blocked;
 }

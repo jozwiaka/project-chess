@@ -50,8 +50,8 @@ public:
     void SetStatus(Status status);
     Status GetStatus() const;
 
-    bool IsBlockedForKing();
-    void SetBlockedForKing(bool blockedForKing);
+    bool IsBlocked();
+    void SetBlocked(bool blocked);
 
     Position GetPosition() const;
 signals:
