@@ -4,12 +4,16 @@
 #include <QObject>
 #include "chessmodel.h"
 #include "chessview.h"
+#include "cnnmodel.h"
 
 class ChessController : public QObject
 {
     Q_OBJECT
 public:
     explicit ChessController(ChessModel* model, ChessView* view, QObject *parent = nullptr);
+
+private:
+    void InitializeChessGame();
 
 signals:
 
