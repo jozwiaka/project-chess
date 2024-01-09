@@ -16,4 +16,6 @@ void ChessController::InitializeChessGame()
     connect(m_Model, &ChessModel::UpdateGraphics, m_View, &ChessView::UpdateChessboardGraphics);
 
     m_View->show();
+
+    m_Model->MoveCNNModel();
 }

@@ -1,7 +1,7 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(bool* computerTurn, QWidget *parent)
+ChessView::ChessView(bool *computerTurn, QWidget *parent)
     : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
 {
     m_Ui->setupUi(this);
@@ -30,7 +30,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(chessboard[row][col], *m_ComputerTurn?row:8 - 1 - row, *m_ComputerTurn?8-1-col:col);
+            m_ChessboardLayout->addWidget(chessboard[row][col], *m_ComputerTurn ? row : 8 - 1 - row, *m_ComputerTurn ? 8 - 1 - col : col);
             connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
@@ -38,9 +38,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
 
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
-    // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
-
-    // if(!*m_ComputerTurn)
+    // if (!*m_ComputerTurn) //TODO
     {
         emit SquareClicked(position);
     }
@@ -73,8 +71,8 @@ void ChessView::UpdateChessboardGraphics()
                 break;
             }
 
-            ChessPiece* piece = square->GetChessPiece();
-            if(piece)
+            ChessPiece *piece = square->GetChessPiece();
+            if (piece)
             {
                 piece->show();
             }

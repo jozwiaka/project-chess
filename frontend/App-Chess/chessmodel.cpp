@@ -1,9 +1,11 @@
 #include "chessmodel.h"
 #include <QDebug>
 #include <QRandomGenerator>
+#include <thread>
+#include <chrono>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(false/*QRandomGenerator::global()->bounded(0, 2)*/))
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/))
 {
 }
 
@@ -143,8 +145,6 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
     }
 
     ClearActiveAndValidMoveStatuses();
-
-    // m_Chessboard[3][3]->SetStatus(ChessSquare::Status::ValidCapture);
 
     if (isGoingToMakeMove)
     {
@@ -566,10 +566,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
 
         *ComputerTurn = !*ComputerTurn;
-        if(*ComputerTurn)
-        {
-            MoveCNNModel();
-        }
+
+        // MoveCNNModel(); //TODO
     }
 }
 
@@ -691,15 +689,16 @@ bool ChessModel::ValidMovesUnderCheck()
     }
 }
 
+void ChessModel::MoveCNNModel()
+{
+    // static QVector<ChessSquare::Position> moves{{4,7},{6,7},{4,6},{6,6}};
+    static QVector<ChessSquare::Position> moves{{3, 2}, {1, 2}, {3, 1}, {1, 1}};
 
-void ChessModel::MoveCNNModel() {
-    static QVector<ChessSquare::Position> moves{{4,7},{6,7},{4,6},{6,6}};
-    if(*ComputerTurn)
+    if (*ComputerTurn)
     {
         UpdateModelOnSquareClick(moves.back());
         moves.pop_back();
         UpdateModelOnSquareClick(moves.back());
         moves.pop_back();
     }
-
 }
