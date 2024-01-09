@@ -47,7 +47,6 @@ void ChessSquare::SetChessPiece(ChessPiece *piece)
     if (m_ChessPiece)
     {
         m_ChessPiece->setParent(this);
-        m_ChessPiece->show();
     }
 }
 

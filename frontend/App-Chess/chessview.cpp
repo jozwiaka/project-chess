@@ -39,7 +39,8 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
 void ChessView::OnSquareClicked(const ChessSquare::Position &position)
 {
     // ChessSquare *clickedSquare = qobject_cast<ChessSquare *>(sender());
-    if(!*m_ComputerTurn)
+
+    // if(!*m_ComputerTurn)
     {
         emit SquareClicked(position);
     }
@@ -70,6 +71,12 @@ void ChessView::UpdateChessboardGraphics()
                 square->SetCheckBackgroundColor();
             default:
                 break;
+            }
+
+            ChessPiece* piece = square->GetChessPiece();
+            if(piece)
+            {
+                piece->show();
             }
         }
     }
