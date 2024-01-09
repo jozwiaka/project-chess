@@ -29,7 +29,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         chesssquare.h chesssquare.cpp
         cnnmodel.h cnnmodel.cpp
         chesspiece.h chesspiece.cpp
-        gamecontroller.h gamecontroller.cpp
+
 
     )
 # Define target properties for Android with Qt 6 as:
