@@ -3,7 +3,7 @@
 #include <QRandomGenerator>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerFirst(QRandomGenerator::global()->bounded(0,2))
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(QRandomGenerator::global()->bounded(0,2))
 {
 
 }
