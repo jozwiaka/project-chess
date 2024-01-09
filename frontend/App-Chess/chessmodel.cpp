@@ -3,9 +3,9 @@
 #include <QRandomGenerator>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false)
+    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerFirst(QRandomGenerator::global()->bounded(0,2))
 {
-    QRandomGenerator::global()->bounded(Color::White, Color::Black+1);
+
 }
 
 ChessModel::~ChessModel()
@@ -51,27 +51,27 @@ void ChessModel::InitializeChessboard()
                     {
                     case 'A':
                     case 'H':
-                        pieceType = ChessPiece::Rook;
+                        pieceType = ChessPiece::PieceType::Rook;
                         break;
                     case 'B':
                     case 'G':
-                        pieceType = ChessPiece::Knight;
+                        pieceType = ChessPiece::PieceType::Knight;
                         break;
                     case 'C':
                     case 'F':
-                        pieceType = ChessPiece::Bishop;
+                        pieceType = ChessPiece::PieceType::Bishop;
                         break;
                     case 'D':
-                        pieceType = ChessPiece::Queen;
+                        pieceType = ChessPiece::PieceType::Queen;
                         break;
                     case 'E':
-                        pieceType = ChessPiece::King;
+                        pieceType = ChessPiece::PieceType::King;
                         break;
                     }
                     break;
                 case '2':
                 case '7':
-                    pieceType = ChessPiece::Pawn;
+                    pieceType = ChessPiece::PieceType::Pawn;
                     break;
                 default:
                     continue;
@@ -162,22 +162,22 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 
             switch (piece->GetPieceType())
             {
-            case ChessPiece::Rook:
+            case ChessPiece::PieceType::Rook:
                 SetRookValidMoves(foundSquare);
                 break;
-            case ChessPiece::Knight:
+            case ChessPiece::PieceType::Knight:
                 SetKnightValidMoves(foundSquare);
                 break;
-            case ChessPiece::Bishop:
+            case ChessPiece::PieceType::Bishop:
                 SetBishopValidMoves(foundSquare);
                 break;
-            case ChessPiece::Queen:
+            case ChessPiece::PieceType::Queen:
                 SetQueenValidMoves(foundSquare);
                 break;
-            case ChessPiece::King:
+            case ChessPiece::PieceType::King:
                 SetKingValidMoves(foundSquare);
                 break;
-            case ChessPiece::Pawn:
+            case ChessPiece::PieceType::Pawn:
                 SetPawnValidMoves(foundSquare);
                 break;
             }
@@ -579,22 +579,22 @@ void ChessModel::CheckValidKingMovesAndCheck()
                 {
                     switch (piece->GetPieceType())
                     {
-                    case ChessPiece::Rook:
+                    case ChessPiece::PieceType::Rook:
                         SetRookValidMoves(square, true);
                         break;
-                    case ChessPiece::Knight:
+                    case ChessPiece::PieceType::Knight:
                         SetKnightValidMoves(square, true);
                         break;
-                    case ChessPiece::Bishop:
+                    case ChessPiece::PieceType::Bishop:
                         SetBishopValidMoves(square, true);
                         break;
-                    case ChessPiece::Queen:
+                    case ChessPiece::PieceType::Queen:
                         SetQueenValidMoves(square, true);
                         break;
-                    case ChessPiece::King:
+                    case ChessPiece::PieceType::King:
                         SetKingValidMoves(square, true);
                         break;
-                    case ChessPiece::Pawn:
+                    case ChessPiece::PieceType::Pawn:
                         SetPawnValidMoves(square, true);
                         break;
                     }

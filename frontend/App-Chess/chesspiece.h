@@ -10,7 +10,7 @@ class ChessPiece : public QLabel
     Q_OBJECT
 
 public:
-    enum PieceType {
+    enum class PieceType {
         Pawn,
         Rook,
         Knight,
@@ -19,9 +19,9 @@ public:
         King
     };
 
-    enum Color {
-        White,
-        Black
+    enum class Color {
+        White = 0,
+        Black = 1
     };
 
 
