@@ -67,7 +67,7 @@ private:
     QColor m_NormalColor;
     QColor m_HighlightedColor;
     ChessPiece *m_ChessPiece;
-    bool m_BlockedForKing;
+    bool m_Blocked;
 };
 
 #endif // CHESSSQUARE_H

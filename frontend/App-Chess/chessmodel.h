@@ -34,12 +34,12 @@ private:
     void ClearActiveAndValidMoveStatuses();
     void ClearPreviousMoveStatusesAndEnPassants();
 
-    void SetRookValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
-    void SetKnightValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
-    void SetBishopValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
-    void SetQueenValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
-    void SetKingValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
-    void SetPawnValidMoves(ChessSquare *square, bool setSquaresBlockedForKing = false);
+    void SetRookValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
+    void SetKnightValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
+    void SetBishopValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
+    void SetQueenValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
+    void SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
+    void SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
 
     bool CheckIfFreeSquare(ChessSquare *square);
     bool CheckIfEnemy(ChessSquare *square);
@@ -48,7 +48,7 @@ private:
 
     ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
 
-    bool CheckAndSet(const ChessSquare::Position &position, bool setSquaresBlockedForKing);
+    bool CheckAndSet(const ChessSquare::Position &position, bool blockSquaresInstead);
 
     bool ValidMovesUnderCheck();
     QVector<QVector<ChessSquare *>> DeepCopyChessboard();
@@ -62,7 +62,6 @@ private:
     ChessSquare *m_ActiveSquare;
     bool m_Check;
     bool m_CheckMate;
-
 };
 
 #endif // CHESSMODEL_H

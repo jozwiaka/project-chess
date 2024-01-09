@@ -3,7 +3,7 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
-    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80), m_ChessPiece(nullptr), m_BlockedForKing(false)
+    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80), m_ChessPiece(nullptr), m_Blocked(false)
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
@@ -82,10 +82,10 @@ ChessSquare::Position ChessSquare::GetPosition() const
 
 bool ChessSquare::IsBlockedForKing()
 {
-    return m_BlockedForKing;
+    return m_Blocked;
 }
 
 void ChessSquare::SetBlockedForKing(bool blockedForKing)
 {
-    m_BlockedForKing = blockedForKing;
+    m_Blocked = blockedForKing;
 }
