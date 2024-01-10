@@ -35,9 +35,9 @@ signals:
 
 public:
     PieceType Type;
-    PieceColor m_Color;
-    bool m_Moved;
-    bool m_EnPassant;
+    PieceColor Color;
+    bool Moved;
+    bool EnPassant;
 };
 
 #endif // CHESSGAME_H
