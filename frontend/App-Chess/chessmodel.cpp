@@ -11,7 +11,6 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
       PromotionProcedure(new bool(false))
 {
-    // MoveCNNModel(); //TODO
 }
 
 ChessModel::~ChessModel()
@@ -521,7 +520,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         *ComputerTurn = !*ComputerTurn;
 
-        // MoveCNNModel(); //TODO
+        // MoveCNNModel(); // TODO
     }
 }
 

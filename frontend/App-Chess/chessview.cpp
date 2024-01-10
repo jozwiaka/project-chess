@@ -34,7 +34,7 @@ void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board
 
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 {
-    // if (!*m_ComputerTurn) //TODO
+    // if (!*m_ComputerTurn) // TODO
     {
         emit SquareClicked(position);
     }
