@@ -35,7 +35,7 @@ signals:
 
 private:
     Ui::ChessView* m_Ui;
-    QGridLayout* m_ChessboardLayout;
+    QGridLayout* ChessboardLayout;
     QGridLayout* m_MenuLayout;
 
     bool *m_ComputerTurn;

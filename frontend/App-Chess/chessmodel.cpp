@@ -16,7 +16,7 @@ ChessModel::ChessModel(QObject *parent)
 
 ChessModel::~ChessModel()
 {
-    for (auto &row : m_Chessboard)
+    for (auto &row : Chessboard)
     {
         for (auto *square : row)
         {
@@ -34,7 +34,7 @@ ChessModel::~ChessModel()
 void ChessModel::InitializeChessboard()
 {
     bool dark = false;
-    m_Chessboard.reserve(8);
+    Chessboard.reserve(8);
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
@@ -90,13 +90,8 @@ void ChessModel::InitializeChessboard()
             }
             rowVector.push_back(square);
         }
-        m_Chessboard.push_back(rowVector);
+        Chessboard.push_back(rowVector);
     }
-}
-
-QVector<QVector<ChessSquare *>> ChessModel::GetChessboard()
-{
-    return m_Chessboard;
 }
 
 void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType)
@@ -118,7 +113,7 @@ void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::Pie
 
 void ChessModel::ClearActiveAndValidMoveStatuses()
 {
-    for (auto &row : m_Chessboard)
+    for (auto &row : Chessboard)
     {
         for (auto &square : row)
         {
@@ -132,7 +127,7 @@ void ChessModel::ClearActiveAndValidMoveStatuses()
 
 void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
 {
-    for (auto &row : m_Chessboard)
+    for (auto &row : Chessboard)
     {
         for (auto &square : row)
         {
@@ -414,7 +409,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         if (CheckIfEnemy(square))
         {
             if (square->GetChessPiece()->IsEnPassant())
-                m_Chessboard[X + i][y]->SetStatus(ChessSquare::Status::ValidCapture);
+                Chessboard[X + i][y]->SetStatus(ChessSquare::Status::ValidCapture);
         }
     }
 }
@@ -457,7 +452,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         }
     }
 
-    ChessPiece *rook1 = m_Chessboard[square->GetPosition().x][0]->GetChessPiece();
+    ChessPiece *rook1 = Chessboard[square->GetPosition().x][0]->GetChessPiece();
     if (rook1)
     {
         if (
@@ -472,12 +467,12 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                m_Chessboard[square->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+                Chessboard[square->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
             }
         }
     }
 
-    ChessPiece *rook2 = m_Chessboard[square->GetPosition().x][7]->GetChessPiece();
+    ChessPiece *rook2 = Chessboard[square->GetPosition().x][7]->GetChessPiece();
     if (rook2)
     {
         if (
@@ -490,7 +485,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                m_Chessboard[square->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+                Chessboard[square->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
             }
         }
     }
@@ -526,7 +521,7 @@ bool ChessModel::CheckIfFreeSquare(ChessSquare *square)
 ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::Position &position)
 {
     if (position.x >= 0 && position.x <= 7 && position.y >= 0 && position.y <= 7)
-        return m_Chessboard[position.x][position.y];
+        return Chessboard[position.x][position.y];
 
     return nullptr;
 }
@@ -606,7 +601,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
 void ChessModel::CheckValidKingMovesAndCheck()
 {
-    for (auto &row : m_Chessboard)
+    for (auto &row : Chessboard)
     {
         for (auto *square : row)
         {
@@ -686,7 +681,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::Position &position, bool blockSq
 
 bool ChessModel::ValidMovesUnderCheck()
 {
-    for (auto &row : m_Chessboard)
+    for (auto &row : Chessboard)
     {
         for (auto *square : row)
         {

@@ -20,8 +20,6 @@ public:
 
     void InitializeChessboard();
 
-    QVector<QVector<ChessSquare *>> GetChessboard();
-
     void UpdateModelOnSquareClick(const ChessSquare::Position &position);
 
     ~ChessModel();
@@ -56,14 +54,14 @@ private:
     bool ValidMovesUnderCheck();
     QVector<QVector<ChessSquare *>> DeepCopyChessboard();
 
-    void PromotePawnToTheType(ChessSquare* square, const ChessPiece::PieceType& pieceType);
+    void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType);
 
 public:
     bool *ComputerTurn;
     bool *PromotionProcedure;
+    QVector<QVector<ChessSquare *>> Chessboard;
 
 private:
-    QVector<QVector<ChessSquare *>> m_Chessboard;
     Color m_CurrentTurn;
     ChessSquare *m_ActiveSquare;
     bool m_Check;

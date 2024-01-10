@@ -10,7 +10,7 @@ ChessController::ChessController(ChessModel* model, ChessView* view, QObject *pa
 void ChessController::InitializeChessGame()
 {
     m_Model->InitializeChessboard();
-    m_View->CreateChessboardGraphics(m_Model->GetChessboard());
+    m_View->CreateChessboardGraphics(m_Model->Chessboard);
 
     connect(m_View, &ChessView::SquareClicked, m_Model, &ChessModel::UpdateModelOnSquareClick);
     connect(m_Model, &ChessModel::UpdateGraphics, m_View, &ChessView::UpdateChessboardGraphics);
