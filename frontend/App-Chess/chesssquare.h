@@ -28,7 +28,7 @@ public:
         Check,
     };
 
-    enum class SquareStatusTmp
+    enum class SquareStatusTemporary
     {
         Normal,
         Active,
@@ -40,7 +40,7 @@ public:
 public:
     SquarePosition Position;
     SquareStatus Status;
-    SquareStatusTmp StatusTmp;
+    SquareStatusTemporary StatusTemporary;
     bool Blocked;
 
 public:

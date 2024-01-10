@@ -63,13 +63,13 @@ void ChessView::UpdateChessboardGraphics()
                 break;
             }
 
-            switch (square->StatusTmp)
+            switch (square->StatusTemporary)
             {
-            case ChessSquare::SquareStatusTmp::Active:
+            case ChessSquare::SquareStatusTemporary::Active:
                 square->SetHighlightBackgroundColor();
                 break;
-            case ChessSquare::SquareStatusTmp::ValidMove:
-            case ChessSquare::SquareStatusTmp::ValidCapture:
+            case ChessSquare::SquareStatusTemporary::ValidMove:
+            case ChessSquare::SquareStatusTemporary::ValidCapture:
                 square->SetValidBackgroundColor();
                 break;
             default:

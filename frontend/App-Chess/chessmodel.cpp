@@ -12,7 +12,7 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       ComputerStarts(*ComputerTurn),
       PromotionProcedure(new bool(false))
 {
-    MoveCNNModel();
+    // MoveCNNModel(); //TODO
 }
 
 ChessModel::~ChessModel()
@@ -55,9 +55,9 @@ void ChessModel::ClearTemporaryStatuses()
     {
         for (auto &square : row)
         {
-            if (square->StatusTmp == ChessSquare::SquareStatusTmp::Active || square->StatusTmp == ChessSquare::SquareStatusTmp::ValidCapture || square->StatusTmp == ChessSquare::SquareStatusTmp::ValidMove)
+            if (square->StatusTemporary == ChessSquare::SquareStatusTemporary::Active || square->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture || square->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove)
             {
-                square->StatusTmp = ChessSquare::SquareStatusTmp::Normal;
+                square->StatusTemporary = ChessSquare::SquareStatusTemporary::Normal;
             }
         }
     }
@@ -95,7 +95,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
 
     bool isGoingToMakeMove = false;
 
-    if (m_ActiveSquare && (foundSquare->StatusTmp == ChessSquare::SquareStatusTmp::ValidMove || foundSquare->StatusTmp == ChessSquare::SquareStatusTmp::ValidCapture))
+    if (m_ActiveSquare && (foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
     {
         isGoingToMakeMove = true;
     }
@@ -113,7 +113,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
         ChessPiece *piece = foundSquare->GetPiece();
         if (piece->Color == m_CurrentTurn)
         {
-            foundSquare->StatusTmp = ChessSquare::SquareStatusTmp::Active;
+            foundSquare->StatusTemporary = ChessSquare::SquareStatusTemporary::Active;
             m_ActiveSquare = foundSquare;
 
             switch (piece->Type)
@@ -305,7 +305,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                square->StatusTmp = ChessSquare::SquareStatusTmp::ValidMove;
+                square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
         else
@@ -336,7 +336,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
             }
             else
             {
-                square->StatusTmp = ChessSquare::SquareStatusTmp::ValidCapture;
+                square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
             }
         }
     }
@@ -347,7 +347,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         if (CheckIfEnemy(square))
         {
             if (square->GetPiece()->EnPassant)
-                Chessboard[X + i][y]->StatusTmp = ChessSquare::SquareStatusTmp::ValidCapture;
+                Chessboard[X + i][y]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
         }
     }
 }
@@ -375,14 +375,14 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
                         }
                         else
                         {
-                            square->StatusTmp = ChessSquare::SquareStatusTmp::ValidMove;
+                            square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
                         }
                     }
                     else if (CheckIfEnemy(square))
                     {
                         if (!blockSquaresInstead)
                         {
-                            square->StatusTmp = ChessSquare::SquareStatusTmp::ValidCapture;
+                            square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
                         }
                     }
                 }
@@ -405,7 +405,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                Chessboard[square->Position.x][2]->StatusTmp = ChessSquare::SquareStatusTmp::ValidMove;
+                Chessboard[square->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
     }
@@ -423,7 +423,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                Chessboard[square->Position.x][6]->StatusTmp = ChessSquare::SquareStatusTmp::ValidMove;
+                Chessboard[square->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
     }
@@ -586,7 +586,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
         }
         else
         {
-            square->StatusTmp = ChessSquare::SquareStatusTmp::ValidMove;
+            square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
         }
     }
     else if (CheckIfEnemy(square))
@@ -601,7 +601,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
         }
         else
         {
-            square->StatusTmp = ChessSquare::SquareStatusTmp::ValidCapture;
+            square->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
         }
         return true;
     }

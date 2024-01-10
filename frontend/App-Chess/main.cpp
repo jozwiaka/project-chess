@@ -12,5 +12,6 @@ int main(int argc, char *argv[])
     ChessView view{board.Board, model.ComputerStarts, model.ComputerTurn, model.PromotionProcedure};
     ChessController controller(&model, &view);
     view.show();
+    model.MoveCNNModel();
     return a.exec();
 }
