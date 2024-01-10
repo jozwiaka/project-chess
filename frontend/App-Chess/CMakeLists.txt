@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         cnnmodel.h cnnmodel.cpp
         chesspiece.h chesspiece.cpp
         chessboard.h chessboard.cpp
+        chessgame.h chessgame.cpp
 
 
     )
