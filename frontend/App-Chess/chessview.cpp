@@ -36,7 +36,7 @@ void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessbo
     }
 }
 
-void ChessView::OnSquareClicked(const ChessSquare::Position &position)
+void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 {
     // if (!*m_ComputerTurn) //TODO
     {
@@ -52,26 +52,26 @@ void ChessView::UpdateChessboardGraphics()
         {
             ChessSquare *square = qobject_cast<ChessSquare *>(ChessboardLayout->itemAtPosition(row, col)->widget());
 
-            switch (square->GetStatus())
+            switch (square->Status)
             {
-            case ChessSquare::Status::Normal:
+            case ChessSquare::SquareStatus::Normal:
                 square->SetNormalBackgroundColor();
                 break;
-            case ChessSquare::Status::Active:
-            case ChessSquare::Status::PreviousMove:
+            case ChessSquare::SquareStatus::Active:
+            case ChessSquare::SquareStatus::PreviousMove:
                 square->SetHighlightBackgroundColor();
                 break;
-            case ChessSquare::Status::ValidMove:
-            case ChessSquare::Status::ValidCapture:
+            case ChessSquare::SquareStatus::ValidMove:
+            case ChessSquare::SquareStatus::ValidCapture:
                 square->SetValidBackgroundColor();
                 break;
-            case ChessSquare::Status::Check:
+            case ChessSquare::SquareStatus::Check:
                 square->SetCheckBackgroundColor();
             default:
                 break;
             }
 
-            ChessPiece *piece = square->GetChessPiece();
+            ChessPiece *piece = square->GetPiece();
             if (piece)
             {
                 piece->show();

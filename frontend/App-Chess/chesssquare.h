@@ -10,17 +10,17 @@ class ChessSquare : public QLabel
     Q_OBJECT
 
 public:
-    struct Position
+    struct SquarePosition
     {
         int x, y;
 
-        bool operator==(const Position &other)
+        bool operator==(const SquarePosition &other)
         {
             return this->x == other.x && this->y == other.y;
         }
     };
 
-    enum class Status
+    enum class SquareStatus
     {
         Normal,
         Active,
@@ -33,10 +33,10 @@ public:
 public:
     ChessSquare() = default;
 
-    ChessSquare(bool dark, const Position &position, QWidget *parent = nullptr);
+    ChessSquare(bool dark, const SquarePosition &position, QWidget *parent = nullptr);
 
-    void SetChessPiece(ChessPiece *piece);
-    ChessPiece *GetChessPiece();
+    void SetPiece(ChessPiece *piece);
+    ChessPiece *GetPiece();
 
     void RemoveChessPiece();
 
@@ -47,27 +47,22 @@ public:
 
     void SetValidBackgroundColor();
 
-    void SetStatus(Status status);
-    Status GetStatus() const;
-
-    bool IsBlocked();
-    void SetBlocked(bool blocked);
-
-    Position GetPosition() const;
 signals:
-    void Clicked(const Position &position);
+    void Clicked(const SquarePosition &position);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
+public:
+    SquarePosition Position;
+    SquareStatus Status;
+    bool Blocked;
+
 private:
+    ChessPiece *m_Piece;
     size_t m_Size;
-    Position m_Position;
-    Status m_Status;
     QColor m_NormalColor;
     QColor m_HighlightedColor;
-    ChessPiece *m_ChessPiece;
-    bool m_Blocked;
 };
 
 #endif // CHESSSQUARE_H

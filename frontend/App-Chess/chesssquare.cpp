@@ -2,8 +2,8 @@
 #include <QMouseEvent>
 #include <QColor>
 
-ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
-    : QLabel(parent), m_Position(position), m_Status(Status::Normal), m_Size(80), m_ChessPiece(nullptr), m_Blocked(false)
+ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *parent)
+    : QLabel(parent), Position(position), Status(SquareStatus::Normal), m_Size(80), m_Piece(nullptr), Blocked(false)
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
@@ -18,7 +18,7 @@ ChessSquare::ChessSquare(bool dark, const Position &position, QWidget *parent)
 void ChessSquare::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    emit Clicked(m_Position);
+    emit Clicked(Position);
 }
 
 void ChessSquare::SetHighlightBackgroundColor()
@@ -41,50 +41,25 @@ void ChessSquare::SetCheckBackgroundColor()
     setStyleSheet(QString("background-color: red; border: 1px solid black;"));
 }
 
-void ChessSquare::SetChessPiece(ChessPiece *piece)
+void ChessSquare::SetPiece(ChessPiece *piece)
 {
-    m_ChessPiece = piece;
-    if (m_ChessPiece)
+    m_Piece = piece;
+    if (m_Piece)
     {
-        m_ChessPiece->setParent(this);
+        m_Piece->setParent(this);
     }
 }
 
-ChessPiece *ChessSquare::GetChessPiece()
+ChessPiece *ChessSquare::GetPiece()
 {
-    return m_ChessPiece;
+    return m_Piece;
 }
 
 void ChessSquare::RemoveChessPiece()
 {
-    if (m_ChessPiece)
+    if (m_Piece)
     {
-        delete m_ChessPiece;
-        m_ChessPiece = nullptr;
+        delete m_Piece;
+        m_Piece = nullptr;
     }
-}
-
-void ChessSquare::SetStatus(Status status)
-{
-    m_Status = status;
-}
-
-ChessSquare::Status ChessSquare::GetStatus() const
-{
-    return m_Status;
-}
-
-ChessSquare::Position ChessSquare::GetPosition() const
-{
-    return m_Position;
-}
-
-bool ChessSquare::IsBlocked()
-{
-    return m_Blocked;
-}
-
-void ChessSquare::SetBlocked(bool blocked)
-{
-    m_Blocked = blocked;
 }

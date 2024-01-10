@@ -20,7 +20,7 @@ public:
 
     void InitializeChessboard();
 
-    void UpdateModelOnSquareClick(const ChessSquare::Position &position);
+    void UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position);
 
     ~ChessModel();
 
@@ -47,9 +47,9 @@ private:
     bool CheckIfAlly(ChessSquare *square);
     void CheckValidKingMovesAndCheck();
 
-    ChessSquare *GetSquareByPosition(const ChessSquare::Position &position);
+    ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
 
-    bool CheckAndSet(const ChessSquare::Position &position, bool blockSquaresInstead);
+    bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquaresInstead);
 
     bool ValidMovesUnderCheck();
     QVector<QVector<ChessSquare *>> DeepCopyChessboard();

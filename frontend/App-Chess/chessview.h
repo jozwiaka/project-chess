@@ -24,14 +24,14 @@ public:
 
     void CreateMenuGraphics();
 
-    void OnSquareClicked(const ChessSquare::Position& position);
+    void OnSquareClicked(const ChessSquare::SquarePosition& position);
 
     void UpdateChessboardGraphics();
 
     ~ChessView();
 
 signals:
-    void SquareClicked(const ChessSquare::Position& position);
+    void SquareClicked(const ChessSquare::SquarePosition& position);
 
 private:
     Ui::ChessView* m_Ui;
