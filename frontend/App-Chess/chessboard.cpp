@@ -45,7 +45,7 @@ void Chessboard::InitializeChessboard()
             if (row == '1' || row == '2' || row == '7' || row == '8')
             {
                 ChessPiece::PieceColor color = (row == '1' || row == '2') ? ChessPiece::PieceColor::White : ChessPiece::PieceColor::Black;
-                ChessPiece::PieceType pieceType;
+                ChessPiece::PieceType type;
 
                 switch (row)
                 {
@@ -55,33 +55,33 @@ void Chessboard::InitializeChessboard()
                     {
                     case 'A':
                     case 'H':
-                        pieceType = ChessPiece::PieceType::Rook;
+                        type = ChessPiece::PieceType::Rook;
                         break;
                     case 'B':
                     case 'G':
-                        pieceType = ChessPiece::PieceType::Knight;
+                        type = ChessPiece::PieceType::Knight;
                         break;
                     case 'C':
                     case 'F':
-                        pieceType = ChessPiece::PieceType::Bishop;
+                        type = ChessPiece::PieceType::Bishop;
                         break;
                     case 'D':
-                        pieceType = ChessPiece::PieceType::Queen;
+                        type = ChessPiece::PieceType::Queen;
                         break;
                     case 'E':
-                        pieceType = ChessPiece::PieceType::King;
+                        type = ChessPiece::PieceType::King;
                         break;
                     }
                     break;
                 case '2':
                 case '7':
-                    pieceType = ChessPiece::PieceType::Pawn;
+                    type = ChessPiece::PieceType::Pawn;
                     break;
                 default:
                     continue;
                 }
 
-                auto piece = new ChessPiece(pieceType, color, square);
+                auto piece = new ChessPiece(type, color, square);
                 square->SetPiece(piece);
             }
             rowVector.push_back(square);

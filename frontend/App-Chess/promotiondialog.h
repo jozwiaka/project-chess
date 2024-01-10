@@ -2,16 +2,21 @@
 #define PROMOTIONDIALOG_H
 
 #include <QDialog>
-#include <QButtonGroup>
-#include <QRadioButton>
-#include "chesspiece.h" // Assuming ChessPiece::PieceType is used for the promotion choices
+#include <QPushButton>
+#include "chesspiece.h"
+#include "chesssquare.h"
+
+namespace Ui
+{
+    class PromotionDialog;
+}
 
 class PromotionDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit PromotionDialog(QWidget *parent = nullptr);
+    explicit PromotionDialog(const ChessPiece::PieceColor &color, QWidget *parent = nullptr);
     ~PromotionDialog();
 
 signals:
@@ -21,9 +26,7 @@ private slots:
     void OnPromotionButtonClicked();
 
 private:
-    QButtonGroup *m_PromotionButtonGroup;
-
-    ChessPiece::PieceType GetSelectedPiece() const;
+    QList<QPushButton *> m_PromotionButtons;
 };
 
 #endif // PROMOTIONDIALOG_H

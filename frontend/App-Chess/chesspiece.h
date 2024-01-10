@@ -33,9 +33,8 @@ public:
     bool EnPassant;
 
 public:
-    ChessPiece() = default;
-
-    ChessPiece(PieceType type, PieceColor color, QWidget *parent = nullptr);
+    ChessPiece(const PieceType &type, const PieceColor &color, QWidget *parent = nullptr);
+    static QString GetPieceImageByColorAndType(const PieceType &type, const PieceColor &color);
 
 signals:
 };

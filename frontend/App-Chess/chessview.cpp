@@ -32,11 +32,16 @@ void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board
     }
 }
 
-void ChessView::ShowPromotionWindow(const ChessSquare::SquarePosition &position)
+void ChessView::OnPromotionPieceSelected(const ChessPiece::PieceType &type)
 {
-    // m_PromotionDialog = new PromotionDialog(this); // Assuming PromotionDialog takes a QWidget* parent
-    // connect(m_PromotionDialog, &PromotionDialog::PieceSelected, this, &ChessModel::OnPromotionPieceSelected);
-    // m_PromotionDialog->exec(); // Use exec() to make it a modal dialog
+    emit PromotedPieceSelected(type);
+}
+
+void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &color)
+{
+    m_PromotionDialog = new PromotionDialog(color, this);
+    connect(m_PromotionDialog, &PromotionDialog::PieceSelected, this, &ChessView::OnPromotionPieceSelected);
+    m_PromotionDialog->exec();
 }
 
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)

@@ -1,21 +1,19 @@
 #include "promotiondialog.h"
 
-PromotionDialog::PromotionDialog(QWidget *parent)
+PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &color, QWidget *parent)
     : QDialog(parent)
 {
-    m_PromotionButtonGroup = new QButtonGroup(this);
+    QList<ChessPiece::PieceType> promotionChoices = {ChessPiece::PieceType::Queen, ChessPiece::PieceType::Rook, ChessPiece::PieceType::Bishop, ChessPiece::PieceType::Knight};
 
-    // QList<ChessPiece::PieceType> promotionChoices = {ChessPiece::Queen, ChessPiece::Rook, ChessPiece::Bishop, ChessPiece::Knight};
-
-    // for (const auto &pieceType : promotionChoices)
-    // {
-    //     auto radioButton = new QRadioButton(this);
-    //     radioButton->setText(ChessPiece::PieceTypeToString(pieceType)); // You need a method to convert PieceType to a string
-    //     m_PromotionButtonGroup->addButton(radioButton, static_cast<int>(pieceType));
-    //     ui->verticalLayout->addWidget(radioButton);
-    // }
-
-    // connect(m_PromotionButtonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &PromotionDialog::OnPromotionButtonClicked);
+    for (const auto &type : promotionChoices)
+    {
+        auto button = new QPushButton(this);
+        QString pieceImagePath = ChessPiece::GetPieceImageByColorAndType(type, color); // Use a method to get image path
+        button->setIcon(QIcon(pieceImagePath));
+        button->setIconSize(QSize(80, 80));
+        connect(button, &QPushButton::clicked, this, &PromotionDialog::OnPromotionButtonClicked);
+        m_PromotionButtons.append(button);
+    }
 }
 
 PromotionDialog::~PromotionDialog()
@@ -24,11 +22,14 @@ PromotionDialog::~PromotionDialog()
 
 void PromotionDialog::OnPromotionButtonClicked()
 {
-    // emit PieceSelected(GetSelectedPiece());
-    accept(); // Close the dialog
-}
-
-ChessPiece::PieceType PromotionDialog::GetSelectedPiece() const
-{
-    return static_cast<ChessPiece::PieceType>(m_PromotionButtonGroup->checkedId());
+    QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+    if (clickedButton)
+    {
+        int index = m_PromotionButtons.indexOf(clickedButton);
+        if (index != -1)
+        {
+            emit PieceSelected(static_cast<ChessPiece::PieceType>(index));
+            accept(); // Close the dialog
+        }
+    }
 }

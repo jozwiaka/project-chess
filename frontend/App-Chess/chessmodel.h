@@ -33,9 +33,12 @@ public:
 
     void MoveCNNModel();
 
+    void OnPromotionPieceSelected(const ChessPiece::PieceType &type);
+
 private:
     PlayerColor m_CurrentTurn;
     ChessSquare *m_ActiveSquare;
+    ChessSquare *m_PromotedSquare;
     bool m_Check;
     bool m_CheckMate;
 
@@ -61,10 +64,11 @@ private:
 
     // bool ValidMovesUnderCheck();
 
-    void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType);
+    void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &type);
 
 signals:
-    void UpdateGraphics();
+    void UpdateChessboardGraphics();
+    void ShowPromotionDialog(const ChessPiece::PieceColor &color);
 };
 
 #endif // CHESSMODEL_H

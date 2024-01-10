@@ -19,7 +19,7 @@ ChessModel::~ChessModel()
     delete PromotionProcedure;
 }
 
-void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType)
+void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &type)
 {
     if (square)
     {
@@ -28,7 +28,7 @@ void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::Pie
         {
             if (piece->Type == ChessPiece::PieceType::Pawn && (square->Position.x == 0 || square->Position.x == 7))
             {
-                auto promotedPiece = new ChessPiece(pieceType, piece->Color, square);
+                auto promotedPiece = new ChessPiece(type, piece->Color, square);
                 square->RemoveChessPiece();
                 square->SetPiece(promotedPiece);
             }
@@ -80,6 +80,12 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
         return;
     }
 
+    //  TEST - CREATE PIECE
+    // foundSquare->RemoveChessPiece();
+    // ChessPiece *newPiece = new ChessPiece(ChessPiece::PieceType::Pawn, m_CurrentTurn, foundSquare);
+    // foundSquare->SetPiece(newPiece);
+    //
+
     bool isGoingToMakeMove = false;
 
     if (m_ActiveSquare && (foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
@@ -127,7 +133,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
         }
     }
 
-    emit UpdateGraphics();
+    emit UpdateChessboardGraphics();
 }
 
 void ChessModel::SetRookValidMoves(ChessSquare *square, bool blockSquaresInstead)
@@ -498,8 +504,6 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         pieceToMove->Moved = true;
 
-        PromotePawnToTheType(toSquare, ChessPiece::PieceType::Queen);
-
         ClearAfterPreviousMove();
 
         if (
@@ -513,6 +517,12 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         toSquare->Status = ChessSquare::SquareStatus::PreviousMove;
 
         CheckValidKingMovesAndCheck();
+
+        if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
+        {
+            m_PromotedSquare = toSquare;
+            emit ShowPromotionDialog(pieceToMove->Color);
+        }
 
         // ValidMovesUnderCheck();
 
@@ -649,9 +659,15 @@ void ChessModel::MoveCNNModel()
 
     if (*ComputerTurn)
     {
-        UpdateModelOnSquareClick(moves.back());
-        moves.pop_back();
-        UpdateModelOnSquareClick(moves.back());
-        moves.pop_back();
+        // UpdateModelOnSquareClick(moves.back());
+        // moves.pop_back();
+        // UpdateModelOnSquareClick(moves.back());
+        // moves.pop_back();
     }
+}
+
+void ChessModel::OnPromotionPieceSelected(const ChessPiece::PieceType &type)
+{
+    PromotePawnToTheType(m_PromotedSquare, type);
+    m_PromotedSquare = nullptr;
 }
