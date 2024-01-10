@@ -64,7 +64,7 @@ private:
 
     // bool ValidMovesUnderCheck();
 
-    void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &type);
+    void PromotePawnToTheType(const ChessPiece::PieceType &type);
 
 signals:
     void UpdateChessboardGraphics();

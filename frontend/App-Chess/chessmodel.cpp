@@ -19,18 +19,19 @@ ChessModel::~ChessModel()
     delete PromotionProcedure;
 }
 
-void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &type)
+void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
 {
-    if (square)
+    if (m_PromotedSquare)
     {
-        ChessPiece *piece = square->GetPiece();
+        ChessPiece *piece = m_PromotedSquare->GetPiece();
         if (piece)
         {
-            if (piece->Type == ChessPiece::PieceType::Pawn && (square->Position.x == 0 || square->Position.x == 7))
+            if (piece->Type == ChessPiece::PieceType::Pawn && (m_PromotedSquare->Position.x == 0 || m_PromotedSquare->Position.x == 7))
             {
-                auto promotedPiece = new ChessPiece(type, piece->Color, square);
-                square->RemoveChessPiece();
-                square->SetPiece(promotedPiece);
+                auto promotedPiece = new ChessPiece(type, piece->Color, m_PromotedSquare);
+                m_PromotedSquare->RemoveChessPiece();
+                m_PromotedSquare->SetPiece(promotedPiece);
+                m_PromotedSquare = nullptr;
             }
         }
     }
@@ -521,7 +522,10 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
         {
             m_PromotedSquare = toSquare;
-            emit ShowPromotionDialog(pieceToMove->Color);
+            if (!*ComputerTurn)
+            {
+                emit ShowPromotionDialog(pieceToMove->Color);
+            }
         }
 
         // ValidMovesUnderCheck();
@@ -668,6 +672,5 @@ void ChessModel::MoveCNNModel()
 
 void ChessModel::OnPromotionPieceSelected(const ChessPiece::PieceType &type)
 {
-    PromotePawnToTheType(m_PromotedSquare, type);
-    m_PromotedSquare = nullptr;
+    PromotePawnToTheType(type);
 }
