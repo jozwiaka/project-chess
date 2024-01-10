@@ -16,6 +16,7 @@ public:
 
 public:
     static Chessboard &GetInstance();
+    ~Chessboard();
     Chessboard(const Chessboard &other) = delete;
     Chessboard &operator=(const Chessboard &other) = delete;
 

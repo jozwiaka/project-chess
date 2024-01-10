@@ -12,6 +12,21 @@ Chessboard::Chessboard(QObject *parent)
     InitializeChessboard();
 }
 
+Chessboard::~Chessboard()
+{
+    for (auto &row : Board)
+    {
+        for (auto *square : row)
+        {
+            if (square)
+            {
+                square->RemoveChessPiece();
+                delete square;
+            }
+        }
+    }
+}
+
 void Chessboard::InitializeChessboard()
 {
     bool dark = false;

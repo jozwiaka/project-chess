@@ -16,17 +16,6 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
 
 ChessModel::~ChessModel()
 {
-    for (auto &row : Chessboard)
-    {
-        for (auto *square : row)
-        {
-            if (square)
-            {
-                square->RemoveChessPiece();
-                delete square;
-            }
-        }
-    }
     delete ComputerTurn;
     delete PromotionProcedure;
 }
