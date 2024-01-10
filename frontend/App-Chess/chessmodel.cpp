@@ -6,11 +6,11 @@
 
 ChessModel::ChessModel(QObject *parent)
     : QObject{parent},
-    m_CurrentTurn{Color::White},
-    m_ActiveSquare(nullptr), m_Check(false),
-    m_CheckMate(false),
-    ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
-    PromotionProcedure(new bool(false))
+      m_CurrentTurn{Color::White},
+      m_ActiveSquare(nullptr), m_Check(false),
+      m_CheckMate(false),
+      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
+      PromotionProcedure(new bool(false))
 {
 }
 
@@ -28,6 +28,7 @@ ChessModel::~ChessModel()
         }
     }
     delete ComputerTurn;
+    delete PromotionProcedure;
 }
 
 void ChessModel::InitializeChessboard()
@@ -98,14 +99,14 @@ QVector<QVector<ChessSquare *>> ChessModel::GetChessboard()
     return m_Chessboard;
 }
 
-void ChessModel::PromotePawnToTheType(ChessSquare* square, const ChessPiece::PieceType& pieceType)
+void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType)
 {
     if (square)
     {
         ChessPiece *piece = square->GetChessPiece();
         if (piece)
         {
-            if (piece->GetPieceType() == ChessPiece::PieceType::Pawn)
+            if (piece->GetPieceType() == ChessPiece::PieceType::Pawn && (square->GetPosition().x == 0 || square->GetPosition().x == 7))
             {
                 auto promotedPiece = new ChessPiece(pieceType, piece->GetColor(), square);
                 square->RemoveChessPiece();
@@ -153,8 +154,6 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
     ChessSquare *foundSquare = GetSquareByPosition(position);
-
-    PromotePawnToTheType(foundSquare, ChessPiece::PieceType::Queen);
 
     if (!foundSquare)
     {
@@ -458,33 +457,41 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         }
     }
 
-    if (
-        !piece->IsMoved() &&
-        !m_Chessboard[square->GetPosition().x][0]->GetChessPiece()->IsMoved() &&
-        CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 1})) &&
-        CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 2})) &&
-        CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 3})) &&
-        !GetSquareByPosition({square->GetPosition().x, 1})->IsBlocked() &&
-        !GetSquareByPosition({square->GetPosition().x, 2})->IsBlocked() &&
-        !GetSquareByPosition({square->GetPosition().x, 3})->IsBlocked())
+    ChessPiece *rook1 = m_Chessboard[square->GetPosition().x][0]->GetChessPiece();
+    if (rook1)
     {
-        if (!blockSquaresInstead)
+        if (
+            !piece->IsMoved() &&
+            !rook1->IsMoved() &&
+            CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 1})) &&
+            CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 2})) &&
+            CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 3})) &&
+            !GetSquareByPosition({square->GetPosition().x, 1})->IsBlocked() &&
+            !GetSquareByPosition({square->GetPosition().x, 2})->IsBlocked() &&
+            !GetSquareByPosition({square->GetPosition().x, 3})->IsBlocked())
         {
-            m_Chessboard[square->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+            if (!blockSquaresInstead)
+            {
+                m_Chessboard[square->GetPosition().x][2]->SetStatus(ChessSquare::Status::ValidMove);
+            }
         }
     }
 
-    if (
-        !piece->IsMoved() &&
-        !m_Chessboard[square->GetPosition().x][7]->GetChessPiece()->IsMoved() &&
-        CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 6})) &&
-        CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 5})) &&
-        !GetSquareByPosition({square->GetPosition().x, 6})->IsBlocked() &&
-        !GetSquareByPosition({square->GetPosition().x, 5})->IsBlocked())
+    ChessPiece *rook2 = m_Chessboard[square->GetPosition().x][7]->GetChessPiece();
+    if (rook2)
     {
-        if (!blockSquaresInstead)
+        if (
+            !piece->IsMoved() &&
+            !rook2->IsMoved() &&
+            CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 6})) &&
+            CheckIfFreeSquare(GetSquareByPosition({square->GetPosition().x, 5})) &&
+            !GetSquareByPosition({square->GetPosition().x, 6})->IsBlocked() &&
+            !GetSquareByPosition({square->GetPosition().x, 5})->IsBlocked())
         {
-            m_Chessboard[square->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+            if (!blockSquaresInstead)
+            {
+                m_Chessboard[square->GetPosition().x][6]->SetStatus(ChessSquare::Status::ValidMove);
+            }
         }
     }
 }
@@ -570,6 +577,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         m_ActiveSquare->SetChessPiece(nullptr);
 
         pieceToMove->SetMoved();
+
+        PromotePawnToTheType(toSquare, ChessPiece::PieceType::Queen);
 
         ClearPreviousMoveStatusesAndEnPassants();
 

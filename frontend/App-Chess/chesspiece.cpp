@@ -58,6 +58,7 @@ void ChessPiece::SetMoved() {
 }
 
 bool ChessPiece::IsMoved() {
+
     return m_Moved;
 }
 
