@@ -62,9 +62,9 @@ private:
 
     bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquaresInstead);
 
-    // bool ValidMovesUnderCheck();
-
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
+
+    // bool ValidMovesUnderCheck();
 
 signals:
     void UpdateChessboardGraphics();

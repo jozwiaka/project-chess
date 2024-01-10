@@ -6,7 +6,9 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
     : m_Board{board},
       QObject{parent},
       m_CurrentTurn{PlayerColor::White},
-      m_ActiveSquare(nullptr), m_Check(false),
+      m_ActiveSquare(nullptr),
+      m_PromotedSquare(nullptr),
+      m_Check(false),
       m_CheckMate(false),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
       PromotionProcedure(new bool(false))
@@ -535,7 +537,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         *ComputerTurn = !*ComputerTurn;
 
-        // MoveCNNModel(); // TODO
+        MoveCNNModel(); // TODO
     }
 }
 
@@ -659,15 +661,16 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
 
 void ChessModel::MoveCNNModel()
 {
-    // static QVector<ChessSquare::SquarePosition> moves{{4,7},{6,7},{4,6},{6,6}};
-    static QVector<ChessSquare::SquarePosition> moves{{3, 2}, {1, 2}, {3, 1}, {1, 1}};
+    static QVector<ChessSquare::SquarePosition> moves{
+        {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
 
     if (*ComputerTurn)
     {
-        // UpdateModelOnSquareClick(moves.back());
-        // moves.pop_back();
-        // UpdateModelOnSquareClick(moves.back());
-        // moves.pop_back();
+        UpdateModelOnSquareClick(moves.back());
+        moves.pop_back();
+        UpdateModelOnSquareClick(moves.back());
+        moves.pop_back();
+        PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 
