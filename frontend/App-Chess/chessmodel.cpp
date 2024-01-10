@@ -1,8 +1,6 @@
 #include "chessmodel.h"
 #include <QDebug>
 #include <QRandomGenerator>
-#include <thread>
-#include <chrono>
 
 ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
     : Chessboard{board},
@@ -617,43 +615,43 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
     return false;
 }
 
-bool ChessModel::ValidMovesUnderCheck()
-{
-    for (auto &row : Chessboard)
-    {
-        for (auto *square : row)
-        {
-            ChessPiece *piece = square->GetPiece();
-            if (piece)
-            {
-                if (piece->Color == m_CurrentTurn)
-                {
-                    switch (piece->Type)
-                    {
-                    case ChessPiece::PieceType::Rook:
-                        SetRookValidMoves(square, true);
-                        break;
-                    case ChessPiece::PieceType::Knight:
-                        SetKnightValidMoves(square, true);
-                        break;
-                    case ChessPiece::PieceType::Bishop:
-                        SetBishopValidMoves(square, true);
-                        break;
-                    case ChessPiece::PieceType::Queen:
-                        SetQueenValidMoves(square, true);
-                        break;
-                    case ChessPiece::PieceType::King:
-                        SetKingValidMoves(square, true);
-                        break;
-                    case ChessPiece::PieceType::Pawn:
-                        SetPawnValidMoves(square, true);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
+// bool ChessModel::ValidMovesUnderCheck()
+// {
+//     for (auto &row : Chessboard)
+//     {
+//         for (auto *square : row)
+//         {
+//             ChessPiece *piece = square->GetPiece();
+//             if (piece)
+//             {
+//                 if (piece->Color == m_CurrentTurn)
+//                 {
+//                     switch (piece->Type)
+//                     {
+//                     case ChessPiece::PieceType::Rook:
+//                         SetRookValidMoves(square, true);
+//                         break;
+//                     case ChessPiece::PieceType::Knight:
+//                         SetKnightValidMoves(square, true);
+//                         break;
+//                     case ChessPiece::PieceType::Bishop:
+//                         SetBishopValidMoves(square, true);
+//                         break;
+//                     case ChessPiece::PieceType::Queen:
+//                         SetQueenValidMoves(square, true);
+//                         break;
+//                     case ChessPiece::PieceType::King:
+//                         SetKingValidMoves(square, true);
+//                         break;
+//                     case ChessPiece::PieceType::Pawn:
+//                         SetPawnValidMoves(square, true);
+//                         break;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
 
 void ChessModel::MoveCNNModel()
 {

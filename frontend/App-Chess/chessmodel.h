@@ -59,8 +59,7 @@ private:
 
     bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquaresInstead);
 
-    bool ValidMovesUnderCheck();
-    Chessboard::ChessboardType DeepCopyChessboard();
+    // bool ValidMovesUnderCheck();
 
     void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType);
 

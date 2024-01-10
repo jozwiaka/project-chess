@@ -2,8 +2,8 @@
 #define CHESSSQUARE_H
 
 #include <QLabel>
-#include "chesspiece.h"
 #include <QColor>
+#include "chesspiece.h"
 
 class ChessSquare : public QLabel
 {
