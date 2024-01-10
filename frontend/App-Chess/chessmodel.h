@@ -20,6 +20,7 @@ public:
 public:
     bool *ComputerTurn;
     bool *PromotionProcedure;
+    bool ComputerStarts;
     Chessboard::ChessboardType Chessboard;
 
 public:

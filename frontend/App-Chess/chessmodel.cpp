@@ -9,8 +9,10 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       m_ActiveSquare(nullptr), m_Check(false),
       m_CheckMate(false),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
+      ComputerStarts(*ComputerTurn),
       PromotionProcedure(new bool(false))
 {
+    MoveCNNModel();
 }
 
 ChessModel::~ChessModel()

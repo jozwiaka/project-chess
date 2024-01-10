@@ -5,6 +5,4 @@ ChessController::ChessController(ChessModel *model, ChessView *view, QObject *pa
 {
     connect(m_View, &ChessView::SquareClicked, m_Model, &ChessModel::UpdateModelOnSquareClick);
     connect(m_Model, &ChessModel::UpdateGraphics, m_View, &ChessView::UpdateChessboardGraphics);
-    m_View->show();
-    m_Model->MoveCNNModel();
 }

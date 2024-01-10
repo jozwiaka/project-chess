@@ -1,11 +1,11 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, bool *promotionProcedure, QWidget *parent)
+ChessView::ChessView(const Chessboard::ChessboardType &board, bool reversedBoardView, bool *computerTurn, bool *promotionProcedure, QWidget *parent)
     : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn), m_PromotionProcedure(promotionProcedure)
 {
     m_Ui->setupUi(this);
-    CreateChessboardGraphics(board);
+    CreateChessboardGraphics(board, reversedBoardView);
 }
 
 ChessView::~ChessView()
@@ -15,7 +15,7 @@ ChessView::~ChessView()
     delete m_MenuLayout;
 }
 
-void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board)
+void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board, bool reversedBoardView)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
@@ -26,7 +26,7 @@ void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board
     {
         for (char col = 0; col < 8; ++col)
         {
-            m_ChessboardLayout->addWidget(board[row][col], *m_ComputerTurn ? row : 8 - 1 - row, *m_ComputerTurn ? 8 - 1 - col : col);
+            m_ChessboardLayout->addWidget(board[row][col], reversedBoardView ? row : 8 - 1 - row, reversedBoardView ? 8 - 1 - col : col);
             connect(board[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }

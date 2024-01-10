@@ -20,7 +20,7 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
+    ChessView(const Chessboard::ChessboardType &board, bool reversedBoardView, bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
     ~ChessView();
     void UpdateChessboardGraphics();
 
@@ -33,7 +33,7 @@ private:
     bool *m_PromotionProcedure;
 
 private:
-    void CreateChessboardGraphics(const Chessboard::ChessboardType &board);
+    void CreateChessboardGraphics(const Chessboard::ChessboardType &board, bool reversedBoardView);
     void OnSquareClicked(const ChessSquare::SquarePosition &position);
 
 signals:
