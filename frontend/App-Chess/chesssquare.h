@@ -20,6 +20,7 @@ public:
         }
     };
 
+public:
     enum class SquareStatus
     {
         Normal,
@@ -29,6 +30,11 @@ public:
         ValidCapture,
         Check,
     };
+
+public:
+    SquarePosition Position;
+    SquareStatus Status;
+    bool Blocked;
 
 public:
     ChessSquare() = default;
@@ -47,22 +53,17 @@ public:
 
     void SetValidBackgroundColor();
 
-signals:
-    void Clicked(const SquarePosition &position);
-
 protected:
     void mousePressEvent(QMouseEvent *event) override;
-
-public:
-    SquarePosition Position;
-    SquareStatus Status;
-    bool Blocked;
 
 private:
     ChessPiece *m_Piece;
     size_t m_Size;
     QColor m_NormalColor;
     QColor m_HighlightedColor;
+
+signals:
+    void Clicked(const SquarePosition &position);
 };
 
 #endif // CHESSSQUARE_H

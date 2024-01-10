@@ -27,17 +27,16 @@ public:
     };
 
 public:
+    PieceType Type;
+    PieceColor Color;
+    bool Moved;
+    bool EnPassant;
+
+public:
     ChessPiece() = default;
 
     ChessPiece(PieceType type, PieceColor color, QWidget *parent = nullptr);
 
 signals:
-
-public:
-    PieceType Type;
-    PieceColor Color;
-    bool Moved;
-    bool EnPassant;
 };
-
 #endif // CHESSGAME_H

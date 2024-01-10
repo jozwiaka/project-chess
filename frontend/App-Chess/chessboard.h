@@ -12,15 +12,14 @@ public:
     using ChessboardType = QVector<QVector<ChessSquare *>>;
 
 public:
+    ChessboardType Board;
+
+public:
     explicit Chessboard(QObject *parent = nullptr);
 
 private:
     void InitializeChessboard();
 
-public:
-    ChessboardType Board;
-
 signals:
 };
-
 #endif // CHESSBOARD_H

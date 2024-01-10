@@ -10,14 +10,15 @@
 class ChessController : public QObject
 {
     Q_OBJECT
+
 public:
     explicit ChessController(ChessModel *model, ChessView *view, QObject *parent = nullptr);
-
-signals:
 
 private:
     ChessModel *m_Model;
     ChessView *m_View;
+
+signals:
 };
 
 #endif // CHESSCONTROLLER_H

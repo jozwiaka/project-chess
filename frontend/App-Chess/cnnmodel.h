@@ -7,6 +7,7 @@
 class CNNModel : public QObject
 {
     Q_OBJECT
+
 public:
     explicit CNNModel(QObject *parent = nullptr);
 

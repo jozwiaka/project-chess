@@ -13,8 +13,14 @@
 class ChessModel : public QObject
 {
     Q_OBJECT
+
 public:
     using PlayerColor = ChessPiece::PieceColor;
+
+public:
+    bool *ComputerTurn;
+    bool *PromotionProcedure;
+    Chessboard::ChessboardType Chessboard;
 
 public:
     explicit ChessModel(const Chessboard::ChessboardType &board, QObject *parent = nullptr);
@@ -27,8 +33,11 @@ public:
 
     void MoveCNNModel();
 
-signals:
-    void UpdateGraphics();
+private:
+    PlayerColor m_CurrentTurn;
+    ChessSquare *m_ActiveSquare;
+    bool m_Check;
+    bool m_CheckMate;
 
 private:
     void ClearActiveAndValidMoveStatuses();
@@ -55,16 +64,8 @@ private:
 
     void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType);
 
-public:
-    bool *ComputerTurn;
-    bool *PromotionProcedure;
-    Chessboard::ChessboardType Chessboard;
-
-private:
-    PlayerColor m_CurrentTurn;
-    ChessSquare *m_ActiveSquare;
-    bool m_Check;
-    bool m_CheckMate;
+signals:
+    void UpdateGraphics();
 };
 
 #endif // CHESSMODEL_H

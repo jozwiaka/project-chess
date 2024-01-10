@@ -25,19 +25,18 @@ public:
     void UpdateChessboardGraphics();
 
 private:
-    void CreateChessboardGraphics(const Chessboard::ChessboardType &board);
-
-    void OnSquareClicked(const ChessSquare::SquarePosition &position);
-
-signals:
-    void SquareClicked(const ChessSquare::SquarePosition &position);
-
-private:
     Ui::ChessView *m_Ui;
     QGridLayout *m_ChessboardLayout;
     QGridLayout *m_MenuLayout;
 
     bool *m_ComputerTurn;
     bool *m_PromotionProcedure;
+
+private:
+    void CreateChessboardGraphics(const Chessboard::ChessboardType &board);
+    void OnSquareClicked(const ChessSquare::SquarePosition &position);
+
+signals:
+    void SquareClicked(const ChessSquare::SquarePosition &position);
 };
 #endif // CHESSVIEW_H
