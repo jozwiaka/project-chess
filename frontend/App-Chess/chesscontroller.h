@@ -10,7 +10,7 @@ class ChessController : public QObject
 {
     Q_OBJECT
 public:
-    explicit ChessController(ChessModel* model, ChessView* view, QObject *parent = nullptr);
+    explicit ChessController(ChessModel *model, ChessView *view, QObject *parent = nullptr);
 
 private:
     void InitializeChessGame();
@@ -18,8 +18,8 @@ private:
 signals:
 
 private:
-    ChessModel* m_Model;
-    ChessView* m_View;
+    ChessModel *m_Model;
+    ChessView *m_View;
 };
 
 #endif // CHESSCONTROLLER_H

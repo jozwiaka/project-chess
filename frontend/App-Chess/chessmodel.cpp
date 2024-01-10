@@ -6,7 +6,7 @@
 
 ChessModel::ChessModel(QObject *parent)
     : QObject{parent},
-      m_CurrentTurn{Color::White},
+      m_CurrentTurn{PlayerColor::White},
       m_ActiveSquare(nullptr), m_Check(false),
       m_CheckMate(false),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
@@ -355,7 +355,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
 
     int i = 1;
 
-    if (m_CurrentTurn == Color::Black)
+    if (m_CurrentTurn == PlayerColor::Black)
     {
         i = -1;
     }
@@ -591,7 +591,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         // ValidMovesUnderCheck();
 
-        m_CurrentTurn = m_CurrentTurn == Color::White ? Color::Black : Color::White;
+        m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
 
         *ComputerTurn = !*ComputerTurn;
 

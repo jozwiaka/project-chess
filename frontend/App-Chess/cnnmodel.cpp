@@ -2,4 +2,5 @@
 
 CNNModel::CNNModel(QObject *parent)
     : QObject{parent}
-{}
+{
+}

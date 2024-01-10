@@ -10,7 +10,7 @@ class CNNModel : public QObject
 public:
     explicit CNNModel(QObject *parent = nullptr);
 
-    void Log(){qDebug()<<"Test";}
+    void Log() { qDebug() << "Test"; }
 
 signals:
 };

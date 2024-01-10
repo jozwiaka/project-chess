@@ -13,7 +13,7 @@ class ChessModel : public QObject
 {
     Q_OBJECT
 public:
-    using Color = ChessPiece::PieceColor;
+    using PlayerColor = ChessPiece::PieceColor;
 
 public:
     explicit ChessModel(QObject *parent = nullptr);
@@ -62,7 +62,7 @@ public:
     QVector<QVector<ChessSquare *>> Chessboard;
 
 private:
-    Color m_CurrentTurn;
+    PlayerColor m_CurrentTurn;
     ChessSquare *m_ActiveSquare;
     bool m_Check;
     bool m_CheckMate;

@@ -1,7 +1,7 @@
 #include "chesscontroller.h"
 #include <QCoreApplication>
 
-ChessController::ChessController(ChessModel* model, ChessView* view, QObject *parent)
+ChessController::ChessController(ChessModel *model, ChessView *view, QObject *parent)
     : m_Model{model}, m_View{view}, QObject{parent}
 {
     InitializeChessGame();
