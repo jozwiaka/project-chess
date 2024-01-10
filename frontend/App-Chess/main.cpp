@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     Chessboard board;
     ChessModel model{board.Board};
-    ChessView view{model.ComputerTurn, model.PromotionProcedure};
+    ChessView view{board.Board, model.ComputerTurn, model.PromotionProcedure};
     ChessController controller(&model, &view);
 
     return a.exec();

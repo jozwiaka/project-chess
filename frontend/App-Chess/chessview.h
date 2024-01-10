@@ -20,16 +20,14 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView(bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
-    void CreateChessboardGraphics(Chessboard::ChessboardType chessboard);
-
-    void CreateMenuGraphics();
-
-    void OnSquareClicked(const ChessSquare::SquarePosition &position);
-
+    ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
+    ~ChessView();
     void UpdateChessboardGraphics();
 
-    ~ChessView();
+private:
+    void CreateChessboardGraphics(const Chessboard::ChessboardType &board);
+
+    void OnSquareClicked(const ChessSquare::SquarePosition &position);
 
 signals:
     void SquareClicked(const ChessSquare::SquarePosition &position);
