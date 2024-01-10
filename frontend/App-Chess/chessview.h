@@ -7,6 +7,7 @@
 #include <QGridLayout>
 #include "chessmodel.h"
 #include <QVector>
+#include "promotiondialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -28,6 +29,7 @@ private:
     Ui::ChessView *m_Ui;
     QGridLayout *m_ChessboardLayout;
     QGridLayout *m_MenuLayout;
+    PromotionDialog *m_PromotionDialog; // Assuming PromotionDialog is the class for your promotion window
 
     bool *m_ComputerTurn;
     bool *m_PromotionProcedure;
@@ -35,6 +37,7 @@ private:
 private:
     void CreateChessboardGraphics(const Chessboard::ChessboardType &board);
     void OnSquareClicked(const ChessSquare::SquarePosition &position);
+    void ShowPromotionWindow(const ChessSquare::SquarePosition &position);
 
 signals:
     void SquareClicked(const ChessSquare::SquarePosition &position);

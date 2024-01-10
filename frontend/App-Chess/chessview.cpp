@@ -32,6 +32,13 @@ void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board
     }
 }
 
+void ChessView::ShowPromotionWindow(const ChessSquare::SquarePosition &position)
+{
+    // m_PromotionDialog = new PromotionDialog(this); // Assuming PromotionDialog takes a QWidget* parent
+    // connect(m_PromotionDialog, &PromotionDialog::PieceSelected, this, &ChessModel::OnPromotionPieceSelected);
+    // m_PromotionDialog->exec(); // Use exec() to make it a modal dialog
+}
+
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 {
     // if (!*m_ComputerTurn) // TODO

@@ -8,7 +8,7 @@ ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *par
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
-    setScaledContents(true); // Ensure the square image fits the label size
+    setScaledContents(true);
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setAlignment(Qt::AlignCenter);
     SetNormalBackgroundColor();
