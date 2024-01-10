@@ -3,7 +3,7 @@
 #include <QRandomGenerator>
 
 ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
-    : Chessboard{board},
+    : m_Board{board},
       QObject{parent},
       m_CurrentTurn{PlayerColor::White},
       m_ActiveSquare(nullptr), m_Check(false),
@@ -39,7 +39,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
 
 void ChessModel::ClearTemporaryStatuses()
 {
-    for (auto &row : Chessboard)
+    for (auto &row : m_Board)
     {
         for (auto &square : row)
         {
@@ -53,7 +53,7 @@ void ChessModel::ClearTemporaryStatuses()
 
 void ChessModel::ClearAfterPreviousMove()
 {
-    for (auto &row : Chessboard)
+    for (auto &row : m_Board)
     {
         for (auto &square : row)
         {
@@ -341,7 +341,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         if (CheckIfEnemy(square))
         {
             if (square->GetPiece()->EnPassant)
-                Chessboard[X + i][y]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
+                m_Board[X + i][y]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
         }
     }
 }
@@ -384,7 +384,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         }
     }
 
-    ChessPiece *rook1 = Chessboard[square->Position.x][0]->GetPiece();
+    ChessPiece *rook1 = m_Board[square->Position.x][0]->GetPiece();
     if (rook1)
     {
         if (
@@ -399,12 +399,12 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                Chessboard[square->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
+                m_Board[square->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
     }
 
-    ChessPiece *rook2 = Chessboard[square->Position.x][7]->GetPiece();
+    ChessPiece *rook2 = m_Board[square->Position.x][7]->GetPiece();
     if (rook2)
     {
         if (
@@ -417,7 +417,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (!blockSquaresInstead)
             {
-                Chessboard[square->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
+                m_Board[square->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
     }
@@ -453,7 +453,7 @@ bool ChessModel::CheckIfFreeSquare(ChessSquare *square)
 ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::SquarePosition &position)
 {
     if (position.x >= 0 && position.x <= 7 && position.y >= 0 && position.y <= 7)
-        return Chessboard[position.x][position.y];
+        return m_Board[position.x][position.y];
 
     return nullptr;
 }
@@ -540,7 +540,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
 void ChessModel::CheckValidKingMovesAndCheck()
 {
-    for (auto &row : Chessboard)
+    for (auto &row : m_Board)
     {
         for (auto *square : row)
         {
@@ -620,7 +620,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
 
 // bool ChessModel::ValidMovesUnderCheck()
 // {
-//     for (auto &row : Chessboard)
+//     for (auto &row : m_Board)
 //     {
 //         for (auto *square : row)
 //         {

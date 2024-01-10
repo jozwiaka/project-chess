@@ -20,7 +20,6 @@ public:
 public:
     bool *ComputerTurn;
     bool *PromotionProcedure;
-    Chessboard::ChessboardType Chessboard;
 
 public:
     explicit ChessModel(const Chessboard::ChessboardType &board, QObject *parent = nullptr);
@@ -41,6 +40,7 @@ private:
     ChessSquare *m_PromotedSquare;
     bool m_Check;
     bool m_CheckMate;
+    Chessboard::ChessboardType m_Board;
 
 private:
     void ClearTemporaryStatuses();
