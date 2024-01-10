@@ -537,7 +537,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         *ComputerTurn = !*ComputerTurn;
 
-        MoveCNNModel(); // TODO
+        // MoveCNNModel(); // TODO
     }
 }
 
