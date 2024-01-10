@@ -41,8 +41,8 @@ private:
     bool m_CheckMate;
 
 private:
-    void ClearActiveAndValidMoveStatuses();
-    void ClearPreviousMoveStatusesAndEnPassants();
+    void ClearTemporaryStatuses();
+    void ClearAfterPreviousMove();
 
     void SetRookValidMoves(ChessSquare *square, bool blockSquaresInstead = false);
     void SetKnightValidMoves(ChessSquare *square, bool blockSquaresInstead = false);

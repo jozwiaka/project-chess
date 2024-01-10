@@ -3,7 +3,7 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *parent)
-    : QLabel(parent), Position(position), Status(SquareStatus::Normal), m_Size(80), m_Piece(nullptr), Blocked(false)
+    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTmp(SquareStatusTmp::Normal), m_Size(80), m_Piece(nullptr), Blocked(false)
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);

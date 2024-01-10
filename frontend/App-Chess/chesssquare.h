@@ -24,16 +24,23 @@ public:
     enum class SquareStatus
     {
         Normal,
-        Active,
         PreviousMove,
+        Check,
+    };
+
+    enum class SquareStatusTmp
+    {
+        Normal,
+        Active,
         ValidMove,
         ValidCapture,
-        Check,
+
     };
 
 public:
     SquarePosition Position;
     SquareStatus Status;
+    SquareStatusTmp StatusTmp;
     bool Blocked;
 
 public:

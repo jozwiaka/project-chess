@@ -6,6 +6,7 @@ ChessView::ChessView(const Chessboard::ChessboardType &board, bool reversedBoard
 {
     m_Ui->setupUi(this);
     CreateChessboardGraphics(board, reversedBoardView);
+    UpdateChessboardGraphics();
 }
 
 ChessView::~ChessView()
@@ -53,16 +54,24 @@ void ChessView::UpdateChessboardGraphics()
             case ChessSquare::SquareStatus::Normal:
                 square->SetNormalBackgroundColor();
                 break;
-            case ChessSquare::SquareStatus::Active:
             case ChessSquare::SquareStatus::PreviousMove:
                 square->SetHighlightBackgroundColor();
                 break;
-            case ChessSquare::SquareStatus::ValidMove:
-            case ChessSquare::SquareStatus::ValidCapture:
-                square->SetValidBackgroundColor();
-                break;
             case ChessSquare::SquareStatus::Check:
                 square->SetCheckBackgroundColor();
+            default:
+                break;
+            }
+
+            switch (square->StatusTmp)
+            {
+            case ChessSquare::SquareStatusTmp::Active:
+                square->SetHighlightBackgroundColor();
+                break;
+            case ChessSquare::SquareStatusTmp::ValidMove:
+            case ChessSquare::SquareStatusTmp::ValidCapture:
+                square->SetValidBackgroundColor();
+                break;
             default:
                 break;
             }
