@@ -101,9 +101,9 @@ void ChessModel::PromotePawnToTheType(ChessSquare *square, const ChessPiece::Pie
         ChessPiece *piece = square->GetPiece();
         if (piece)
         {
-            if (piece->GetPieceType() == ChessPiece::PieceType::Pawn && (square->Position.x == 0 || square->Position.x == 7))
+            if (piece->Type == ChessPiece::PieceType::Pawn && (square->Position.x == 0 || square->Position.x == 7))
             {
-                auto promotedPiece = new ChessPiece(pieceType, piece->GetColor(), square);
+                auto promotedPiece = new ChessPiece(pieceType, piece->m_Color, square);
                 square->RemoveChessPiece();
                 square->SetPiece(promotedPiece);
             }
@@ -138,7 +138,7 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
             }
             ChessPiece *piece = square->GetPiece();
             if (piece)
-                piece->SetEnPassant(false);
+                piece->m_EnPassant = false;
             square->Blocked = false;
         }
     }
@@ -173,12 +173,12 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
     if (foundSquare->GetPiece())
     {
         ChessPiece *piece = foundSquare->GetPiece();
-        if (piece->GetColor() == m_CurrentTurn)
+        if (piece->m_Color == m_CurrentTurn)
         {
             foundSquare->Status = ChessSquare::SquareStatus::Active;
             m_ActiveSquare = foundSquare;
 
-            switch (piece->GetPieceType())
+            switch (piece->Type)
             {
             case ChessPiece::PieceType::Rook:
                 SetRookValidMoves(foundSquare);
@@ -360,7 +360,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         i = -1;
     }
 
-    for (int x = X + i; i * x <= i * (X + i * (piece->IsMoved() ? 1 : 2)); x += i)
+    for (int x = X + i; i * x <= i * (X + i * (piece->m_Moved ? 1 : 2)); x += i)
     {
         ChessSquare *square = GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(square))
@@ -390,7 +390,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         {
             if (blockSquaresInstead)
             {
-                if (square->GetPiece()->GetPieceType() == ChessPiece::PieceType::King)
+                if (square->GetPiece()->Type == ChessPiece::PieceType::King)
                 {
                     m_Check = true;
                     square->Status = ChessSquare::SquareStatus::Check;
@@ -408,7 +408,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquaresInstead
         ChessSquare *square = GetSquareByPosition({X, y});
         if (CheckIfEnemy(square))
         {
-            if (square->GetPiece()->IsEnPassant())
+            if (square->GetPiece()->m_EnPassant)
                 Chessboard[X + i][y]->Status = ChessSquare::SquareStatus::ValidCapture;
         }
     }
@@ -456,8 +456,8 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
     if (rook1)
     {
         if (
-            !piece->IsMoved() &&
-            !rook1->IsMoved() &&
+            !piece->m_Moved &&
+            !rook1->m_Moved &&
             CheckIfFreeSquare(GetSquareByPosition({square->Position.x, 1})) &&
             CheckIfFreeSquare(GetSquareByPosition({square->Position.x, 2})) &&
             CheckIfFreeSquare(GetSquareByPosition({square->Position.x, 3})) &&
@@ -476,8 +476,8 @@ void ChessModel::SetKingValidMoves(ChessSquare *square, bool blockSquaresInstead
     if (rook2)
     {
         if (
-            !piece->IsMoved() &&
-            !rook2->IsMoved() &&
+            !piece->m_Moved &&
+            !rook2->m_Moved &&
             CheckIfFreeSquare(GetSquareByPosition({square->Position.x, 6})) &&
             CheckIfFreeSquare(GetSquareByPosition({square->Position.x, 5})) &&
             !GetSquareByPosition({square->Position.x, 6})->Blocked &&
@@ -498,7 +498,7 @@ bool ChessModel::CheckIfEnemy(ChessSquare *square)
     ChessPiece *piece = square->GetPiece();
     if (!piece)
         return false;
-    return piece->GetColor() != m_CurrentTurn;
+    return piece->m_Color != m_CurrentTurn;
 }
 
 bool ChessModel::CheckIfAlly(ChessSquare *square)
@@ -508,7 +508,7 @@ bool ChessModel::CheckIfAlly(ChessSquare *square)
     ChessPiece *piece = square->GetPiece();
     if (!piece)
         return false;
-    return piece->GetColor() == m_CurrentTurn;
+    return piece->m_Color == m_CurrentTurn;
 }
 
 bool ChessModel::CheckIfFreeSquare(ChessSquare *square)
@@ -540,7 +540,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         // Castling
         if (
-            pieceToMove->GetPieceType() == ChessPiece::PieceType::King &&
+            pieceToMove->Type == ChessPiece::PieceType::King &&
             qAbs(yDiff) == 2)
         {
             int yRock = yDiff > 0 ? 7 : 0;
@@ -552,7 +552,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         // En passant
         if (
-            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn &&
+            pieceToMove->Type == ChessPiece::PieceType::Pawn &&
             yDiff != 0)
         {
             ChessSquare::SquarePosition position{m_ActiveSquare->Position.x, m_ActiveSquare->Position.y + yDiff};
@@ -560,7 +560,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
-                if (piece->IsEnPassant())
+                if (piece->m_EnPassant)
                 {
                     square->RemoveChessPiece();
                 }
@@ -571,7 +571,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         toSquare->SetPiece(pieceToMove);
         m_ActiveSquare->SetPiece(nullptr);
 
-        pieceToMove->SetMoved();
+        pieceToMove->m_Moved = true;
 
         PromotePawnToTheType(toSquare, ChessPiece::PieceType::Queen);
 
@@ -579,9 +579,9 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
         if (
             qAbs(xDiff) == 2 &&
-            pieceToMove->GetPieceType() == ChessPiece::PieceType::Pawn)
+            pieceToMove->Type == ChessPiece::PieceType::Pawn)
         {
-            pieceToMove->SetEnPassant(true);
+            pieceToMove->m_EnPassant = true;
         }
 
         m_ActiveSquare->Status = ChessSquare::SquareStatus::PreviousMove;
@@ -608,9 +608,9 @@ void ChessModel::CheckValidKingMovesAndCheck()
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
-                if (piece->GetColor() == m_CurrentTurn)
+                if (piece->m_Color == m_CurrentTurn)
                 {
-                    switch (piece->GetPieceType())
+                    switch (piece->Type)
                     {
                     case ChessPiece::PieceType::Rook:
                         SetRookValidMoves(square, true);
@@ -655,7 +655,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
     {
         if (blockSquaresInstead)
         {
-            if (square->GetPiece()->GetPieceType() == ChessPiece::PieceType::King)
+            if (square->GetPiece()->Type == ChessPiece::PieceType::King)
             {
                 m_Check = true;
                 square->Status = ChessSquare::SquareStatus::Check;
@@ -688,9 +688,9 @@ bool ChessModel::ValidMovesUnderCheck()
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
-                if (piece->GetColor() == m_CurrentTurn)
+                if (piece->m_Color == m_CurrentTurn)
                 {
-                    switch (piece->GetPieceType())
+                    switch (piece->Type)
                     {
                     case ChessPiece::PieceType::Rook:
                         SetRookValidMoves(square, true);

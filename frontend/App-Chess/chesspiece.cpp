@@ -1,10 +1,10 @@
 #include "chesspiece.h"
 
 ChessPiece::ChessPiece(PieceType type, PieceColor color, QWidget *parent)
-    : QLabel(parent), m_PieceType(type), m_Color(color), m_Selected(false), m_Moved(false), m_EnPassant(false)
+    : QLabel(parent), Type(type), m_Color(color), m_Moved(false), m_EnPassant(false)
 {
     QString pieceImagePath;
-    switch (m_PieceType)
+    switch (Type)
     {
     case ChessPiece::PieceType::Rook:
         pieceImagePath = (m_Color == PieceColor::White) ? "../../resources/w_rook_1x_ns.png" : "../../resources/b_rook_1x_ns.png";
@@ -31,45 +31,4 @@ ChessPiece::ChessPiece(PieceType type, PieceColor color, QWidget *parent)
     setScaledContents(true);
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setAlignment(Qt::AlignCenter);
-}
-
-ChessPiece::PieceType ChessPiece::GetPieceType() const
-{
-    return m_PieceType;
-}
-
-ChessPiece::PieceColor ChessPiece::GetColor() const
-{
-    return m_Color;
-}
-
-void ChessPiece::SetSelected(bool isSelected)
-{
-    m_Selected = isSelected;
-}
-
-bool ChessPiece::IsSelected() const
-{
-    return m_Selected;
-}
-
-void ChessPiece::SetMoved()
-{
-    m_Moved = true;
-}
-
-bool ChessPiece::IsMoved()
-{
-
-    return m_Moved;
-}
-
-bool ChessPiece::IsEnPassant()
-{
-    return m_EnPassant;
-}
-
-void ChessPiece::SetEnPassant(bool enPassant)
-{
-    m_EnPassant = enPassant;
 }

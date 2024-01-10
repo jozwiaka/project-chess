@@ -31,26 +31,13 @@ public:
 
     ChessPiece(PieceType type, PieceColor color, QWidget *parent = nullptr);
 
-    PieceType GetPieceType() const;
-    PieceColor GetColor() const;
+signals:
 
-    void SetSelected(bool selected);
-    bool IsSelected() const;
-
-    bool IsMoved();
-    void SetMoved();
-
-    bool IsEnPassant();
-    void SetEnPassant(bool enPassant);
-
-private:
-    PieceType m_PieceType;
+public:
+    PieceType Type;
     PieceColor m_Color;
-    bool m_Selected;
     bool m_Moved;
     bool m_EnPassant;
-
-signals:
 };
 
 #endif // CHESSGAME_H
