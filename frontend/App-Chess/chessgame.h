@@ -12,7 +12,6 @@ public:
     void Start();
 
 private:
-    Chessboard m_Board;
     ChessModel m_Model;
     ChessView m_View;
     ChessController m_Controller;

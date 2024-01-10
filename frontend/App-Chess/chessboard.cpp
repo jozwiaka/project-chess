@@ -1,5 +1,11 @@
 #include "chessboard.h"
 
+Chessboard &Chessboard::GetInstance()
+{
+    static Chessboard instance;
+    return instance;
+}
+
 Chessboard::Chessboard(QObject *parent)
     : QObject{parent}
 {

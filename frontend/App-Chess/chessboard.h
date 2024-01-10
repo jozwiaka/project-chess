@@ -15,9 +15,12 @@ public:
     ChessboardType Board;
 
 public:
-    explicit Chessboard(QObject *parent = nullptr);
+    static Chessboard &GetInstance();
+    Chessboard(const Chessboard &other) = delete;
+    Chessboard &operator=(const Chessboard &other) = delete;
 
 private:
+    explicit Chessboard(QObject *parent = nullptr);
     void InitializeChessboard();
 
 signals:
