@@ -14,6 +14,7 @@ class ChessModel : public QObject
     Q_OBJECT
 public:
     using PlayerColor = ChessPiece::PieceColor;
+    // using Chessboard = QVector<QVector<ChessSquare *>>;
 
 public:
     explicit ChessModel(QObject *parent = nullptr);
