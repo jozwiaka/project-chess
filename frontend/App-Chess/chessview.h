@@ -9,8 +9,9 @@
 #include <QVector>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class ChessView;
+namespace Ui
+{
+    class ChessView;
 }
 QT_END_NAMESPACE
 
@@ -19,27 +20,26 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView(bool* computerTurn, bool* promotionProcedure, QWidget *parent = nullptr);
-    void CreateChessboardGraphics(QVector<QVector<ChessSquare*>> chessboard);
+    ChessView(bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
+    void CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard);
 
     void CreateMenuGraphics();
 
-    void OnSquareClicked(const ChessSquare::SquarePosition& position);
+    void OnSquareClicked(const ChessSquare::SquarePosition &position);
 
     void UpdateChessboardGraphics();
 
     ~ChessView();
 
 signals:
-    void SquareClicked(const ChessSquare::SquarePosition& position);
+    void SquareClicked(const ChessSquare::SquarePosition &position);
 
 private:
-    Ui::ChessView* m_Ui;
-    QGridLayout* ChessboardLayout;
-    QGridLayout* m_MenuLayout;
+    Ui::ChessView *m_Ui;
+    QGridLayout *m_ChessboardLayout;
+    QGridLayout *m_MenuLayout;
 
     bool *m_ComputerTurn;
     bool *m_PromotionProcedure;
-
 };
 #endif // CHESSVIEW_H

@@ -10,7 +10,7 @@ ChessView::ChessView(bool *computerTurn, bool *promotionProcedure, QWidget *pare
 ChessView::~ChessView()
 {
     delete m_Ui;
-    delete ChessboardLayout;
+    delete m_ChessboardLayout;
     delete m_MenuLayout;
 }
 
@@ -21,16 +21,16 @@ ChessView::~ChessView()
 
 void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard)
 {
-    ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
-    ChessboardLayout->setSpacing(0);
-    ChessboardLayout->setAlignment(Qt::AlignCenter);
-    ChessboardLayout->setContentsMargins(0, 0, 0, 0);
+    m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
+    m_ChessboardLayout->setSpacing(0);
+    m_ChessboardLayout->setAlignment(Qt::AlignCenter);
+    m_ChessboardLayout->setContentsMargins(0, 0, 0, 0);
 
     for (char row = 0; row < 8; ++row)
     {
         for (char col = 0; col < 8; ++col)
         {
-            ChessboardLayout->addWidget(chessboard[row][col], *m_ComputerTurn ? row : 8 - 1 - row, *m_ComputerTurn ? 8 - 1 - col : col);
+            m_ChessboardLayout->addWidget(chessboard[row][col], *m_ComputerTurn ? row : 8 - 1 - row, *m_ComputerTurn ? 8 - 1 - col : col);
             connect(chessboard[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
@@ -50,7 +50,7 @@ void ChessView::UpdateChessboardGraphics()
     {
         for (int col = 0; col < 8; ++col)
         {
-            ChessSquare *square = qobject_cast<ChessSquare *>(ChessboardLayout->itemAtPosition(row, col)->widget());
+            ChessSquare *square = qobject_cast<ChessSquare *>(m_ChessboardLayout->itemAtPosition(row, col)->widget());
 
             switch (square->Status)
             {
