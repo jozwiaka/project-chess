@@ -14,12 +14,12 @@ ChessView::~ChessView()
     delete m_MenuLayout;
 }
 
-// void ChessView::CreateMenuGraphics(QVector<QVector<ChessSquare *>> chessboard)
+// void ChessView::CreateMenuGraphics(ChessboardType chessboard)
 // {
 
 // }
 
-void ChessView::CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard)
+void ChessView::CreateChessboardGraphics(Chessboard::ChessboardType chessboard)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);

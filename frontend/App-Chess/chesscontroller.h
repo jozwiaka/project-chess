@@ -5,6 +5,7 @@
 #include "chessmodel.h"
 #include "chessview.h"
 #include "cnnmodel.h"
+#include "chessboard.h"
 
 class ChessController : public QObject
 {

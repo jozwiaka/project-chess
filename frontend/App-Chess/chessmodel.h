@@ -8,18 +8,16 @@
 #include <array>
 #include <QVector>
 #include <QThread>
+#include "chessboard.h"
 
 class ChessModel : public QObject
 {
     Q_OBJECT
 public:
     using PlayerColor = ChessPiece::PieceColor;
-    // using Chessboard = QVector<QVector<ChessSquare *>>;
 
 public:
-    explicit ChessModel(QObject *parent = nullptr);
-
-    void InitializeChessboard();
+    explicit ChessModel(const Chessboard::ChessboardType &board, QObject *parent = nullptr);
 
     void UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position);
 
@@ -53,14 +51,14 @@ private:
     bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquaresInstead);
 
     bool ValidMovesUnderCheck();
-    QVector<QVector<ChessSquare *>> DeepCopyChessboard();
+    Chessboard::ChessboardType DeepCopyChessboard();
 
     void PromotePawnToTheType(ChessSquare *square, const ChessPiece::PieceType &pieceType);
 
 public:
     bool *ComputerTurn;
     bool *PromotionProcedure;
-    QVector<QVector<ChessSquare *>> Chessboard;
+    Chessboard::ChessboardType Chessboard;
 
 private:
     PlayerColor m_CurrentTurn;

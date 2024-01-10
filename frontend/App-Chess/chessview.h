@@ -21,7 +21,7 @@ class ChessView : public QMainWindow
 
 public:
     ChessView(bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
-    void CreateChessboardGraphics(QVector<QVector<ChessSquare *>> chessboard);
+    void CreateChessboardGraphics(Chessboard::ChessboardType chessboard);
 
     void CreateMenuGraphics();
 

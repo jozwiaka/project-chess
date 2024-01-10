@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    ChessModel model;
+    Chessboard board;
+    ChessModel model{board.Board};
     ChessView view{model.ComputerTurn, model.PromotionProcedure};
     ChessController controller(&model, &view);
 
