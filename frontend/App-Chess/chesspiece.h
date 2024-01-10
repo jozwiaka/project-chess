@@ -10,7 +10,8 @@ class ChessPiece : public QLabel
     Q_OBJECT
 
 public:
-    enum class PieceType {
+    enum class PieceType
+    {
         Pawn,
         Rook,
         Knight,
@@ -19,20 +20,19 @@ public:
         King
     };
 
-    enum class Color {
+    enum class PieceColor
+    {
         White = 0,
         Black = 1
     };
 
-
-
 public:
     ChessPiece() = default;
 
-    ChessPiece(PieceType type, Color color, QWidget *parent = nullptr);
+    ChessPiece(PieceType type, PieceColor color, QWidget *parent = nullptr);
 
     PieceType GetPieceType() const;
-    Color GetColor() const;
+    PieceColor GetColor() const;
 
     void SetSelected(bool selected);
     bool IsSelected() const;
@@ -45,7 +45,7 @@ public:
 
 private:
     PieceType m_PieceType;
-    Color m_Color;
+    PieceColor m_Color;
     bool m_Selected;
     bool m_Moved;
     bool m_EnPassant;

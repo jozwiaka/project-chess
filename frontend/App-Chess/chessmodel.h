@@ -13,7 +13,7 @@ class ChessModel : public QObject
 {
     Q_OBJECT
 public:
-    using Color = ChessPiece::Color;
+    using Color = ChessPiece::PieceColor;
 
 public:
     explicit ChessModel(QObject *parent = nullptr);

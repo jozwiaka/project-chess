@@ -48,7 +48,7 @@ void ChessModel::InitializeChessboard()
 
             if (row == '1' || row == '2' || row == '7' || row == '8')
             {
-                ChessPiece::Color color = (row == '1' || row == '2') ? ChessPiece::Color::White : ChessPiece::Color::Black;
+                ChessPiece::PieceColor color = (row == '1' || row == '2') ? ChessPiece::PieceColor::White : ChessPiece::PieceColor::Black;
                 ChessPiece::PieceType pieceType;
 
                 switch (row)
