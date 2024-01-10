@@ -65,9 +65,9 @@ protected:
 
 private:
     ChessPiece *m_Piece;
-    size_t m_Size;
-    QColor m_NormalColor;
-    QColor m_HighlightedColor;
+    const size_t m_Size;
+    const QColor m_NormalColor;
+    const QColor m_HighlightedColor;
 
 signals:
     void Clicked(const SquarePosition &position);

@@ -3,15 +3,14 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *parent)
-    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTemporary(SquareStatusTemporary::Normal), m_Size(80), m_Piece(nullptr), Blocked(false)
+    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTemporary(SquareStatusTemporary::Normal), m_Size(80), m_Piece(nullptr), Blocked(false), m_NormalColor(dark ? QColor(101, 67, 33) : QColor(193, 154, 107)),
+      m_HighlightedColor(dark ? QColor(255, 220, 185) : QColor(255, 236, 210))
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
     setScaledContents(true); // Ensure the square image fits the label size
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setAlignment(Qt::AlignCenter);
-    m_NormalColor = dark ? QColor(101, 67, 33) : QColor(193, 154, 107);
-    m_HighlightedColor = dark ? QColor(255, 220, 185) : QColor(255, 236, 210);
     SetNormalBackgroundColor();
 }
 

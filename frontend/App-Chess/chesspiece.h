@@ -27,8 +27,8 @@ public:
     };
 
 public:
-    PieceType Type;
-    PieceColor Color;
+    const PieceType Type;
+    const PieceColor Color;
     bool Moved;
     bool EnPassant;
 
