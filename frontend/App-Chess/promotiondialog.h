@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include "chesspiece.h"
 #include "chesssquare.h"
+#include <QMap>
 
 namespace Ui
 {
@@ -17,7 +18,6 @@ class PromotionDialog : public QDialog
 
 public:
     explicit PromotionDialog(const ChessPiece::PieceColor &color, QWidget *parent = nullptr);
-    ~PromotionDialog();
 
 signals:
     void PieceSelected(const ChessPiece::PieceType &selectedPiece);
@@ -26,6 +26,7 @@ private slots:
     void OnPromotionButtonClicked();
 
 private:
+    QMap<QPushButton*, ChessPiece::PieceType> m_ButtonPieceTypeMap;
     QList<QPushButton *> m_PromotionButtons;
 };
 

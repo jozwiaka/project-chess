@@ -668,6 +668,7 @@ void ChessModel::MoveCNNModel()
 
 void ChessModel::OnPromotionPieceSelected(const ChessPiece::PieceType &type)
 {
+    qDebug()<<int(type);
     PromotePawnToTheType(m_PromotedSquare, type);
     m_PromotedSquare = nullptr;
 }
