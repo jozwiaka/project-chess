@@ -56,8 +56,11 @@ private:
     bool ValidMovesUnderCheck();
     QVector<QVector<ChessSquare *>> DeepCopyChessboard();
 
+    void PromotePawnToTheType(ChessSquare* square, const ChessPiece::PieceType& pieceType);
+
 public:
     bool *ComputerTurn;
+    bool *PromotionProcedure;
 
 private:
     QVector<QVector<ChessSquare *>> m_Chessboard;

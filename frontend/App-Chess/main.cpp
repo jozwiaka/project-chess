@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     ChessModel model;
-    ChessView view{model.ComputerTurn};
+    ChessView view{model.ComputerTurn, model.PromotionProcedure};
     ChessController controller(&model, &view);
 
     return a.exec();

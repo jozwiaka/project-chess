@@ -1,8 +1,8 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(bool *computerTurn, QWidget *parent)
-    : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
+ChessView::ChessView(bool *computerTurn, bool* promotionProcedure, QWidget *parent)
+    : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn), m_PromotionProcedure(promotionProcedure)
 {
     m_Ui->setupUi(this);
 }

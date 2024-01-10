@@ -5,7 +5,12 @@
 #include <chrono>
 
 ChessModel::ChessModel(QObject *parent)
-    : QObject{parent}, m_CurrentTurn{Color::White}, m_ActiveSquare(nullptr), m_Check(false), m_CheckMate(false), ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/))
+    : QObject{parent},
+    m_CurrentTurn{Color::White},
+    m_ActiveSquare(nullptr), m_Check(false),
+    m_CheckMate(false),
+    ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
+    PromotionProcedure(new bool(false))
 {
 }
 
@@ -93,6 +98,23 @@ QVector<QVector<ChessSquare *>> ChessModel::GetChessboard()
     return m_Chessboard;
 }
 
+void ChessModel::PromotePawnToTheType(ChessSquare* square, const ChessPiece::PieceType& pieceType)
+{
+    if (square)
+    {
+        ChessPiece *piece = square->GetChessPiece();
+        if (piece)
+        {
+            if (piece->GetPieceType() == ChessPiece::PieceType::Pawn)
+            {
+                auto promotedPiece = new ChessPiece(pieceType, piece->GetColor(), square);
+                square->RemoveChessPiece();
+                square->SetChessPiece(promotedPiece);
+            }
+        }
+    }
+}
+
 void ChessModel::ClearActiveAndValidMoveStatuses()
 {
     for (auto &row : m_Chessboard)
@@ -131,6 +153,8 @@ void ChessModel::ClearPreviousMoveStatusesAndEnPassants()
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::Position &position)
 {
     ChessSquare *foundSquare = GetSquareByPosition(position);
+
+    PromotePawnToTheType(foundSquare, ChessPiece::PieceType::Queen);
 
     if (!foundSquare)
     {
