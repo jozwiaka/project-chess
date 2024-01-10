@@ -32,6 +32,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
                 m_PromotedSquare->RemoveChessPiece();
                 m_PromotedSquare->SetPiece(promotedPiece);
                 m_PromotedSquare = nullptr;
+                CheckValidKingMovesAndCheck()
             }
         }
     }
