@@ -41,7 +41,7 @@ public:
     SquarePosition Position;
     SquareStatus Status;
     SquareStatusTemporary StatusTemporary;
-    bool Blocked;
+    bool BlockedForKing;
     QVector<ChessPiece *> BlockedPieces;
 
 public:
@@ -61,7 +61,7 @@ public:
 
     void SetValidBackgroundColor();
 
-    bool IsPieceBlocked(ChessPiece* piece);
+    bool IsPieceBlocked(ChessPiece *piece);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

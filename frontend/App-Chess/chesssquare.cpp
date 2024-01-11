@@ -3,7 +3,7 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *parent)
-    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTemporary(SquareStatusTemporary::Normal), m_Size(80), m_Piece(nullptr), Blocked(false), m_NormalColor(dark ? QColor(101, 67, 33) : QColor(193, 154, 107)),
+    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTemporary(SquareStatusTemporary::Normal), m_Size(80), m_Piece(nullptr), BlockedForKing(false), m_NormalColor(dark ? QColor(101, 67, 33) : QColor(193, 154, 107)),
       m_HighlightedColor(dark ? QColor(255, 220, 185) : QColor(255, 236, 210))
 {
     setFixedSize(m_Size, m_Size);
@@ -63,11 +63,11 @@ void ChessSquare::RemoveChessPiece()
     }
 }
 
-bool ChessSquare::IsPieceBlocked(ChessPiece* piece)
+bool ChessSquare::IsPieceBlocked(ChessPiece *piece)
 {
-    for(auto* blockedPiece : BlockedPieces)
+    for (auto *blockedPiece : BlockedPieces)
     {
-        if(blockedPiece==piece)
+        if (blockedPiece == piece)
             return true;
     }
     return false;

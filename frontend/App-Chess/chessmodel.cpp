@@ -48,7 +48,7 @@ void ChessModel::ClearAfterPreviousMove()
             ChessPiece *piece = square->GetPiece();
             if (piece)
                 piece->EnPassant = false;
-            square->Blocked = false;
+            square->BlockedForKing = false;
             square->BlockedPieces.clear();
         }
     }
@@ -300,7 +300,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
                 {
                     if (CheckIfFreeSquare(target) || CheckIfAlly(source, target))
                     {
-                        target->Blocked = true;
+                        target->BlockedForKing = true;
                     }
                     else if (CheckIfEnemy(source, target))
                     {
@@ -359,7 +359,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             ChessSquare *target = Chessboard::GetSquareByPosition({x, y});
             if (target)
             {
-                if (!target->IsPieceBlocked(piece))
+                if (!target->IsPieceBlocked(piece) && !target->BlockedForKing)
                 {
 
                     if (mode == Mode::Validate)
@@ -377,11 +377,11 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                     {
                         if (CheckIfFreeSquare(target))
                         {
-                            target->Blocked = true;
+                            target->BlockedForKing = true;
                         }
                         else if (CheckIfAlly(source, target))
                         {
-                            target->Blocked = true;
+                            target->BlockedForKing = true;
                         }
                     }
                 }
@@ -401,9 +401,9 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                 CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 1})) &&
                 CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 2})) &&
                 CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 3})) &&
-                !Chessboard::GetSquareByPosition({source->Position.x, 1})->Blocked &&
-                !Chessboard::GetSquareByPosition({source->Position.x, 2})->Blocked &&
-                !Chessboard::GetSquareByPosition({source->Position.x, 3})->Blocked)
+                !Chessboard::GetSquareByPosition({source->Position.x, 1})->BlockedForKing &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 2})->BlockedForKing &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 3})->BlockedForKing)
             {
                 m_Board[source->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -417,8 +417,8 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                 !rook2->Moved &&
                 CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 6})) &&
                 CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 5})) &&
-                !Chessboard::GetSquareByPosition({source->Position.x, 6})->Blocked &&
-                !Chessboard::GetSquareByPosition({source->Position.x, 5})->Blocked)
+                !Chessboard::GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
             {
                 m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -453,7 +453,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
             {
                 if (CheckIfFreeSquare(target))
                 {
-                    target->Blocked = true;
+                    target->BlockedForKing = true;
                 }
                 else if (CheckIfEnemy(source, target))
                 {
@@ -465,7 +465,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                 }
                 else if (CheckIfAlly(source, target))
                 {
-                    target->Blocked = true;
+                    target->BlockedForKing = true;
                     return true;
                 }
             }
@@ -590,7 +590,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     *ComputerTurn = !*ComputerTurn;
 
     // Post move phase
-    // ValidateAllyKingMovesAndCheck();
+    ValidateAllyKingMovesAndCheck();
     ValidateMovesUnderCheck();
     //  MoveCNNModel(); // TODO
 }
@@ -675,7 +675,7 @@ void ChessModel::ValidateMovesUnderCheck()
                                                 }
                                                 if (outCheckDetected)
                                                 {
-                                                    // m_Board[x][y]->Blocked = true;
+                                                    // m_Board[x][y]->BlockedForKing = true;
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }
