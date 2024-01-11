@@ -586,11 +586,9 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     }
     m_FromSquare = nullptr;
 
+    ValidateAllyKingMovesAndCheck();
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
-
-    // Post move phase
-    ValidateAllyKingMovesAndCheck();
     ValidateMovesUnderCheck();
     //  MoveCNNModel(); // TODO
 }
@@ -704,7 +702,7 @@ void ChessModel::ValidateAllyKingMovesAndCheck()
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
-                if (piece->Color != m_CurrentTurn)
+                if (piece->Color == m_CurrentTurn)
                 {
                     bool outCheckDetected;
                     switch (piece->Type)
