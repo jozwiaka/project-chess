@@ -107,7 +107,7 @@ void ChessModel::SetRookValidMoves(ChessSquare *source, Mode mode, bool &outChec
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), mode, outCheckDetected))
             break;
@@ -119,7 +119,7 @@ void ChessModel::SetRookValidMoves(ChessSquare *source, Mode mode, bool &outChec
             break;
     }
 
-    for (int y = Y + 1; y <= 7; ++y)
+    for (int y = Y + 1; y < 8; ++y)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), mode, outCheckDetected))
             break;
@@ -161,7 +161,7 @@ void ChessModel::SetBishopValidMoves(ChessSquare *source, Mode mode, bool &outCh
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), mode, outCheckDetected))
             break;
@@ -173,7 +173,7 @@ void ChessModel::SetBishopValidMoves(ChessSquare *source, Mode mode, bool &outCh
             break;
     }
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), mode, outCheckDetected))
             break;
@@ -191,7 +191,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outChe
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), mode, outCheckDetected))
             break;
@@ -203,7 +203,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outChe
             break;
     }
 
-    for (int y = Y + 1; y <= 7; ++y)
+    for (int y = Y + 1; y < 8; ++y)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), mode, outCheckDetected))
             break;
@@ -215,7 +215,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outChe
             break;
     }
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), mode, outCheckDetected))
             break;
@@ -227,7 +227,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outChe
             break;
     }
 
-    for (int x = X + 1; x <= 7; ++x)
+    for (int x = X + 1; x < 8; ++x)
     {
         if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), mode, outCheckDetected))
             break;
@@ -584,8 +584,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     *ComputerTurn = !*ComputerTurn;
 
     // Post move phase
-    ValidateAllyKingMovesAndCheck();
-    // ValidateMovesUnderCheck();
+    // ValidateAllyKingMovesAndCheck();
+    ValidateMovesUnderCheck();
     //  MoveCNNModel(); // TODO
 }
 
@@ -623,9 +623,9 @@ void ChessModel::ValidateMovesUnderCheck()
                         break;
                     }
 
-                    for (int x = 0; x < 7; ++x)
+                    for (int x = 0; x < 8; ++x)
                     {
-                        for (int y = 0; y < 7; ++y)
+                        for (int y = 0; y < 8; ++y)
                         {
                             if (m_Board[x][y]->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove ||
                                 m_Board[x][y]->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture)
@@ -672,6 +672,7 @@ void ChessModel::ValidateMovesUnderCheck()
                                                     static int i = 1;
                                                     qDebug() << i << "\n";
                                                     i++;
+                                                    m_Board[x][y]->Blocked = true;
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }

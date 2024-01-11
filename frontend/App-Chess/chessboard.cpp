@@ -92,7 +92,7 @@ void Chessboard::InitializeChessboard()
 
 ChessSquare *Chessboard::GetSquareByPosition(const ChessSquare::SquarePosition &position)
 {
-    if (position.x >= 0 && position.x <= 7 && position.y >= 0 && position.y <= 7)
+    if (position.x >= 0 && position.x < 8 && position.y >= 0 && position.y < 8)
         return GetInstance().Board[position.x][position.y];
 
     return nullptr;
