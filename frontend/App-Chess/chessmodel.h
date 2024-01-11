@@ -43,17 +43,17 @@ private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
-    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
-    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
-    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
-    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
-    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
-    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
 
-    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares); // fix
-    bool CheckIfFreeSquare(ChessSquare *target);                                                // fix
-    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                // fix
-    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                 // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares, bool detectCheck); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                                                  // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                                  // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                                   // fix
 
     void ValidateAllyKingMovesAndCheck();
     void ValidateMovesUnderCheck();
