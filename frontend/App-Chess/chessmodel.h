@@ -28,21 +28,20 @@ public:
 
     ~ChessModel();
 
-    void MakeMove(ChessSquare *toSquare);
+    void OnPromotionPieceSelected(const ChessPiece::PieceType &type);
 
     void MoveCNNModel();
 
-    void OnPromotionPieceSelected(const ChessPiece::PieceType &type);
-
 private:
     PlayerColor m_CurrentTurn;
-    ChessSquare *m_ActiveSquare;
+    ChessSquare *m_FromSquare;
     ChessSquare *m_PromotedSquare;
     bool m_Check;
     bool m_CheckMate;
     Chessboard::ChessboardType m_Board;
 
 private:
+    void MakeMove(ChessSquare *toSquare);
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 

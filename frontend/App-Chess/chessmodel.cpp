@@ -6,7 +6,7 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
     : m_Board{board},
       QObject{parent},
       m_CurrentTurn{PlayerColor::White},
-      m_ActiveSquare(nullptr),
+      m_FromSquare(nullptr),
       m_PromotedSquare(nullptr),
       m_Check(false),
       m_CheckMate(false),
@@ -92,7 +92,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
 
     bool isGoingToMakeMove = false;
 
-    if (m_ActiveSquare && (foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
+    if (m_FromSquare && (foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
     {
         isGoingToMakeMove = true;
     }
@@ -103,7 +103,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
     {
         MakeMove(foundSquare);
     }
-    m_ActiveSquare = nullptr;
+    m_FromSquare = nullptr;
 
     if (foundSquare->GetPiece())
     {
@@ -111,7 +111,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
         if (piece->Color == m_CurrentTurn)
         {
             foundSquare->StatusTemporary = ChessSquare::SquareStatusTemporary::Active;
-            m_ActiveSquare = foundSquare;
+            m_FromSquare = foundSquare;
 
             switch (piece->Type)
             {
@@ -463,14 +463,14 @@ ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::SquarePosition &
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
-    if (!m_ActiveSquare || m_ActiveSquare == toSquare)
+    if (!m_FromSquare || m_FromSquare == toSquare)
     {
         return;
     }
 
-    ChessPiece *pieceToMove = m_ActiveSquare->GetPiece();
-    int xDiff = toSquare->Position.x - m_ActiveSquare->Position.x;
-    int yDiff = toSquare->Position.y - m_ActiveSquare->Position.y;
+    ChessPiece *pieceToMove = m_FromSquare->GetPiece();
+    int xDiff = toSquare->Position.x - m_FromSquare->Position.x;
+    int yDiff = toSquare->Position.y - m_FromSquare->Position.y;
 
     // Castling
     if (
@@ -479,8 +479,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     {
         int yRock = yDiff > 0 ? 7 : 0;
         int yRockNew = yDiff > 0 ? 5 : 3;
-        ChessSquare *square = GetSquareByPosition({m_ActiveSquare->Position.x, yRock});
-        GetSquareByPosition({m_ActiveSquare->Position.x, yRockNew})->SetPiece(square->GetPiece());
+        ChessSquare *square = GetSquareByPosition({m_FromSquare->Position.x, yRock});
+        GetSquareByPosition({m_FromSquare->Position.x, yRockNew})->SetPiece(square->GetPiece());
         square->SetPiece(nullptr);
     }
 
@@ -489,7 +489,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         pieceToMove->Type == ChessPiece::PieceType::Pawn &&
         yDiff != 0)
     {
-        ChessSquare::SquarePosition position{m_ActiveSquare->Position.x, m_ActiveSquare->Position.y + yDiff};
+        ChessSquare::SquarePosition position{m_FromSquare->Position.x, m_FromSquare->Position.y + yDiff};
         ChessSquare *square = GetSquareByPosition(position);
         ChessPiece *piece = square->GetPiece();
         if (piece)
@@ -503,7 +503,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     toSquare->RemoveChessPiece();
     toSquare->SetPiece(pieceToMove);
-    m_ActiveSquare->SetPiece(nullptr);
+    m_FromSquare->SetPiece(nullptr);
 
     pieceToMove->Moved = true;
 
@@ -516,7 +516,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         pieceToMove->EnPassant = true;
     }
 
-    m_ActiveSquare->Status = ChessSquare::SquareStatus::PreviousMove;
+    m_FromSquare->Status = ChessSquare::SquareStatus::PreviousMove;
     toSquare->Status = ChessSquare::SquareStatus::PreviousMove;
 
     if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
@@ -537,8 +537,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     // MoveCNNModel(); // TODO
 }
 
-void ChessModel::ValidMovesUnderCheck(){
-
+void ChessModel::ValidMovesUnderCheck()
+{
 }
 
 void ChessModel::CheckValidKingMovesAndCheck()
