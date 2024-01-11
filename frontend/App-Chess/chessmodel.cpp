@@ -654,6 +654,7 @@ void ChessModel::ValidateMovesUnderCheck()
                                                 }
                                                 if (outCheckDetected)
                                                 {
+                                                    m_Board[x][y]->Blocked = true;
                                                     break;
                                                 }
                                             }
@@ -662,7 +663,6 @@ void ChessModel::ValidateMovesUnderCheck()
                                 }
                                 allySquare->SetPiece(piece1);
                                 m_Board[x][y]->SetPiece(piece2);
-                                m_Board[x][y]->Blocked = true;
                             }
                         }
                     }
