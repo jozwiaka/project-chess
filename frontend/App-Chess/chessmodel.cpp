@@ -8,8 +8,6 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       m_CurrentTurn{PlayerColor::White},
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
-      m_Check(false),
-      m_CheckMate(false),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
       PromotionProcedure(new bool(false))
 {
@@ -53,8 +51,6 @@ void ChessModel::ClearAfterPreviousMove()
             square->Blocked = false;
         }
     }
-    m_Check = false;
-    m_CheckMate = false;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position)
@@ -106,37 +102,37 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
     emit UpdateChessboardGraphics();
 }
 
-void ChessModel::SetRookValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int y = Y + 1; y <= 7; ++y)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int y = Y - 1; y >= 0; --y)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), checkKingAndBlockSquares))
             break;
     }
 }
 
-void ChessModel::SetKnightValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     const int X = source->Position.x;
     const int Y = source->Position.y;
@@ -145,7 +141,7 @@ void ChessModel::SetKnightValidMoves(ChessSquare *source, bool blockSquares)
     {
         for (int y = Y - 1; y <= Y + 1; y += 2)
         {
-            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), blockSquares))
+            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), checkKingAndBlockSquares))
                 break;
         }
     }
@@ -154,97 +150,97 @@ void ChessModel::SetKnightValidMoves(ChessSquare *source, bool blockSquares)
     {
         for (int x = X - 1; x <= X + 1; x += 2)
         {
-            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), blockSquares))
+            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), checkKingAndBlockSquares))
                 break;
         }
     }
 }
 
-void ChessModel::SetBishopValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), checkKingAndBlockSquares))
             break;
     }
 }
 
-void ChessModel::SetQueenValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int y = Y + 1; y <= 7; ++y)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int y = Y - 1; y >= 0; --y)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({X, y}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y + x - X}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X + 1; x <= 7; ++x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), checkKingAndBlockSquares))
             break;
     }
 
     for (int x = X - 1; x >= 0; --x)
     {
-        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), blockSquares))
+        if (SetValidMove(source, Chessboard::GetSquareByPosition({x, Y - (x - X)}), checkKingAndBlockSquares))
             break;
     }
 }
 
-void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     ChessPiece *piece = source->GetPiece();
     const int X = source->Position.x;
@@ -262,7 +258,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
         ChessSquare *target = Chessboard::GetSquareByPosition({x, Y});
         if (CheckIfFreeSquare(target))
         {
-            if (!blockSquares)
+            if (!checkKingAndBlockSquares)
             {
                 target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -278,18 +274,17 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
         ChessSquare *target = Chessboard::GetSquareByPosition({X + i, y});
         if (CheckIfFreeSquare(target) || CheckIfAlly(source, target))
         {
-            if (blockSquares)
+            if (checkKingAndBlockSquares)
             {
                 target->Blocked = true;
             }
         }
         else if (CheckIfEnemy(source, target))
         {
-            if (blockSquares)
+            if (checkKingAndBlockSquares)
             {
                 if (target->GetPiece()->Type == ChessPiece::PieceType::King)
                 {
-                    m_Check = true;
                     target->Status = ChessSquare::SquareStatus::Check;
                     qDebug() << "Check Pawn\n";
                 }
@@ -312,7 +307,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
     }
 }
 
-void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
+void ChessModel::SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares)
 {
     ChessPiece *piece = source->GetPiece();
     const int X = source->Position.x;
@@ -329,7 +324,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
                 {
                     if (CheckIfFreeSquare(target))
                     {
-                        if (blockSquares)
+                        if (checkKingAndBlockSquares)
                         {
                             target->Blocked = true;
                         }
@@ -340,7 +335,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
                     }
                     else if (CheckIfEnemy(source, target))
                     {
-                        if (!blockSquares)
+                        if (!checkKingAndBlockSquares)
                         {
                             target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
                         }
@@ -363,7 +358,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
             !Chessboard::GetSquareByPosition({source->Position.x, 2})->Blocked &&
             !Chessboard::GetSquareByPosition({source->Position.x, 3})->Blocked)
         {
-            if (!blockSquares)
+            if (!checkKingAndBlockSquares)
             {
                 m_Board[source->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -381,7 +376,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
             !Chessboard::GetSquareByPosition({source->Position.x, 6})->Blocked &&
             !Chessboard::GetSquareByPosition({source->Position.x, 5})->Blocked)
         {
-            if (!blockSquares)
+            if (!checkKingAndBlockSquares)
             {
                 m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -389,11 +384,11 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
     }
 }
 
-bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool blockSquare)
+bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquare)
 {
     if (CheckIfFreeSquare(target))
     {
-        if (blockSquare)
+        if (checkKingAndBlockSquare)
         {
             target->Blocked = true;
         }
@@ -404,11 +399,10 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool blo
     }
     else if (CheckIfEnemy(source, target))
     {
-        if (blockSquare)
+        if (checkKingAndBlockSquare)
         {
             if (target->GetPiece()->Type == ChessPiece::PieceType::King)
             {
-                m_Check = true;
                 target->Status = ChessSquare::SquareStatus::Check;
                 qDebug() << "Check\n";
             }
@@ -421,7 +415,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool blo
     }
     else if (CheckIfAlly(source, target))
     {
-        if (blockSquare)
+        if (checkKingAndBlockSquare)
         {
             target->Blocked = true;
         }
@@ -539,6 +533,40 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
 void ChessModel::ValidateMovesUnderCheck()
 {
+    //  for (auto &row : m_Board)
+    // {
+    //     for (auto *square : row)
+    //     {
+    //         ChessPiece *piece = square->GetPiece();
+    //         if (piece)
+    //         {
+    //             if (piece->Color != m_CurrentTurn)
+    //             {
+    //                 switch (piece->Type)
+    //                 {
+    //                 case ChessPiece::PieceType::Rook:
+    //                     SetRookValidMoves(square, true);
+    //                     break;
+    //                 case ChessPiece::PieceType::Knight:
+    //                     SetKnightValidMoves(square, true);
+    //                     break;
+    //                 case ChessPiece::PieceType::Bishop:
+    //                     SetBishopValidMoves(square, true);
+    //                     break;
+    //                 case ChessPiece::PieceType::Queen:
+    //                     SetQueenValidMoves(square, true);
+    //                     break;
+    //                 case ChessPiece::PieceType::King:
+    //                     SetKingValidMoves(square, true);
+    //                     break;
+    //                 case ChessPiece::PieceType::Pawn:
+    //                     SetPawnValidMoves(square, true);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 void ChessModel::ValidateAllyKingMovesAndCheck()

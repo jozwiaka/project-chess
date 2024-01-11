@@ -36,8 +36,6 @@ private:
     PlayerColor m_CurrentTurn;
     ChessSquare *m_FromSquare;
     ChessSquare *m_SquareUnderPromotion;
-    bool m_Check;
-    bool m_CheckMate;
     Chessboard::ChessboardType m_Board;
 
 private:
@@ -45,17 +43,17 @@ private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
-    void SetRookValidMoves(ChessSquare *source, bool blockSquares = false);
-    void SetKnightValidMoves(ChessSquare *source, bool blockSquares = false);
-    void SetBishopValidMoves(ChessSquare *source, bool blockSquares = false);
-    void SetQueenValidMoves(ChessSquare *source, bool blockSquares = false);
-    void SetKingValidMoves(ChessSquare *source, bool blockSquares = false);
-    void SetPawnValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
 
-    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool blockSquare); // fix
-    bool CheckIfFreeSquare(ChessSquare *target);                                   // fix
-    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                   // fix
-    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                    // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquare); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                               // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                               // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                // fix
 
     void ValidateAllyKingMovesAndCheck();
     void ValidateMovesUnderCheck();
