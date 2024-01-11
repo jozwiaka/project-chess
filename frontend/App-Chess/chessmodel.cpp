@@ -78,22 +78,22 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
             switch (piece->Type)
             {
             case ChessPiece::PieceType::Rook:
-                SetRookValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetRookValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             case ChessPiece::PieceType::Knight:
-                SetKnightValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetKnightValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             case ChessPiece::PieceType::Bishop:
-                SetBishopValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetBishopValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             case ChessPiece::PieceType::Queen:
-                SetQueenValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetQueenValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             case ChessPiece::PieceType::King:
-                SetKingValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetKingValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             case ChessPiece::PieceType::Pawn:
-                SetPawnValidMoves(clickedSquare, Mode::Validate outCheckDetected);
+                SetPawnValidMoves(clickedSquare, Mode::Validate, outCheckDetected);
                 break;
             }
         }
@@ -343,61 +343,63 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             {
                 if (!target->Blocked)
                 {
-                    if (CheckIfFreeSquare(target))
+
+                    if (mode == Mode::Validate)
                     {
-                        if (checkKingAndBlockSquares)
-                        {
-                            target->Blocked = true;
-                        }
-                        else
+                        if (CheckIfFreeSquare(target))
                         {
                             target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
                         }
-                    }
-                    else if (CheckIfEnemy(source, target))
-                    {
-                        if (!checkKingAndBlockSquares)
+                        else if (CheckIfEnemy(source, target))
                         {
                             target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
                         }
+                    }
+                    else if (mode == Mode::CheckKingAndBlockSquares)
+                    {
+                        if (CheckIfFreeSquare(target))
+                        {
+                            target->Blocked = true;
+                        }
+                    }
+                    else if (mode == Mode::DetectCheck)
+                    {
                     }
                 }
             }
         }
     }
 
-    ChessPiece *rook1 = m_Board[source->Position.x][0]->GetPiece();
-    if (rook1)
+    if (mode == Mode::Validate)
     {
-        if (
-            !piece->Moved &&
-            !rook1->Moved &&
-            CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 1})) &&
-            CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 2})) &&
-            CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 3})) &&
-            !Chessboard::GetSquareByPosition({source->Position.x, 1})->Blocked &&
-            !Chessboard::GetSquareByPosition({source->Position.x, 2})->Blocked &&
-            !Chessboard::GetSquareByPosition({source->Position.x, 3})->Blocked)
+
+        ChessPiece *rook1 = m_Board[source->Position.x][0]->GetPiece();
+        if (rook1)
         {
-            if (!checkKingAndBlockSquares)
+            if (
+                !piece->Moved &&
+                !rook1->Moved &&
+                CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 1})) &&
+                CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 2})) &&
+                CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 3})) &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 1})->Blocked &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 2})->Blocked &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 3})->Blocked)
             {
                 m_Board[source->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
-    }
 
-    ChessPiece *rook2 = m_Board[source->Position.x][7]->GetPiece();
-    if (rook2)
-    {
-        if (
-            !piece->Moved &&
-            !rook2->Moved &&
-            CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 6})) &&
-            CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 5})) &&
-            !Chessboard::GetSquareByPosition({source->Position.x, 6})->Blocked &&
-            !Chessboard::GetSquareByPosition({source->Position.x, 5})->Blocked)
+        ChessPiece *rook2 = m_Board[source->Position.x][7]->GetPiece();
+        if (rook2)
         {
-            if (!checkKingAndBlockSquares)
+            if (
+                !piece->Moved &&
+                !rook2->Moved &&
+                CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 6})) &&
+                CheckIfFreeSquare(Chessboard::GetSquareByPosition({source->Position.x, 5})) &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 6})->Blocked &&
+                !Chessboard::GetSquareByPosition({source->Position.x, 5})->Blocked)
             {
                 m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -407,40 +409,44 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
 
 bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mode, bool &outCheckDetected)
 {
-    if (CheckIfFreeSquare(target))
+    if (mode == Mode::Validate)
     {
-        if (checkKingAndBlockSquares)
-        {
-            target->Blocked = true;
-        }
-        else
+        if (CheckIfFreeSquare(target))
         {
             target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
         }
+        else if (CheckIfEnemy(source, target))
+        {
+            target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
+            return true;
+        }
+        else if (CheckIfAlly(source, target))
+        {
+            return true;
+        }
     }
-    else if (CheckIfEnemy(source, target))
+    else if (mode == Mode::CheckKingAndBlockSquares)
     {
-        if (checkKingAndBlockSquares)
+        if (CheckIfFreeSquare(target))
+        {
+            target->Blocked = true;
+        }
+        else if (CheckIfEnemy(source, target))
         {
             if (target->GetPiece()->Type == ChessPiece::PieceType::King)
             {
                 target->Status = ChessSquare::SquareStatus::Check;
-                qDebug() << "Check\n";
             }
+            return true;
         }
-        else
-        {
-            target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
-        }
-        return true;
-    }
-    else if (CheckIfAlly(source, target))
-    {
-        if (checkKingAndBlockSquares)
+        else if (CheckIfAlly(source, target))
         {
             target->Blocked = true;
+            return true;
         }
-        return true;
+    }
+    else if (mode == Mode::DetectCheck)
+    {
     }
 
     return false;
