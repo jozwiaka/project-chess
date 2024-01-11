@@ -448,7 +448,7 @@ ChessSquare *ChessModel::GetSquareByPosition(const ChessSquare::SquarePosition &
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
-    if (!m_FromSquare || m_FromSquare == toSquare)
+    if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
     {
         return;
     }
