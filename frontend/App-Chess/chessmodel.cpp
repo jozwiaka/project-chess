@@ -49,6 +49,7 @@ void ChessModel::ClearAfterPreviousMove()
             if (piece)
                 piece->EnPassant = false;
             square->Blocked = false;
+            square->BlockedPieces.clear();
         }
     }
 }
@@ -258,7 +259,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
         ChessSquare *target = Chessboard::GetSquareByPosition({x, Y});
         if (target)
         {
-            // if (!target->Blocked)
+            if (!target->IsPieceBlocked(piece))
             {
                 if (mode == Mode::Validate)
                 {
@@ -286,7 +287,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
         ChessSquare *target = Chessboard::GetSquareByPosition({X + i, y});
         if (target)
         {
-            // if (!target->Blocked)
+            if (!target->IsPieceBlocked(piece))
             {
                 if (mode == Mode::Validate)
                 {
@@ -332,7 +333,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
             ChessSquare *target = Chessboard::GetSquareByPosition({X, y});
             if (target)
             {
-                // if (!target->Blocked)
+                if (!target->IsPieceBlocked(piece))
                 {
                     if (CheckIfEnemy(source, target))
                     {
@@ -358,7 +359,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             ChessSquare *target = Chessboard::GetSquareByPosition({x, y});
             if (target)
             {
-                // if (!target->Blocked)
+                if (!target->IsPieceBlocked(piece))
                 {
 
                     if (mode == Mode::Validate)
@@ -429,7 +430,8 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
 {
     if (target)
     {
-        // if (!target->Blocked)
+        ChessPiece *piece = source->GetPiece();
+        if (!target->IsPieceBlocked(piece))
         {
             if (mode == Mode::Validate)
             {
@@ -673,10 +675,7 @@ void ChessModel::ValidateMovesUnderCheck()
                                                 }
                                                 if (outCheckDetected)
                                                 {
-                                                    static int i = 1;
-                                                    qDebug() << i << "\n";
-                                                    i++;
-                                                    m_Board[x][y]->Blocked = true;
+                                                    // m_Board[x][y]->Blocked = true;
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }

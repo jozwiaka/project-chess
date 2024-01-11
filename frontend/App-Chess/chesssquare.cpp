@@ -62,3 +62,13 @@ void ChessSquare::RemoveChessPiece()
         m_Piece = nullptr;
     }
 }
+
+bool ChessSquare::IsPieceBlocked(ChessPiece* piece)
+{
+    for(auto* blockedPiece : BlockedPieces)
+    {
+        if(blockedPiece==piece)
+            return true;
+    }
+    return false;
+}

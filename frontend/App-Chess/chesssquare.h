@@ -61,6 +61,8 @@ public:
 
     void SetValidBackgroundColor();
 
+    bool IsPieceBlocked(ChessPiece* piece);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
