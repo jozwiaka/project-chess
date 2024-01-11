@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QLabel>
 #include <QPainter>
+#include <QVector>
 
 class ChessPiece : public QLabel
 {

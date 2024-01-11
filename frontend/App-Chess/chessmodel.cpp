@@ -676,7 +676,10 @@ void ChessModel::ValidateMovesUnderCheck()
                                                 }
                                                 if (outCheckDetected)
                                                 {
-                                                    m_Board[x][y]->Blocked = true;
+                                                    static int i = 1;
+                                                    qDebug() << i << "\n";
+                                                    i++;
+                                                    m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }
                                             }
@@ -688,7 +691,6 @@ void ChessModel::ValidateMovesUnderCheck()
                             }
                         }
                     }
-
                     ClearTemporaryStatuses();
                 }
             }

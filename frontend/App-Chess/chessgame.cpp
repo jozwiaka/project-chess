@@ -7,5 +7,5 @@ ChessGame::ChessGame() : m_Model{Chessboard::GetInstance().Board},
 void ChessGame::Start()
 {
     m_View.show();
-    m_Model.MoveCNNModel();
+    // m_Model.MoveCNNModel();
 }

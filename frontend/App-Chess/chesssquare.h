@@ -42,6 +42,7 @@ public:
     SquareStatus Status;
     SquareStatusTemporary StatusTemporary;
     bool Blocked;
+    QVector<ChessPiece *> BlockedPieces;
 
 public:
     ChessSquare() = default;
