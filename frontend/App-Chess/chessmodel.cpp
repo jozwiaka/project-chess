@@ -246,6 +246,7 @@ void ChessModel::SetQueenValidMoves(ChessSquare *source, bool blockSquares)
 
 void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
 {
+    ChessPiece *piece = source->GetPiece();
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
@@ -258,12 +259,12 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
 
     for (int x = X + i; i * x <= i * (X + i * (piece->Moved ? 1 : 2)); x += i)
     {
-        ChessSquare *source = Chessboard::GetSquareByPosition({x, Y});
-        if (CheckIfFreeSquare(source))
+        ChessSquare *target = Chessboard::GetSquareByPosition({x, Y});
+        if (CheckIfFreeSquare(target))
         {
             if (!blockSquares)
             {
-                source->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
+                target->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
         else
@@ -275,14 +276,14 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
     for (int y = Y - 1; y <= Y + 1; y += 2)
     {
         ChessSquare *source = Chessboard::GetSquareByPosition({X + i, y});
-        if (CheckIfFreeSquare(source) || CheckIfAlly(source))
+        if (CheckIfFreeSquare(target) || CheckIfAlly(source, target))
         {
             if (blockSquares)
             {
                 source->Blocked = true;
             }
         }
-        else if (CheckIfEnemy(source))
+        else if (CheckIfEnemy(source, target))
         {
             if (blockSquares)
             {
@@ -303,7 +304,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
     for (int y = Y - 1; y <= Y + 1; y += 2)
     {
         ChessSquare *source = Chessboard::GetSquareByPosition({X, y});
-        if (CheckIfEnemy(source))
+        if (CheckIfEnemy(source, target))
         {
             if (source->GetPiece()->EnPassant)
                 m_Board[X + i][y]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidCapture;
@@ -325,7 +326,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
             {
                 if (!source->Blocked)
                 {
-                    if (CheckIfFreeSquare(source))
+                    if (CheckIfFreeSquare(target))
                     {
                         if (blockSquares)
                         {
@@ -336,7 +337,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
                             source->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
                         }
                     }
-                    else if (CheckIfEnemy(source))
+                    else if (CheckIfEnemy(source, target))
                     {
                         if (!blockSquares)
                         {
@@ -389,7 +390,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
 
 bool ChessModel::SetValidMove(source, ChessSquare *source, ChessSquare *target, bool blockSquare)
 {
-    if (CheckIfFreeSquare(source))
+    if (CheckIfFreeSquare(target))
     {
         if (blockSquare)
         {
@@ -400,7 +401,7 @@ bool ChessModel::SetValidMove(source, ChessSquare *source, ChessSquare *target, 
             source->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
         }
     }
-    else if (CheckIfEnemy(source))
+    else if (CheckIfEnemy(source, target))
     {
         if (blockSquare)
         {
@@ -417,7 +418,7 @@ bool ChessModel::SetValidMove(source, ChessSquare *source, ChessSquare *target, 
         }
         return true;
     }
-    else if (CheckIfAlly(source))
+    else if (CheckIfAlly(source, target))
     {
         if (blockSquare)
         {
@@ -429,31 +430,33 @@ bool ChessModel::SetValidMove(source, ChessSquare *source, ChessSquare *target, 
     return false;
 }
 
-bool ChessModel::CheckIfFreeSquare(ChessSquare *source)
+bool ChessModel::CheckIfFreeSquare(ChessSquare *target)
 {
-    if (!source)
+    if (!target)
         return false;
-    return source->GetPiece() == nullptr;
+    return target->GetPiece() == nullptr;
 }
 
 bool ChessModel::CheckIfEnemy(ChessSquare *source, ChessSquare *target)
 {
-    if (!source)
+    if (!source || !target)
         return false;
-    ChessPiece *piece = source->GetPiece();
-    if (!piece)
+    ChessPiece *sourcePiece = source->GetPiece();
+    ChessPiece *targetPiece = target->GetPiece();
+    if (!sourcePiece || !targetPiece)
         return false;
-    return piece->Color != m_CurrentTurn;
+    return sourcePiece->Color != targetPiece->Color;
 }
 
 bool ChessModel::CheckIfAlly(ChessSquare *source, ChessSquare *target)
 {
-    if (!source)
+    if (!source || !target)
         return false;
-    ChessPiece *piece = source->GetPiece();
-    if (!piece)
+    ChessPiece *sourcePiece = source->GetPiece();
+    ChessPiece *targetPiece = target->GetPiece();
+    if (!sourcePiece || !targetPiece)
         return false;
-    return piece->Color == m_CurrentTurn;
+    return sourcePiece->Color == targetPiece->Color;
 }
 
 void ChessModel::MakeMove(ChessSquare *toSquare)
