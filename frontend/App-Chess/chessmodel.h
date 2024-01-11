@@ -52,12 +52,12 @@ private:
     void SetKingValidMoves(ChessSquare *square, bool blockSquares = false);
     void SetPawnValidMoves(ChessSquare *square, bool blockSquares = false);
 
-    bool CheckIfFreeSquare(ChessSquare *square);
-    bool CheckIfEnemy(ChessSquare *square);
-    bool CheckIfAlly(ChessSquare *square);
+    bool CheckIfFreeSquare(ChessSquare *square); // fix
+    bool CheckIfEnemy(ChessSquare *square);      // fix
+    bool CheckIfAlly(ChessSquare *square);       // fix
     void ValidOpponentKingMovesAndCheck();
 
-    bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquares);
+    bool SetValidMove(ChessSquare *square, bool blockSquares); // fix
 
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
 
