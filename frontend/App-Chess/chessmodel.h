@@ -43,12 +43,12 @@ private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
-    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
-    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
-    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
-    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
-    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
-    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
+    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
+    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares);
 
     bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares); // fix
     bool CheckIfFreeSquare(ChessSquare *target);                                                // fix

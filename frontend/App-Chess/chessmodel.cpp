@@ -78,22 +78,22 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
             switch (piece->Type)
             {
             case ChessPiece::PieceType::Rook:
-                SetRookValidMoves(clickedSquare);
+                SetRookValidMoves(clickedSquare, false);
                 break;
             case ChessPiece::PieceType::Knight:
-                SetKnightValidMoves(clickedSquare);
+                SetKnightValidMoves(clickedSquare, false);
                 break;
             case ChessPiece::PieceType::Bishop:
-                SetBishopValidMoves(clickedSquare);
+                SetBishopValidMoves(clickedSquare, false);
                 break;
             case ChessPiece::PieceType::Queen:
-                SetQueenValidMoves(clickedSquare);
+                SetQueenValidMoves(clickedSquare, false);
                 break;
             case ChessPiece::PieceType::King:
-                SetKingValidMoves(clickedSquare);
+                SetKingValidMoves(clickedSquare, false);
                 break;
             case ChessPiece::PieceType::Pawn:
-                SetPawnValidMoves(clickedSquare);
+                SetPawnValidMoves(clickedSquare, false);
                 break;
             }
         }
