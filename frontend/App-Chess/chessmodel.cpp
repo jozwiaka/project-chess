@@ -314,7 +314,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, bool blockSquares)
 
 void ChessModel::SetKingValidMoves(ChessSquare *source, bool blockSquares)
 {
-    ChessPiece* piece = source->GetPiece();
+    ChessPiece *piece = source->GetPiece();
     const int X = source->Position.x;
     const int Y = source->Position.y;
 
@@ -529,13 +529,10 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
-
-    ValidOpponentKingMovesAndCheck();
-
     m_FromSquare = nullptr;
 
+    ValidAllyKingMovesAndCheck();
     ValidMovesUnderCheck();
-
     // MoveCNNModel(); // TODO
 }
 
@@ -543,7 +540,7 @@ void ChessModel::ValidMovesUnderCheck()
 {
 }
 
-void ChessModel::ValidOpponentKingMovesAndCheck()
+void ChessModel::ValidAllyKingMovesAndCheck()
 {
     for (auto &row : m_Board)
     {
@@ -614,7 +611,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
                 m_SquareUnderPromotion->RemoveChessPiece();
                 m_SquareUnderPromotion->SetPiece(promotedPiece);
                 m_SquareUnderPromotion = nullptr;
-                ValidOpponentKingMovesAndCheck();
+                ValidAllyKingMovesAndCheck();
             }
         }
     }

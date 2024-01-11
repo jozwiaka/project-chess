@@ -57,7 +57,7 @@ private:
     bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                   // fix
     bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                    // fix
 
-    void ValidOpponentKingMovesAndCheck();
+    void ValidAllyKingMovesAndCheck();
 
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
 
