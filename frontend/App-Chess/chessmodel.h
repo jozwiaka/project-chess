@@ -43,21 +43,21 @@ private:
 private:
     void MakeMove(ChessSquare *toSquare);
     void ClearTemporaryStatuses();
-    void ClearAfterPreviousMove();
+    void ClearAfterP, blockSquaresreviousMove();
 
-    void SetRookValidMoves(ChessSquare *square, bool blockSquares = false);
-    void SetKnightValidMoves(ChessSquare *square, bool blockSquares = false);
-    void SetBishopValidMoves(ChessSquare *square, bool blockSquares = false);
-    void SetQueenValidMoves(ChessSquare *square, bool blockSquares = false);
-    void SetKingValidMoves(ChessSquare *square, bool blockSquares = false);
-    void SetPawnValidMoves(ChessSquare *square, bool blockSquares = false);
+    void SetRookValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetKnightValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetBishopValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetQueenValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetKingValidMoves(ChessSquare *source, bool blockSquares = false);
+    void SetPawnValidMoves(ChessSquare *source, bool blockSquares = false);
 
-    bool CheckIfFreeSquare(ChessSquare *square); // fix
-    bool CheckIfEnemy(ChessSquare *square);      // fix
-    bool CheckIfAlly(ChessSquare *square);       // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool blockSquare); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                   // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                   // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                    // fix
+
     void ValidOpponentKingMovesAndCheck();
-
-    bool SetValidMove(ChessSquare *square, bool blockSquare); // fix
 
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
 
