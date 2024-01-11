@@ -526,11 +526,12 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             emit ShowPromotionDialog(pieceToMove->Color);
         }
     }
+    m_FromSquare = nullptr;
 
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
-    m_FromSquare = nullptr;
 
+    // Post move phase
     ValidateAllyKingMovesAndCheck();
     ValidateMovesUnderCheck();
     // MoveCNNModel(); // TODO
