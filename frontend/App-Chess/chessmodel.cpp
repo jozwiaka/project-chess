@@ -256,7 +256,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquares)
 
     int i = 1;
 
-    if (m_CurrentTurn == PlayerColor::Black)
+    if (piece->Color == ChessPiece::PieceColor::Black)
     {
         i = -1;
     }
@@ -295,6 +295,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *square, bool blockSquares)
                 {
                     m_Check = true;
                     square->Status = ChessSquare::SquareStatus::Check;
+                    qDebug() << "Check Pawn\n";
                 }
             }
             else
@@ -486,10 +487,10 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         }
     }
 
-    ValidOpponentKingMovesAndCheck();
-
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
+
+    ValidOpponentKingMovesAndCheck();
 
     m_FromSquare = nullptr;
 
@@ -511,7 +512,7 @@ void ChessModel::ValidOpponentKingMovesAndCheck()
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
-                if (piece->Color == m_CurrentTurn)
+                if (piece->Color != m_CurrentTurn)
                 {
                     switch (piece->Type)
                     {
@@ -562,6 +563,7 @@ bool ChessModel::CheckAndSet(const ChessSquare::SquarePosition &position, bool b
             {
                 m_Check = true;
                 square->Status = ChessSquare::SquareStatus::Check;
+                qDebug() << "Check\n";
             }
         }
         else
