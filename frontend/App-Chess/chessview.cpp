@@ -87,6 +87,11 @@ void ChessView::UpdateChessboardGraphics()
                 break;
             }
 
+            if(square->Blocked)
+            {
+                square->SetCheckBackgroundColor();
+            }
+
             ChessPiece *piece = square->GetPiece();
             if (piece)
             {
