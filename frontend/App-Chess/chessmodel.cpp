@@ -309,7 +309,6 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
                             target->Status = ChessSquare::SquareStatus::Check;
                         }
                     }
-                    break;
                 }
                 else if (mode == Mode::DetectCheck)
                 {
@@ -484,6 +483,10 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                     return true;
                 }
             }
+        }
+        else
+        {
+            return true;
         }
     }
     return false;
