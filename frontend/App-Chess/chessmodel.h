@@ -35,7 +35,7 @@ public:
 private:
     PlayerColor m_CurrentTurn;
     ChessSquare *m_FromSquare;
-    ChessSquare *m_PromotedSquare;
+    ChessSquare *m_SquareUnderPromotion;
     bool m_Check;
     bool m_CheckMate;
     Chessboard::ChessboardType m_Board;
@@ -56,8 +56,6 @@ private:
     bool CheckIfEnemy(ChessSquare *square);
     bool CheckIfAlly(ChessSquare *square);
     void ValidOpponentKingMovesAndCheck();
-
-    ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
 
     bool CheckAndSet(const ChessSquare::SquarePosition &position, bool blockSquares);
 

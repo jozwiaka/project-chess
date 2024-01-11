@@ -16,6 +16,7 @@ public:
 
 public:
     static Chessboard &GetInstance();
+    static ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
     ~Chessboard();
     Chessboard(const Chessboard &other) = delete;
     Chessboard &operator=(const Chessboard &other) = delete;

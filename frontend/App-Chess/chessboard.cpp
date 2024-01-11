@@ -89,3 +89,11 @@ void Chessboard::InitializeChessboard()
         Board.push_back(rowVector);
     }
 }
+
+ChessSquare *Chessboard::GetSquareByPosition(const ChessSquare::SquarePosition &position)
+{
+    if (position.x >= 0 && position.x <= 7 && position.y >= 0 && position.y <= 7)
+        return GetInstance().Board[position.x][position.y];
+
+    return nullptr;
+}
