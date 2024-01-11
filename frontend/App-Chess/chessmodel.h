@@ -50,10 +50,10 @@ private:
     void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
     void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares = false);
 
-    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquare); // fix
-    bool CheckIfFreeSquare(ChessSquare *target);                                               // fix
-    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                               // fix
-    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                                // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                 // fix
 
     void ValidateAllyKingMovesAndCheck();
     void ValidateMovesUnderCheck();

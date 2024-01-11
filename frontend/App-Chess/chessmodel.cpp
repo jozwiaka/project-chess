@@ -384,11 +384,11 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSq
     }
 }
 
-bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquare)
+bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares)
 {
     if (CheckIfFreeSquare(target))
     {
-        if (checkKingAndBlockSquare)
+        if (checkKingAndBlockSquares)
         {
             target->Blocked = true;
         }
@@ -399,7 +399,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool che
     }
     else if (CheckIfEnemy(source, target))
     {
-        if (checkKingAndBlockSquare)
+        if (checkKingAndBlockSquares)
         {
             if (target->GetPiece()->Type == ChessPiece::PieceType::King)
             {
@@ -415,7 +415,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, bool che
     }
     else if (CheckIfAlly(source, target))
     {
-        if (checkKingAndBlockSquare)
+        if (checkKingAndBlockSquares)
         {
             target->Blocked = true;
         }
