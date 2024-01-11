@@ -585,63 +585,89 @@ void ChessModel::ValidateMovesUnderCheck()
             {
                 if (allyPiece->Color == m_CurrentTurn)
                 {
-                    bool outCheckDetected = false;
+                    bool outCheckDetected_ = false;
                     switch (allyPiece->Type)
                     {
                     case ChessPiece::PieceType::Rook:
-                        SetRookValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetRookValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     case ChessPiece::PieceType::Knight:
-                        SetKnightValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetKnightValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     case ChessPiece::PieceType::Bishop:
-                        SetBishopValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetBishopValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     case ChessPiece::PieceType::Queen:
-                        SetQueenValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetQueenValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     case ChessPiece::PieceType::King:
-                        SetKingValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetKingValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     case ChessPiece::PieceType::Pawn:
-                        SetPawnValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        SetPawnValidMoves(allySquare, Mode::Validate, outCheckDetected_);
                         break;
                     }
 
-                    for (auto &enemyRow : m_Board)
+                    for (int x = 0; x < 7; ++x)
                     {
-                        for (auto *enemySquare : enemyRow)
+                        for (int y = 0; y < 7; ++y)
                         {
-                            ChessPiece *enemyPiece = enemySquare->GetPiece();
-                            if (enemyPiece)
+                            if (m_Board[x][y]->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove ||
+                                m_Board[x][y]->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture)
                             {
-                                if (enemyPiece->Color != m_CurrentTurn)
+                                ChessPiece *piece1 = allySquare->GetPiece();
+                                ChessPiece *piece2 = m_Board[x][y]->GetPiece();
+
+                                allySquare->SetPiece(nullptr);
+                                m_Board[x][y]->SetPiece(piece1);
+
+                                for (auto &enemyRow : m_Board)
                                 {
-                                    switch (enemyPiece->Type)
+                                    for (auto *enemySquare : enemyRow)
                                     {
-                                    case ChessPiece::PieceType::Rook:
-                                        SetRookValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
-                                    case ChessPiece::PieceType::Knight:
-                                        SetKnightValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
-                                    case ChessPiece::PieceType::Bishop:
-                                        SetBishopValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
-                                    case ChessPiece::PieceType::Queen:
-                                        SetQueenValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
-                                    case ChessPiece::PieceType::King:
-                                        SetKingValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
-                                    case ChessPiece::PieceType::Pawn:
-                                        SetPawnValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
-                                        break;
+                                        ChessPiece *enemyPiece = enemySquare->GetPiece();
+                                        if (enemyPiece)
+                                        {
+                                            if (enemyPiece->Color != m_CurrentTurn)
+                                            {
+                                                bool outCheckDetected = false;
+                                                switch (enemyPiece->Type)
+                                                {
+                                                case ChessPiece::PieceType::Rook:
+                                                    SetRookValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                case ChessPiece::PieceType::Knight:
+                                                    SetKnightValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                case ChessPiece::PieceType::Bishop:
+                                                    SetBishopValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                case ChessPiece::PieceType::Queen:
+                                                    SetQueenValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                case ChessPiece::PieceType::King:
+                                                    SetKingValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                case ChessPiece::PieceType::Pawn:
+                                                    SetPawnValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
+                                                    break;
+                                                }
+                                                if (outCheckDetected)
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                                allySquare->SetPiece(piece1);
+                                m_Board[x][y]->SetPiece(piece2);
+                                m_Board[x][y]->Blocked = true;
                             }
                         }
                     }
+
+                    ClearTemporaryStatuses();
                 }
             }
         }
