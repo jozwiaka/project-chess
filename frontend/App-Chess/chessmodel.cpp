@@ -56,6 +56,7 @@ void ChessModel::ClearTemporaryStatuses()
 
 void ChessModel::ClearAfterPreviousMove()
 {
+    ClearTemporaryStatuses();
     for (auto &row : m_Board)
     {
         for (auto &square : row)
@@ -77,61 +78,45 @@ void ChessModel::ClearAfterPreviousMove()
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position)
 {
-    ChessSquare *foundSquare = GetSquareByPosition(position);
+    ChessSquare *clickedSquare = GetSquareByPosition(position);
 
-    if (!foundSquare)
+    if (!clickedSquare)
     {
         return;
     }
 
-    //  TEST - CREATE PIECE
-    // foundSquare->RemoveChessPiece();
-    // ChessPiece *newPiece = new ChessPiece(ChessPiece::PieceType::Pawn, m_CurrentTurn, foundSquare);
-    // foundSquare->SetPiece(newPiece);
-    //
-
-    bool isGoingToMakeMove = false;
-
-    if (m_FromSquare && (foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || foundSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
+    if (m_FromSquare && (clickedSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || clickedSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
     {
-        isGoingToMakeMove = true;
+        MakeMove(clickedSquare);
     }
-
-    ClearTemporaryStatuses();
-
-    if (isGoingToMakeMove)
+    else if (clickedSquare->GetPiece())
     {
-        MakeMove(foundSquare);
-    }
-    m_FromSquare = nullptr;
-
-    if (foundSquare->GetPiece())
-    {
-        ChessPiece *piece = foundSquare->GetPiece();
+        ClearTemporaryStatuses();
+        ChessPiece *piece = clickedSquare->GetPiece();
         if (piece->Color == m_CurrentTurn)
         {
-            foundSquare->StatusTemporary = ChessSquare::SquareStatusTemporary::Active;
-            m_FromSquare = foundSquare;
+            clickedSquare->StatusTemporary = ChessSquare::SquareStatusTemporary::Active;
+            m_FromSquare = clickedSquare;
 
             switch (piece->Type)
             {
             case ChessPiece::PieceType::Rook:
-                SetRookValidMoves(foundSquare);
+                SetRookValidMoves(clickedSquare);
                 break;
             case ChessPiece::PieceType::Knight:
-                SetKnightValidMoves(foundSquare);
+                SetKnightValidMoves(clickedSquare);
                 break;
             case ChessPiece::PieceType::Bishop:
-                SetBishopValidMoves(foundSquare);
+                SetBishopValidMoves(clickedSquare);
                 break;
             case ChessPiece::PieceType::Queen:
-                SetQueenValidMoves(foundSquare);
+                SetQueenValidMoves(clickedSquare);
                 break;
             case ChessPiece::PieceType::King:
-                SetKingValidMoves(foundSquare);
+                SetKingValidMoves(clickedSquare);
                 break;
             case ChessPiece::PieceType::Pawn:
-                SetPawnValidMoves(foundSquare);
+                SetPawnValidMoves(clickedSquare);
                 break;
             }
         }
@@ -533,6 +518,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
+
+    m_FromSquare = nullptr;
 
     // MoveCNNModel(); // TODO
 }
