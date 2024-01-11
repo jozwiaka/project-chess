@@ -681,16 +681,16 @@ void ChessModel::ValidateMovesUnderCheck()
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }
-                                                else
-                                                {
-                                                    checkMate = false;
-                                                }
                                             }
                                         }
                                     }
                                 }
                                 allySquare->SetPiece(piece1);
                                 m_Board[x][y]->SetPiece(piece2);
+                                if (!m_Board[x][y]->IsPieceBlocked(piece1))
+                                {
+                                    checkMate = false;
+                                }
                             }
                         }
                     }
