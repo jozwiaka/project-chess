@@ -474,8 +474,8 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                     if (target->GetPiece()->Type == ChessPiece::PieceType::King)
                     {
                         outCheckDetected = true;
-                        return true;
                     }
+                    return true;
                 }
                 else if (CheckIfAlly(source, target))
                 {
