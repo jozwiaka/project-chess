@@ -364,6 +364,14 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                     }
                     else if (mode == Mode::DetectCheck)
                     {
+                        if (CheckIfEnemy(source, target))
+                        {
+                            if (target->GetPiece()->Type == ChessPiece::PieceType::King)
+                            {
+                                outCheckDetected = true;
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -447,6 +455,14 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
     }
     else if (mode == Mode::DetectCheck)
     {
+        if (CheckIfEnemy(source, target))
+        {
+            if (target->GetPiece()->Type == ChessPiece::PieceType::King)
+            {
+                outCheckDetected = true;
+                return true;
+            }
+        }
     }
 
     return false;
@@ -560,6 +576,76 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
 void ChessModel::ValidateMovesUnderCheck()
 {
+    for (auto &allyRow : m_Board)
+    {
+        for (auto *allySquare : allyRow)
+        {
+            ChessPiece *allyPiece = allySquare->GetPiece();
+            if (allyPiece)
+            {
+                if (allyPiece->Color == m_CurrentTurn)
+                {
+                    bool outCheckDetected;
+                    switch (allyPiece->Type)
+                    {
+                    case ChessPiece::PieceType::Rook:
+                        SetRookValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    case ChessPiece::PieceType::Knight:
+                        SetKnightValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    case ChessPiece::PieceType::Bishop:
+                        SetBishopValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    case ChessPiece::PieceType::Queen:
+                        SetQueenValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    case ChessPiece::PieceType::King:
+                        SetKingValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    case ChessPiece::PieceType::Pawn:
+                        SetPawnValidMoves(allySquare, Mode::Validate, outCheckDetected);
+                        break;
+                    }
+
+                    for (auto &enemyRow : m_Board)
+                    {
+                        for (auto *enemySquare : enemyRow)
+                        {
+                            ChessPiece *enemyPiece = enemySquare->GetPiece();
+                            if (enemyPiece)
+                            {
+                                if (enemyPiece->Color != m_CurrentTurn)
+                                {
+                                    switch (piece->Type)
+                                    {
+                                    case ChessPiece::PieceType::Rook:
+                                        SetRookValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    case ChessPiece::PieceType::Knight:
+                                        SetKnightValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    case ChessPiece::PieceType::Bishop:
+                                        SetBishopValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    case ChessPiece::PieceType::Queen:
+                                        SetQueenValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    case ChessPiece::PieceType::King:
+                                        SetKingValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    case ChessPiece::PieceType::Pawn:
+                                        SetPawnValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void ChessModel::ValidateAllyKingMovesAndCheck()
