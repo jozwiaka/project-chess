@@ -57,11 +57,10 @@ private:
     bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                   // fix
     bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                    // fix
 
-    void ValidAllyKingMovesAndCheck();
+    void ValidateAllyKingMovesAndCheck();
+    void ValidateMovesUnderCheck();
 
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
-
-    void ValidMovesUnderCheck();
 
 signals:
     void UpdateChessboardGraphics();

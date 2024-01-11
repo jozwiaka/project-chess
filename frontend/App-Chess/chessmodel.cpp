@@ -531,16 +531,16 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     *ComputerTurn = !*ComputerTurn;
     m_FromSquare = nullptr;
 
-    ValidAllyKingMovesAndCheck();
-    ValidMovesUnderCheck();
+    ValidateAllyKingMovesAndCheck();
+    ValidateMovesUnderCheck();
     // MoveCNNModel(); // TODO
 }
 
-void ChessModel::ValidMovesUnderCheck()
+void ChessModel::ValidateMovesUnderCheck()
 {
 }
 
-void ChessModel::ValidAllyKingMovesAndCheck()
+void ChessModel::ValidateAllyKingMovesAndCheck()
 {
     for (auto &row : m_Board)
     {
@@ -611,7 +611,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
                 m_SquareUnderPromotion->RemoveChessPiece();
                 m_SquareUnderPromotion->SetPiece(promotedPiece);
                 m_SquareUnderPromotion = nullptr;
-                ValidAllyKingMovesAndCheck();
+                ValidateAllyKingMovesAndCheck();
             }
         }
     }
