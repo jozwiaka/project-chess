@@ -546,25 +546,26 @@ void ChessModel::ValidateAllyKingMovesAndCheck()
             {
                 if (piece->Color != m_CurrentTurn)
                 {
+                    bool outCheckDetected;
                     switch (piece->Type)
                     {
                     case ChessPiece::PieceType::Rook:
-                        SetRookValidMoves(square, true, false);
+                        SetRookValidMoves(square, true, false, outCheckDetected);
                         break;
                     case ChessPiece::PieceType::Knight:
-                        SetKnightValidMoves(square, true, false);
+                        SetKnightValidMoves(square, true, false, outCheckDetected);
                         break;
                     case ChessPiece::PieceType::Bishop:
-                        SetBishopValidMoves(square, true, false);
+                        SetBishopValidMoves(square, true, false, outCheckDetected);
                         break;
                     case ChessPiece::PieceType::Queen:
-                        SetQueenValidMoves(square, true, false);
+                        SetQueenValidMoves(square, true, false, outCheckDetected);
                         break;
                     case ChessPiece::PieceType::King:
-                        SetKingValidMoves(square, true, false);
+                        SetKingValidMoves(square, true, false, outCheckDetected);
                         break;
                     case ChessPiece::PieceType::Pawn:
-                        SetPawnValidMoves(square, true, false);
+                        SetPawnValidMoves(square, true, false, outCheckDetected);
                         break;
                     }
                 }
