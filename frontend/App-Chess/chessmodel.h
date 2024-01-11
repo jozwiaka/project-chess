@@ -43,7 +43,7 @@ private:
 private:
     void MakeMove(ChessSquare *toSquare);
     void ClearTemporaryStatuses();
-    void ClearAfterP, blockSquaresreviousMove();
+    void ClearAfterPreviousMove();
 
     void SetRookValidMoves(ChessSquare *source, bool blockSquares = false);
     void SetKnightValidMoves(ChessSquare *source, bool blockSquares = false);
