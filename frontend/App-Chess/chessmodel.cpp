@@ -598,6 +598,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
 void ChessModel::ValidateMovesUnderCheck()
 {
+    bool checkMate = true;
     for (auto &allyRow : m_Board)
     {
         for (auto *allySquare : allyRow)
@@ -680,6 +681,10 @@ void ChessModel::ValidateMovesUnderCheck()
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }
+                                                else
+                                                {
+                                                    checkMate = false;
+                                                }
                                             }
                                         }
                                     }
@@ -693,6 +698,10 @@ void ChessModel::ValidateMovesUnderCheck()
                 }
             }
         }
+    }
+    if (checkMate)
+    {
+        qDebug() << "Check mate\n";
     }
 }
 
