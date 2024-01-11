@@ -43,17 +43,17 @@ private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
-    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
-    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
-    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
-    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
-    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
-    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck);
+    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
 
-    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares, bool detectCheck); // fix
-    bool CheckIfFreeSquare(ChessSquare *target);                                                                  // fix
-    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                                  // fix
-    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                                   // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                                                                          // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                                                          // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                                                           // fix
 
     void ValidateAllyKingMovesAndCheck();
     void ValidateMovesUnderCheck();
