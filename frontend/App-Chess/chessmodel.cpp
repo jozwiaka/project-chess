@@ -585,7 +585,7 @@ void ChessModel::ValidateMovesUnderCheck()
             {
                 if (allyPiece->Color == m_CurrentTurn)
                 {
-                    bool outCheckDetected;
+                    bool outCheckDetected = false;
                     switch (allyPiece->Type)
                     {
                     case ChessPiece::PieceType::Rook:
@@ -617,7 +617,7 @@ void ChessModel::ValidateMovesUnderCheck()
                             {
                                 if (enemyPiece->Color != m_CurrentTurn)
                                 {
-                                    switch (piece->Type)
+                                    switch (enemyPiece->Type)
                                     {
                                     case ChessPiece::PieceType::Rook:
                                         SetRookValidMoves(square, Mode::DetectCheck, outCheckDetected);
