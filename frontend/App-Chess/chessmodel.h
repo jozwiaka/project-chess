@@ -15,7 +15,14 @@ class ChessModel : public QObject
     Q_OBJECT
 
 public:
-    using PlayerColor = ChessPiece::PieceColor;
+    enum class Mode
+    {
+        Validate,
+        CheckKingAndBlockSquares,
+        DetectCheck,
+    };
+
+    public : using PlayerColor = ChessPiece::PieceColor;
 
 public:
     bool *ComputerTurn;
@@ -43,17 +50,17 @@ private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
-    void SetRookValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
-    void SetKnightValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
-    void SetBishopValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
-    void SetQueenValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
-    void SetKingValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
-    void SetPawnValidMoves(ChessSquare *source, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected);
+    void SetRookValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+    void SetKnightValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+    void SetBishopValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+    void SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+    void SetKingValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+    void SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
 
-    bool SetValidMove(ChessSquare *source, ChessSquare *target, bool checkKingAndBlockSquares, bool detectCheck, bool &outCheckDetected); // fix
-    bool CheckIfFreeSquare(ChessSquare *target);                                                                                          // fix
-    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                                                          // fix
-    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                                                           // fix
+    bool SetValidMove(ChessSquare *source, ChessSquare *target, Mode mode, bool &outCheckDetected); // fix
+    bool CheckIfFreeSquare(ChessSquare *target);                                                    // fix
+    bool CheckIfEnemy(ChessSquare *source, ChessSquare *target);                                    // fix
+    bool CheckIfAlly(ChessSquare *source, ChessSquare *target);                                     // fix
 
     void ValidateAllyKingMovesAndCheck();
     void ValidateMovesUnderCheck();
