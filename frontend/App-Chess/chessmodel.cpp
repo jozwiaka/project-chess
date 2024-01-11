@@ -258,7 +258,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
         ChessSquare *target = Chessboard::GetSquareByPosition({x, Y});
         if (target)
         {
-            if (!target->Blocked)
+            // if (!target->Blocked)
             {
                 if (mode == Mode::Validate)
                 {
@@ -286,7 +286,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
         ChessSquare *target = Chessboard::GetSquareByPosition({X + i, y});
         if (target)
         {
-            if (!target->Blocked)
+            // if (!target->Blocked)
             {
                 if (mode == Mode::Validate)
                 {
@@ -332,7 +332,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
             ChessSquare *target = Chessboard::GetSquareByPosition({X, y});
             if (target)
             {
-                if (!target->Blocked)
+                // if (!target->Blocked)
                 {
                     if (CheckIfEnemy(source, target))
                     {
@@ -358,7 +358,7 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             ChessSquare *target = Chessboard::GetSquareByPosition({x, y});
             if (target)
             {
-                if (!target->Blocked)
+                // if (!target->Blocked)
                 {
 
                     if (mode == Mode::Validate)
@@ -378,16 +378,9 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                         {
                             target->Blocked = true;
                         }
-                    }
-                    else if (mode == Mode::DetectCheck)
-                    {
-                        if (CheckIfEnemy(source, target))
+                        else if (CheckIfAlly(source, target))
                         {
-                            if (target->GetPiece()->Type == ChessPiece::PieceType::King)
-                            {
-                                outCheckDetected = true;
-                                return;
-                            }
+                            target->Blocked = true;
                         }
                     }
                 }
@@ -436,7 +429,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
 {
     if (target)
     {
-        if (!target->Blocked)
+        // if (!target->Blocked)
         {
             if (mode == Mode::Validate)
             {
@@ -592,8 +585,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     // Post move phase
     ValidateAllyKingMovesAndCheck();
-    ValidateMovesUnderCheck();
-    // MoveCNNModel(); // TODO
+    // ValidateMovesUnderCheck();
+    //  MoveCNNModel(); // TODO
 }
 
 void ChessModel::ValidateMovesUnderCheck()
