@@ -620,22 +620,22 @@ void ChessModel::ValidateMovesUnderCheck()
                                     switch (enemyPiece->Type)
                                     {
                                     case ChessPiece::PieceType::Rook:
-                                        SetRookValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetRookValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     case ChessPiece::PieceType::Knight:
-                                        SetKnightValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetKnightValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     case ChessPiece::PieceType::Bishop:
-                                        SetBishopValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetBishopValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     case ChessPiece::PieceType::Queen:
-                                        SetQueenValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetQueenValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     case ChessPiece::PieceType::King:
-                                        SetKingValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetKingValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     case ChessPiece::PieceType::Pawn:
-                                        SetPawnValidMoves(square, Mode::DetectCheck, outCheckDetected);
+                                        SetPawnValidMoves(enemySquare, Mode::DetectCheck, outCheckDetected);
                                         break;
                                     }
                                 }
