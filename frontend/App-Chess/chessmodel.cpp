@@ -477,6 +477,10 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                         return true;
                     }
                 }
+                else if (CheckIfAlly(source, target))
+                {
+                    return true;
+                }
             }
         }
     }
