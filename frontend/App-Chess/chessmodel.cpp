@@ -9,6 +9,7 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       m_CurrentTurn{PlayerColor::White},
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
+      m_Check(false),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
 }
@@ -51,6 +52,7 @@ void ChessModel::ClearAfterPreviousMove()
                 piece->EnPassant = false;
         }
     }
+    m_Check = false;
 }
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position)
@@ -302,6 +304,7 @@ void ChessModel::SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outChec
                         if (target->GetPiece()->Type == ChessPiece::PieceType::King)
                         {
                             target->Status = ChessSquare::SquareStatus::Check;
+                            m_Check = true;
                         }
                     }
                 }
@@ -454,6 +457,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                     if (target->GetPiece()->Type == ChessPiece::PieceType::King)
                     {
                         target->Status = ChessSquare::SquareStatus::Check;
+                        m_Check = true;
                     }
                     return true;
                 }
@@ -605,31 +609,31 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
         return;
 
-    //Pre-clear phase
+    // Pre-clear phase
     PerformCastling(toSquare);
     PerformEnPassant(toSquare);
     MovePiece(toSquare);
     PerformPromotion(toSquare);
 
-    //Clear
+    // Clear
     ClearAfterPreviousMove();
 
-    //Post-clear phase
+    // Post-clear phase
     SetAsEnPassant(toSquare);
     SetPreviousMove(toSquare);
     ValidateKingMovesAndCheck();
 
-    //End of turn
+    // End of turn
     EndOfTurn();
 
-    //Beginning of the next turn
+    // Beginning of the next turn
     ValidateMovesUnderCheck();
     //  MoveCNNModel(); // TODO
 }
 
 void ChessModel::ValidateMovesUnderCheck()
 {
-    bool checkMate = true;
+    bool noValidSquares = true;
     for (auto &allyRow : m_Board)
     {
         for (auto *allySquare : allyRow)
@@ -708,7 +712,6 @@ void ChessModel::ValidateMovesUnderCheck()
                                                 }
                                                 if (outCheckDetected)
                                                 {
-                                                    // m_Board[x][y]->BlockedForKing = true;
                                                     m_Board[x][y]->BlockedPieces.push_back(piece1);
                                                     break;
                                                 }
@@ -720,7 +723,7 @@ void ChessModel::ValidateMovesUnderCheck()
                                 m_Board[x][y]->SetPiece(piece2);
                                 if (!m_Board[x][y]->IsPieceBlocked(piece1))
                                 {
-                                    checkMate = false;
+                                    noValidSquares = false;
                                 }
                             }
                         }
@@ -730,10 +733,27 @@ void ChessModel::ValidateMovesUnderCheck()
             }
         }
     }
-    if (checkMate)
+
+    if (noValidSquares)
     {
-        PlayerColor winner = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
-        emit ShowEndGameDialog("a");
+        QString message;
+        if (m_Check)
+        {
+            PlayerColor winner = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
+            if (winner == ChessPiece::PieceColor::White)
+            {
+                message = "White win!";
+            }
+            else
+            {
+                message = "Black win!";
+            }
+        }
+        else
+        {
+            message = "Stale mate";
+        }
+        emit ShowEndGameDialog(message);
     }
 }
 

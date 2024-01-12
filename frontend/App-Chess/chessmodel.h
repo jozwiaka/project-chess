@@ -44,6 +44,7 @@ private:
     ChessSquare *m_FromSquare;
     ChessSquare *m_SquareUnderPromotion;
     Chessboard::ChessboardType m_Board;
+    bool m_Check;
 
 private:
     void ClearTemporaryStatuses();
@@ -78,7 +79,7 @@ private:
 signals:
     void UpdateChessboardGraphics();
     void ShowPromotionDialog(const ChessPiece::PieceColor &color);
-    void ShowEndGameDialog(const QString& message);
+    void ShowEndGameDialog(const QString &message);
 };
 
 #endif // CHESSMODEL_H
