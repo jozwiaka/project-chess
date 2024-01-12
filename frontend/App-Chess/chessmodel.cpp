@@ -607,17 +607,13 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     PerformCastling(toSquare);
     PerformEnPassant(toSquare);
-
     MovePiece(toSquare);
 
     ClearAfterPreviousMove();
 
     SignPawnAsEnPassant(toSquare);
-
     PerformPromotion(toSquare);
-
     ValidateKingMovesAndCheck();
-
     SetPreviousMove(toSquare);
 
     EndOfTurn();
