@@ -22,7 +22,6 @@ ChessSquare::SquarePosition CNNModel::GenerateMove()
 {
     QByteArray output = CNNModel::RunPythonScript("../../scripts/cnn_model.py");
     ChessSquare::SquarePosition position{output[1]-'1',output[0]-'A'};
-    qDebug() << position.x<<position.y;
     return position;
 }
 
@@ -31,5 +30,7 @@ QByteArray CNNModel::RunPythonScript(const QString& path, const QStringList& arg
     QProcess process;
     process.start("python", QStringList() << path << args);
     process.waitForFinished(-1);
-    return process.readAllStandardOutput();
+    auto output = process.readAllStandardOutput();
+    qDebug()<<output<<"\n";
+    return output;
 }
