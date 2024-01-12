@@ -46,8 +46,8 @@ void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &color)
 
 void ChessView::CreateEndGameDialog(const ChessModel::PlayerColor &color)
 {
-    m_PromotionDialog = new PromotionDialog(color, this);
-    m_PromotionDialog->exec();
+    m_EndGameDialog = new EndGameDialog(color, this);
+    m_EndGameDialog->exec();
 }
 
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)

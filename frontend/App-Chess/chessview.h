@@ -8,6 +8,7 @@
 #include "chessmodel.h"
 #include <QVector>
 #include "promotiondialog.h"
+#include "endgamedialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -31,7 +32,8 @@ private:
     Ui::ChessView *m_Ui;
     QGridLayout *m_ChessboardLayout;
     QGridLayout *m_MenuLayout;
-    PromotionDialog *m_PromotionDialog; // Assuming PromotionDialog is the class for your promotion window
+    PromotionDialog *m_PromotionDialog;
+    EndGameDialog *m_EndGameDialog;
 
     bool *m_ComputerTurn;
     bool *m_PromotionProcedure;

@@ -1,42 +1,27 @@
 #include "EndGameDialog.h"
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QMap>
+#include <QLabel>
+#include <QString>
 
 EndGameDialog::EndGameDialog(const ChessPiece::PieceColor &color, QWidget *parent)
     : QDialog(parent)
 {
-    setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
 
-    QList<ChessPiece::PieceType> promotionChoices = {ChessPiece::PieceType::Queen, ChessPiece::PieceType::Rook, ChessPiece::PieceType::Bishop, ChessPiece::PieceType::Knight};
-
-    for (const auto &type : promotionChoices)
+    QString str;
+    if(color==ChessPiece::PieceColor::White)
     {
-        auto button = new QPushButton(this);
-        QString pieceImagePath = ChessPiece::GetPieceImageByColorAndType(type, color);
-        button->setIcon(QIcon(pieceImagePath));
-        button->setIconSize(QSize(80, 80));
-        connect(button, &QPushButton::clicked, this, &EndGameDialog::OnPromotionButtonClicked);
-
-        m_ButtonPieceTypeMap[button] = type;
-
-        layout->addWidget(button);
-
-        m_PromotionButtons.append(button);
+        str="White win!";
     }
+    else{
+        str="Black win!";
+    }
+
+    QLabel *label = new QLabel(str, this);
+
+    layout->addWidget(label);
 
     setLayout(layout);
-}
-
-void EndGameDialog::OnPromotionButtonClicked()
-{
-    QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
-    if (clickedButton)
-    {
-        ChessPiece::PieceType pieceType = m_ButtonPieceTypeMap.value(clickedButton, ChessPiece::PieceType::Pawn);
-
-        emit PieceSelected(pieceType);
-        accept();
-    }
 }

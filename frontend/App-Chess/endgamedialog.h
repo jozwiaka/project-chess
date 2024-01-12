@@ -11,7 +11,7 @@
 
 namespace Ui
 {
-class EndGameDialog;
+    class EndGameDialog;
 }
 
 class EndGameDialog : public QDialog
@@ -22,14 +22,10 @@ public:
     explicit EndGameDialog(const ChessPiece::PieceColor &color, QWidget *parent = nullptr);
 
 signals:
-    void PieceSelected(const ChessPiece::PieceType &selectedPiece);
 
 private slots:
-    void OnPromotionButtonClicked();
 
 private:
-    QMap<QPushButton*, ChessPiece::PieceType> m_ButtonPieceTypeMap;
-    QList<QPushButton *> m_PromotionButtons;
 };
 
 #endif // ENDGAMEDIALOG_H
