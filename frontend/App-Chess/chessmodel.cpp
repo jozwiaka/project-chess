@@ -526,10 +526,10 @@ void ChessModel::PerformCastling(ChessSquare *toSquare){
         pieceToMove->Type == ChessPiece::PieceType::King &&
         qAbs(yDiff) == 2)
     {
-        int yRock = yDiff > 0 ? 7 : 0;
-        int yRockNew = yDiff > 0 ? 5 : 3;
-        ChessSquare *square = Chessboard::GetSquareByPosition({m_FromSquare->Position.x, yRock});
-        Chessboard::GetSquareByPosition({m_FromSquare->Position.x, yRockNew})->SetPiece(square->GetPiece());
+        int yRook = yDiff > 0 ? 7 : 0;
+        int yRookNew = yDiff > 0 ? 5 : 3;
+        ChessSquare *square = m_Board[m_FromSquare->Position.x][yRook];
+        m_Board[m_FromSquare->Position.x][yRookNew]->SetPiece(square->GetPiece());
         square->SetPiece(nullptr);
     }
 }
