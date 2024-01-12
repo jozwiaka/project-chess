@@ -751,7 +751,7 @@ void ChessModel::ValidateMovesUnderCheck()
         }
         else
         {
-            message = "Stale mate";
+            message = "Stale mate.";
         }
         emit ShowEndGameDialog(message);
     }
