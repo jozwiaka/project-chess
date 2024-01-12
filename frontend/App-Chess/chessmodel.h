@@ -27,7 +27,6 @@ public:
 
 public:
     bool *ComputerTurn;
-    bool *PromotionProcedure;
 
 public:
     explicit ChessModel(const Chessboard::ChessboardType &board, QObject *parent = nullptr);

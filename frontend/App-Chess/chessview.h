@@ -22,7 +22,7 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, bool *promotionProcedure, QWidget *parent = nullptr);
+    ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, QWidget *parent = nullptr);
     ~ChessView();
     void CreatePromotionDialog(const ChessPiece::PieceColor &color);
     void CreateEndGameDialog(const ChessModel::PlayerColor &color);
@@ -36,7 +36,6 @@ private:
     EndGameDialog *m_EndGameDialog;
 
     bool *m_ComputerTurn;
-    bool *m_PromotionProcedure;
 
 private:
     void CreateChessboardGraphics(const Chessboard::ChessboardType &board);

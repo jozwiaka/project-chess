@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import pyautogui
+import os
 
 
 def take_screenshot(file_path="screenshot.png"):
@@ -40,9 +41,11 @@ def process_image(file_path="screenshot.png"):
     chessboard = img[y : y + h, x : x + w]
 
     # Display the cropped chessboard (optional)
-    cv2.imshow("Cropped Chessboard", chessboard)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("Cropped Chessboard", chessboard)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+    print(chessboard)
 
 
 if __name__ == "__main__":

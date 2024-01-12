@@ -9,15 +9,13 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       m_CurrentTurn{PlayerColor::White},
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
-      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)),
-      PromotionProcedure(new bool(false))
+      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/))
 {
 }
 
 ChessModel::~ChessModel()
 {
     delete ComputerTurn;
-    delete PromotionProcedure;
 }
 
 void ChessModel::ClearTemporaryStatuses()
