@@ -4,22 +4,13 @@
 #include <QLabel>
 #include <QString>
 
-EndGameDialog::EndGameDialog(const ChessPiece::PieceColor &color, QWidget *parent)
+EndGameDialog::EndGameDialog(const QString& message, QWidget *parent)
     : QDialog(parent)
 {
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    QString str;
-    if(color==ChessPiece::PieceColor::White)
-    {
-        str="White win!";
-    }
-    else{
-        str="Black win!";
-    }
-
-    QLabel *label = new QLabel(str, this);
+    QLabel *label = new QLabel(message, this);
 
     layout->addWidget(label);
 

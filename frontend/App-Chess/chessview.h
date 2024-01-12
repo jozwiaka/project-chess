@@ -25,7 +25,7 @@ public:
     ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, QWidget *parent = nullptr);
     ~ChessView();
     void CreatePromotionDialog(const ChessPiece::PieceColor &color);
-    void CreateEndGameDialog(const ChessModel::PlayerColor &color);
+    void CreateEndGameDialog(const QString& message);
     void UpdateChessboardGraphics();
 
 private:

@@ -19,7 +19,7 @@ class EndGameDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit EndGameDialog(const ChessPiece::PieceColor &color, QWidget *parent = nullptr);
+    explicit EndGameDialog(const QString& message, QWidget *parent = nullptr);
 
 signals:
 

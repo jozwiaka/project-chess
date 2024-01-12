@@ -733,7 +733,7 @@ void ChessModel::ValidateMovesUnderCheck()
     if (checkMate)
     {
         PlayerColor winner = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
-        emit ShowEndGameDialog(winner);
+        emit ShowEndGameDialog("a");
     }
 }
 

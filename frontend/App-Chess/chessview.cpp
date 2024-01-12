@@ -44,9 +44,9 @@ void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &color)
     m_PromotionDialog->exec();
 }
 
-void ChessView::CreateEndGameDialog(const ChessModel::PlayerColor &color)
+void ChessView::CreateEndGameDialog(const QString& message)
 {
-    m_EndGameDialog = new EndGameDialog(color, this);
+    m_EndGameDialog = new EndGameDialog(message, this);
     m_EndGameDialog->exec();
 }
 
