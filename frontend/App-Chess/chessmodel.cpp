@@ -608,11 +608,11 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     PerformCastling(toSquare);
     PerformEnPassant(toSquare);
     MovePiece(toSquare);
+    PerformPromotion(toSquare);
 
     ClearAfterPreviousMove();
 
     SignPawnAsEnPassant(toSquare);
-    PerformPromotion(toSquare);
     ValidateKingMovesAndCheck();
     SetPreviousMove(toSquare);
 
