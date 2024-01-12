@@ -59,7 +59,7 @@ private:
     void MakeMove(ChessSquare *toSquare);
     void PerformCastling(ChessSquare *toSquare);
     void PerformEnPassant(ChessSquare *toSquare);
-    void SignPawnAsEnPassant(ChessSquare *toSquare);
+    void SetAsEnPassant(ChessSquare *toSquare);
     void PerformPromotion(ChessSquare *toSquare);
     void MovePiece(ChessSquare *toSquare);
     void SetPreviousMove(ChessSquare *toSquare);

@@ -518,7 +518,8 @@ bool ChessModel::CheckIfAlly(ChessSquare *source, ChessSquare *target)
     return sourcePiece->Color == targetPiece->Color;
 }
 
-void ChessModel::PerformCastling(ChessSquare *toSquare){
+void ChessModel::PerformCastling(ChessSquare *toSquare)
+{
     ChessPiece *pieceToMove = m_FromSquare->GetPiece();
     int yDiff = toSquare->Position.y - m_FromSquare->Position.y;
 
@@ -534,7 +535,8 @@ void ChessModel::PerformCastling(ChessSquare *toSquare){
     }
 }
 
-void ChessModel::PerformEnPassant(ChessSquare *toSquare){
+void ChessModel::PerformEnPassant(ChessSquare *toSquare)
+{
     ChessPiece *pieceToMove = m_FromSquare->GetPiece();
     int yDiff = toSquare->Position.y - m_FromSquare->Position.y;
     if (
@@ -553,9 +555,10 @@ void ChessModel::PerformEnPassant(ChessSquare *toSquare){
         }
     }
 }
-void ChessModel::SignPawnAsEnPassant(ChessSquare *toSquare){
-    ChessPiece* pieceToMove = toSquare->GetPiece();
-        int xDiff = toSquare->Position.x - m_FromSquare->Position.x;
+void ChessModel::SetAsEnPassant(ChessSquare *toSquare)
+{
+    ChessPiece *pieceToMove = toSquare->GetPiece();
+    int xDiff = toSquare->Position.x - m_FromSquare->Position.x;
     if (
         qAbs(xDiff) == 2 &&
         pieceToMove->Type == ChessPiece::PieceType::Pawn)
@@ -564,9 +567,9 @@ void ChessModel::SignPawnAsEnPassant(ChessSquare *toSquare){
     }
 }
 
-void ChessModel::PerformPromotion(ChessSquare* toSquare)
+void ChessModel::PerformPromotion(ChessSquare *toSquare)
 {
-    ChessPiece* pieceToMove = toSquare->GetPiece();
+    ChessPiece *pieceToMove = toSquare->GetPiece();
     if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
     {
         m_SquareUnderPromotion = toSquare;
@@ -577,13 +580,14 @@ void ChessModel::PerformPromotion(ChessSquare* toSquare)
     }
 }
 
-void ChessModel::EndOfTurn(){
+void ChessModel::EndOfTurn()
+{
     m_FromSquare = nullptr;
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
 }
 
-void ChessModel::MovePiece(ChessSquare* toSquare)
+void ChessModel::MovePiece(ChessSquare *toSquare)
 {
     ChessPiece *pieceToMove = m_FromSquare->GetPiece();
     pieceToMove->Moved = true;
@@ -601,23 +605,26 @@ void ChessModel::SetPreviousMove(ChessSquare *toSquare)
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
     if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
-    {
         return;
-    }
 
+    //Pre-clear phase
     PerformCastling(toSquare);
     PerformEnPassant(toSquare);
     MovePiece(toSquare);
     PerformPromotion(toSquare);
 
+    //Clear
     ClearAfterPreviousMove();
 
-    SignPawnAsEnPassant(toSquare);
-    ValidateKingMovesAndCheck();
+    //Post-clear phase
+    SetAsEnPassant(toSquare);
     SetPreviousMove(toSquare);
+    ValidateKingMovesAndCheck();
 
+    //End of turn
     EndOfTurn();
 
+    //Beginning of the next turn
     ValidateMovesUnderCheck();
     //  MoveCNNModel(); // TODO
 }
