@@ -32,6 +32,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         chessboard.h chessboard.cpp
         chessgame.h chessgame.cpp
         promotiondialog.h promotiondialog.cpp
+        endgamedialog.h endgamedialog.cpp
+
 
 
 
