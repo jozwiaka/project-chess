@@ -586,7 +586,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     }
     m_FromSquare = nullptr;
 
-    ValidateAllyKingMovesAndCheck();
+    ValidateKingMovesAndCheck();
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
     *ComputerTurn = !*ComputerTurn;
     ValidateMovesUnderCheck();
@@ -703,7 +703,7 @@ void ChessModel::ValidateMovesUnderCheck()
     }
 }
 
-void ChessModel::ValidateAllyKingMovesAndCheck()
+void ChessModel::ValidateKingMovesAndCheck()
 {
     for (auto &row : m_Board)
     {
@@ -778,7 +778,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
                 m_SquareUnderPromotion->RemoveChessPiece();
                 m_SquareUnderPromotion->SetPiece(promotedPiece);
                 m_SquareUnderPromotion = nullptr;
-                ValidateAllyKingMovesAndCheck();
+                ValidateKingMovesAndCheck();
             }
         }
     }
