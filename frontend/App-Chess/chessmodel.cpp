@@ -9,7 +9,7 @@ ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
       m_CurrentTurn{PlayerColor::White},
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
-      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/))
+      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
 }
 
@@ -44,11 +44,11 @@ void ChessModel::ClearAfterPreviousMove()
             {
                 square->Status = ChessSquare::SquareStatus::Normal;
             }
+            square->BlockedForKing = false;
+            square->BlockedPieces.clear();
             ChessPiece *piece = square->GetPiece();
             if (piece)
                 piece->EnPassant = false;
-            square->BlockedForKing = false;
-            square->BlockedPieces.clear();
         }
     }
 }
@@ -518,18 +518,10 @@ bool ChessModel::CheckIfAlly(ChessSquare *source, ChessSquare *target)
     return sourcePiece->Color == targetPiece->Color;
 }
 
-void ChessModel::MakeMove(ChessSquare *toSquare)
-{
-    if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
-    {
-        return;
-    }
-
+void ChessModel::PerformCastling(ChessSquare *toSquare){
     ChessPiece *pieceToMove = m_FromSquare->GetPiece();
-    int xDiff = toSquare->Position.x - m_FromSquare->Position.x;
     int yDiff = toSquare->Position.y - m_FromSquare->Position.y;
 
-    // Castling
     if (
         pieceToMove->Type == ChessPiece::PieceType::King &&
         qAbs(yDiff) == 2)
@@ -540,8 +532,11 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
         Chessboard::GetSquareByPosition({m_FromSquare->Position.x, yRockNew})->SetPiece(square->GetPiece());
         square->SetPiece(nullptr);
     }
+}
 
-    // En passant
+void ChessModel::PerformEnPassant(ChessSquare *toSquare){
+    ChessPiece *pieceToMove = m_FromSquare->GetPiece();
+    int yDiff = toSquare->Position.y - m_FromSquare->Position.y;
     if (
         pieceToMove->Type == ChessPiece::PieceType::Pawn &&
         yDiff != 0)
@@ -557,24 +552,41 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             }
         }
     }
-
-    toSquare->RemoveChessPiece();
-    toSquare->SetPiece(pieceToMove);
-    m_FromSquare->SetPiece(nullptr);
-
-    pieceToMove->Moved = true;
-
-    ClearAfterPreviousMove();
-
+}
+void ChessModel::SignPawnAsEnPassant(ChessSquare *toSquare){
+    ChessPiece* pieceToMove = toSquare->GetPiece();
+        int xDiff = toSquare->Position.x - m_FromSquare->Position.x;
     if (
         qAbs(xDiff) == 2 &&
         pieceToMove->Type == ChessPiece::PieceType::Pawn)
     {
         pieceToMove->EnPassant = true;
     }
+}
 
+void ChessModel::MakeMove(ChessSquare *toSquare)
+{
+    if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
+    {
+        return;
+    }
+
+    ChessPiece *pieceToMove = m_FromSquare->GetPiece();
+    pieceToMove->Moved = true;
+
+    PerformCastling(toSquare);
+    PerformEnPassant(toSquare);
+
+    toSquare->RemoveChessPiece();
+    toSquare->SetPiece(pieceToMove);
+    m_FromSquare->SetPiece(nullptr);
+
+    ClearAfterPreviousMove();
+
+    SignPawnAsEnPassant(toSquare);
     m_FromSquare->Status = ChessSquare::SquareStatus::PreviousMove;
     toSquare->Status = ChessSquare::SquareStatus::PreviousMove;
+    m_FromSquare = nullptr;
 
     if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
     {
@@ -584,7 +596,6 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
             emit ShowPromotionDialog(pieceToMove->Color);
         }
     }
-    m_FromSquare = nullptr;
 
     ValidateKingMovesAndCheck();
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;

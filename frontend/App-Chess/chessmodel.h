@@ -46,7 +46,6 @@ private:
     Chessboard::ChessboardType m_Board;
 
 private:
-    void MakeMove(ChessSquare *toSquare);
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();
 
@@ -56,6 +55,11 @@ private:
     void SetQueenValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
     void SetKingValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
     void SetPawnValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected);
+
+    void MakeMove(ChessSquare *toSquare);
+    void PerformCastling(ChessSquare *toSquare);
+    void PerformEnPassant(ChessSquare *toSquare);
+    void SignPawnAsEnPassant(ChessSquare *toSquare);
 
     bool SetValidMove(ChessSquare *source, ChessSquare *target, Mode mode, bool &outCheckDetected); // fix
     bool CheckIfFreeSquare(ChessSquare *target);                                                    // fix
