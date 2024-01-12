@@ -60,6 +60,7 @@ private:
     void PerformCastling(ChessSquare *toSquare);
     void PerformEnPassant(ChessSquare *toSquare);
     void SignPawnAsEnPassant(ChessSquare *toSquare);
+    void PerformPromotion(ChessSquare *toSquare);
 
     bool SetValidMove(ChessSquare *source, ChessSquare *target, Mode mode, bool &outCheckDetected); // fix
     bool CheckIfFreeSquare(ChessSquare *target);                                                    // fix

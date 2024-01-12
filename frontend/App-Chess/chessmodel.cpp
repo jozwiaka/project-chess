@@ -564,6 +564,19 @@ void ChessModel::SignPawnAsEnPassant(ChessSquare *toSquare){
     }
 }
 
+void ChessModel::PerformPromotion(ChessSquare* toSquare)
+{
+    ChessPiece* pieceToMove = toSquare->GetPiece();
+    if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
+    {
+        m_SquareUnderPromotion = toSquare;
+        if (!*ComputerTurn)
+        {
+            emit ShowPromotionDialog(pieceToMove->Color);
+        }
+    }
+}
+
 void ChessModel::MakeMove(ChessSquare *toSquare)
 {
     if (!m_FromSquare || !toSquare || m_FromSquare == toSquare)
@@ -588,14 +601,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     toSquare->Status = ChessSquare::SquareStatus::PreviousMove;
     m_FromSquare = nullptr;
 
-    if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
-    {
-        m_SquareUnderPromotion = toSquare;
-        if (!*ComputerTurn)
-        {
-            emit ShowPromotionDialog(pieceToMove->Color);
-        }
-    }
+    PerformPromotion(toSquare);
 
     ValidateKingMovesAndCheck();
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
