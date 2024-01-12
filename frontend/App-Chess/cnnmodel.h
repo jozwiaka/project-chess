@@ -13,6 +13,10 @@ public:
     explicit CNNModel(QObject *parent = nullptr);
 
     static ChessSquare::SquarePosition Run();
+private:
+    static QByteArray ReadImage();
+    static ChessSquare::SquarePosition GenerateMove();
+    static QByteArray RunPythonScript(const QString& path, const QStringList& args = QStringList());
 
 signals:
 };
