@@ -34,7 +34,6 @@ private:
     QGridLayout *m_MenuLayout;
     PromotionDialog *m_PromotionDialog;
     EndGameDialog *m_EndGameDialog;
-
     bool *m_ComputerTurn;
 
 private:
