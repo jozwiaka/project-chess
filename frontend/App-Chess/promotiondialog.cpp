@@ -10,7 +10,6 @@ PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &color, QWidget *p
     QHBoxLayout *layout = new QHBoxLayout(this);
 
     QList<ChessPiece::PieceType> promotionChoices = {ChessPiece::PieceType::Queen, ChessPiece::PieceType::Rook, ChessPiece::PieceType::Bishop, ChessPiece::PieceType::Knight};
-
     for (const auto &type : promotionChoices)
     {
         auto button = new QPushButton(this);
@@ -18,14 +17,10 @@ PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &color, QWidget *p
         button->setIcon(QIcon(pieceImagePath));
         button->setIconSize(QSize(80, 80));
         connect(button, &QPushButton::clicked, this, &PromotionDialog::OnPromotionButtonClicked);
-
         m_ButtonPieceTypeMap[button] = type;
-
         layout->addWidget(button);
-
         m_PromotionButtons.append(button);
     }
-
     setLayout(layout);
 }
 
