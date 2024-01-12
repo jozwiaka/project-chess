@@ -61,6 +61,9 @@ private:
     void PerformEnPassant(ChessSquare *toSquare);
     void SignPawnAsEnPassant(ChessSquare *toSquare);
     void PerformPromotion(ChessSquare *toSquare);
+    void MovePiece(ChessSquare *toSquare);
+    void SetPreviousMove(ChessSquare *toSquare);
+    void EndOfTurn();
 
     bool SetValidMove(ChessSquare *source, ChessSquare *target, Mode mode, bool &outCheckDetected); // fix
     bool CheckIfFreeSquare(ChessSquare *target);                                                    // fix
