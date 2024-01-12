@@ -11,7 +11,6 @@ ChessView::ChessView(const Chessboard::ChessboardType &board, bool *computerTurn
 ChessView::~ChessView()
 {
     delete m_Ui;
-    delete m_ChessboardLayout;
 }
 
 void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board)
