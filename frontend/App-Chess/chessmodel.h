@@ -22,7 +22,8 @@ public:
         DetectCheck,
     };
 
-    public : using PlayerColor = ChessPiece::PieceColor;
+public:
+    using PlayerColor = ChessPiece::PieceColor;
 
 public:
     bool *ComputerTurn;
@@ -70,6 +71,7 @@ private:
 signals:
     void UpdateChessboardGraphics();
     void ShowPromotionDialog(const ChessPiece::PieceColor &color);
+    void ShowEndGameDialog(const PlayerColor &color);
 };
 
 #endif // CHESSMODEL_H

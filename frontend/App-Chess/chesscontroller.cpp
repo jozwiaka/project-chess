@@ -5,6 +5,9 @@ ChessController::ChessController(ChessModel *model, ChessView *view, QObject *pa
 {
     connect(m_View, &ChessView::SquareClicked, m_Model, &ChessModel::UpdateModelOnSquareClick);
     connect(m_Model, &ChessModel::UpdateChessboardGraphics, m_View, &ChessView::UpdateChessboardGraphics);
+
     connect(m_View, &ChessView::PromotedPieceSelected, m_Model, &ChessModel::OnPromotionPieceSelected);
     connect(m_Model, &ChessModel::ShowPromotionDialog, m_View, &ChessView::CreatePromotionDialog);
+
+    connect(m_Model, &ChessModel::ShowEndGameDialog, m_View, &ChessView::CreateEndGameDialog);
 }
