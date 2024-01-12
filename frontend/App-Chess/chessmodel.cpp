@@ -141,8 +141,7 @@ void ChessModel::SetKnightValidMoves(ChessSquare *source, Mode mode, bool &outCh
     {
         for (int y = Y - 1; y <= Y + 1; y += 2)
         {
-            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), mode, outCheckDetected))
-                break;
+            SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), mode, outCheckDetected);
         }
     }
 
@@ -150,8 +149,7 @@ void ChessModel::SetKnightValidMoves(ChessSquare *source, Mode mode, bool &outCh
     {
         for (int x = X - 1; x <= X + 1; x += 2)
         {
-            if (SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), mode, outCheckDetected))
-                break;
+            SetValidMove(source, Chessboard::GetSquareByPosition({x, y}), mode, outCheckDetected);
         }
     }
 }
