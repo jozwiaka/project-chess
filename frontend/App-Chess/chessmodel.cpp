@@ -1,6 +1,7 @@
 #include "chessmodel.h"
 #include <QDebug>
 #include <QRandomGenerator>
+#include "cnnmodel.h"
 
 ChessModel::ChessModel(const Chessboard::ChessboardType &board, QObject *parent)
     : m_Board{board},
@@ -702,7 +703,7 @@ void ChessModel::ValidateMovesUnderCheck()
     if (checkMate)
     {
         qDebug() << "Check mate\n";
-        PlayerColor winner = m_CurrentTurn==PlayerColor::White?PlayerColor::Black:PlayerColor::White;
+        PlayerColor winner = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
         emit ShowEndGameDialog(winner);
     }
 }
@@ -748,6 +749,9 @@ void ChessModel::ValidateAllyKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
+    CNNModel model;
+    model.Run();
+
     static QVector<ChessSquare::SquarePosition> moves{
         {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
 

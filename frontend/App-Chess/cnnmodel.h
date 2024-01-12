@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include "chesssquare.h"
 
 class CNNModel : public QObject
 {
@@ -11,7 +12,7 @@ class CNNModel : public QObject
 public:
     explicit CNNModel(QObject *parent = nullptr);
 
-    void Log() { qDebug() << "Test"; }
+    static ChessSquare::SquarePosition Run();
 
 signals:
 };

@@ -1,4 +1,5 @@
 def predict_move():
-    return "e4"
+    return "E4"
+
 
 print(predict_move())
