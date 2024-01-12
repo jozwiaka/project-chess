@@ -58,9 +58,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
     ChessSquare *clickedSquare = Chessboard::GetSquareByPosition(position);
 
     if (!clickedSquare)
-    {
         return;
-    }
 
     if (m_FromSquare && (clickedSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove || clickedSquare->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture))
     {
