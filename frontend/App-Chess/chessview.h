@@ -31,7 +31,6 @@ public:
 private:
     Ui::ChessView *m_Ui;
     QGridLayout *m_ChessboardLayout;
-    QGridLayout *m_MenuLayout;
     PromotionDialog *m_PromotionDialog;
     EndGameDialog *m_EndGameDialog;
     bool *m_ComputerTurn;
