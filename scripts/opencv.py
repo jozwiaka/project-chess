@@ -11,7 +11,7 @@ for filename in os.listdir(template_folder):
     if filename.endswith(".png"):
         piece_name = os.path.splitext(filename)[0]
         piece_path = os.path.join(template_folder, filename)
-        pieces[piece_name] = cv2.imread(piece_path, cv2.IMREAD_GRAYSCALE)
+        pieces[piece_name] = cv2.imread(piece_path)
 
 
 def recognize_piece(piece_image):
@@ -19,20 +19,9 @@ def recognize_piece(piece_image):
     best_score = float("-inf")
 
     for name, template in pieces.items():
-        # Convert template to grayscale (if not already)
-        template_gray = (
-            cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-            if template.ndim == 3
-            else template
-        )
-        # Convert square image to grayscale
-        piece_image_gray = cv2.cvtColor(piece_image, cv2.COLOR_BGR2GRAY)
-
-        result = cv2.matchTemplate(
-            piece_image_gray, template_gray, cv2.TM_CCOEFF_NORMED
-        )
-        min_val, max_val, _, _ = cv2.minMaxLoc(result)
-
+        result = cv2.matchTemplate(piece_image, template, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, _ = cv2.minMaxLoc(result)
+        # print(f"piece_image: {max_val}")
         if max_val > best_score:
             best_score = max_val
             best_match = name
@@ -69,16 +58,21 @@ def process_image(file_path="screenshot.png"):
     # Get the bounding box of the contour
     x, y, w, h = cv2.boundingRect(max_contour)
 
+    print(x)
+    print(y)
+    print(w)
+    print(h)
+
     # Crop the chessboard region
     chessboard = img[y : y + h, x : x + w]
 
     # Display the cropped chessboard (optional)
-    # cv2.imshow("Cropped Chessboard", chessboard)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.imshow("Cropped Chessboard", chessboard)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     # Iterate through squares on the chessboard and recognize pieces
-    square_size = 8  # Adjust this based on your chessboard size
+    square_size = 80  # Adjust this based on your chessboard size
     board_array = np.empty((8, 8), dtype=object)
 
     for i in range(8):
@@ -86,6 +80,7 @@ def process_image(file_path="screenshot.png"):
             x_start, y_start = x + j * square_size, y + i * square_size
             x_end, y_end = x_start + square_size, y_start + square_size
 
+            print(f"{x_start}:{x_end}")
             # Crop the square from the chessboard
             square_image = chessboard[y_start:y_end, x_start:x_end]
 
