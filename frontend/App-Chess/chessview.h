@@ -27,6 +27,7 @@ public:
     void CreatePromotionDialog(const ChessPiece::PieceColor &color);
     void CreateEndGameDialog(const QString& message);
     void UpdateChessboardGraphics();
+    void OnSquareClicked(const ChessSquare::SquarePosition &position);
 
 private:
     Ui::ChessView *m_Ui;
@@ -37,7 +38,6 @@ private:
 
 private:
     void CreateChessboardGraphics(const Chessboard &board);
-    void OnSquareClicked(const ChessSquare::SquarePosition &position);
     void OnPromotionPieceSelected(const ChessPiece::PieceType &type);
 
 signals:

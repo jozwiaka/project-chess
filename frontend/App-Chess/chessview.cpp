@@ -25,7 +25,6 @@ void ChessView::CreateChessboardGraphics(const Chessboard &board)
         for (char col = 0; col < 8; ++col)
         {
             m_ChessboardLayout->addWidget(board[row][col], *m_ComputerTurn ? row : 8 - 1 - row, *m_ComputerTurn ? 8 - 1 - col : col);
-            connect(board[row][col], &ChessSquare::Clicked, this, &ChessView::OnSquareClicked);
         }
     }
 }
