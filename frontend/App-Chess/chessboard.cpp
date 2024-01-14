@@ -150,5 +150,6 @@ QString Chessboard::GetChessboardAsString()
         str.removeLast();
         str.append(";");
     }
+    str.removeLast();
     return str;
 }

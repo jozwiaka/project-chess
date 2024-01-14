@@ -803,16 +803,16 @@ void ChessModel::MoveCNNModel()
     QString data = m_Board.GetChessboardAsString();
     model.Run(data);
 
-    static QVector<ChessSquare::SquarePosition> moves{
-        {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
+    // static QVector<ChessSquare::SquarePosition> moves{
+    //     {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
 
     if (*ComputerTurn)
     {
-        UpdateModelOnSquareClick(moves.back());
-        moves.pop_back();
-        UpdateModelOnSquareClick(moves.back());
-        moves.pop_back();
-        PromotePawnToTheType(ChessPiece::PieceType::Queen);
+        // UpdateModelOnSquareClick(moves.back());
+        // moves.pop_back();
+        // UpdateModelOnSquareClick(moves.back());
+        // moves.pop_back();
+        // PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 
