@@ -23,6 +23,8 @@ public:
     QVector<ChessSquare *> operator[](int index);
     const QVector<ChessSquare *> operator[](int index) const;
     ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
+    ChessboardType::Iterator begin();
+    ChessboardType::Iterator end();
 
 private:
     ChessboardType m_Board;

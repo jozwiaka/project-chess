@@ -99,3 +99,13 @@ const QVector<ChessSquare*> Chessboard::operator[](int index) const
     return GetInstance().m_Board[index];
 }
 
+Chessboard::ChessboardType::Iterator Chessboard::begin()
+{
+    return m_Board.begin();
+}
+
+Chessboard::ChessboardType::Iterator Chessboard::end()
+{
+    return m_Board.end();
+}
+
