@@ -63,6 +63,9 @@ public:
 
     bool IsPieceBlocked(ChessPiece *piece);
 
+signals:
+    void Clicked(const SquarePosition &position);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
@@ -71,9 +74,6 @@ private:
     const size_t m_Size;
     const QColor m_NormalColor;
     const QColor m_HighlightedColor;
-
-signals:
-    void Clicked(const SquarePosition &position);
 };
 
 #endif // CHESSSQUARE_H

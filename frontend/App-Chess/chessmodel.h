@@ -39,6 +39,11 @@ public:
 
     void MoveCNNModel();
 
+signals:
+    void UpdateChessboardGraphics();
+    void ShowPromotionDialog(const ChessPiece::PieceColor &color);
+    void ShowEndGameDialog(const QString &message);
+
 private:
     PlayerColor m_CurrentTurn;
     ChessSquare *m_FromSquare;
@@ -75,11 +80,6 @@ private:
     void ValidateMovesUnderCheck();
 
     void PromotePawnToTheType(const ChessPiece::PieceType &type);
-
-signals:
-    void UpdateChessboardGraphics();
-    void ShowPromotionDialog(const ChessPiece::PieceColor &color);
-    void ShowEndGameDialog(const QString &message);
 };
 
 #endif // CHESSMODEL_H

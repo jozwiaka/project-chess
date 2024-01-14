@@ -23,13 +23,13 @@ public:
 
     QString GetChessboardAsString();
 
+signals:
+
 private:
     QVector<QVector<ChessSquare *>> m_Data;
 
 private:
     explicit Chessboard(QObject *parent = nullptr);
     void InitializeChessboard();
-
-signals:
 };
 #endif // CHESSBOARD_H

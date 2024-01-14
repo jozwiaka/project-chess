@@ -19,11 +19,9 @@ class EndGameDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit EndGameDialog(const QString& message, QWidget *parent = nullptr);
+    explicit EndGameDialog(const QString &message, QWidget *parent = nullptr);
 
 signals:
-
-private slots:
 
 private:
 };

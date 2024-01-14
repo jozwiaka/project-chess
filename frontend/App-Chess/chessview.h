@@ -22,12 +22,16 @@ class ChessView : public QMainWindow
     Q_OBJECT
 
 public:
-    ChessView( bool *computerTurn, QWidget *parent = nullptr);
+    ChessView(bool *computerTurn, QWidget *parent = nullptr);
     ~ChessView();
     void CreatePromotionDialog(const ChessPiece::PieceColor &color);
-    void CreateEndGameDialog(const QString& message);
+    void CreateEndGameDialog(const QString &message);
     void UpdateChessboardGraphics();
     void OnSquareClicked(const ChessSquare::SquarePosition &position);
+
+signals:
+    void SquareClicked(const ChessSquare::SquarePosition &position);
+    void PromotedPieceSelected(const ChessPiece::PieceType &type);
 
 private:
     Ui::ChessView *m_Ui;
@@ -39,9 +43,5 @@ private:
 private:
     void CreateChessboardGraphics();
     void OnPromotionPieceSelected(const ChessPiece::PieceType &type);
-
-signals:
-    void SquareClicked(const ChessSquare::SquarePosition &position);
-    void PromotedPieceSelected(const ChessPiece::PieceType &type);
 };
 #endif // CHESSVIEW_H
