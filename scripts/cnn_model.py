@@ -17,6 +17,9 @@ class CNNModel:
     def __init__(self):
         self.data = self._prepare_data()
 
+    def run(self):
+        return self._predict_move()
+
     def _read_data(self):
         args = sys.argv
         if len(args) <= 1:
@@ -51,10 +54,10 @@ class CNNModel:
             print(row)
         return data
 
-    def predict_move(self):
+    def _predict_move(self):
         return "E4"
 
 
 if __name__ == "__main__":
     cnn_model = CNNModel()
-    print(cnn_model.predict_move())
+    print(cnn_model.run())
