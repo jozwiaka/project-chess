@@ -13,18 +13,18 @@ private:
 
 public:
     static Chessboard &GetInstance();
-
     ~Chessboard();
 
     Chessboard(const Chessboard &other) = delete;
     Chessboard &operator=(const Chessboard &other) = delete;
 
-    QString GetChessboardAsString();
     QVector<ChessSquare *> operator[](int index);
     const QVector<ChessSquare *> operator[](int index) const;
     ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
     ChessboardType::Iterator begin();
     ChessboardType::Iterator end();
+
+    QString GetChessboardAsString();
 
 private:
     ChessboardType m_Board;

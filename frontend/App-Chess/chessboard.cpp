@@ -91,12 +91,12 @@ ChessSquare *Chessboard::GetSquareByPosition(const ChessSquare::SquarePosition &
 
 QVector<ChessSquare*> Chessboard::operator[](int index)
 {
-    return GetInstance().m_Board[index];
+    return m_Board[index];
 }
 
 const QVector<ChessSquare*> Chessboard::operator[](int index) const
 {
-    return GetInstance().m_Board[index];
+    return m_Board[index];
 }
 
 Chessboard::ChessboardType::Iterator Chessboard::begin()
