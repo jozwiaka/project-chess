@@ -15,7 +15,7 @@ import os
 
 class CNNModel:
     def __init__(self):
-        self.data = self._read_data()
+        self.data = self._prepare_data()
 
     def _read_data(self):
         args = sys.argv
@@ -27,8 +27,31 @@ class CNNModel:
         parsed_data = [row.split(",") for row in rows]
         return parsed_data
 
-    def predict_move(self):
+    def _prepare_data(self):
         data = self._read_data()
+        data = np.array(data).flatten()
+        label_mapping = {
+            "e": 0,
+            "w_pawn": 1,
+            "w_rook": 2,
+            "w_knight": 3,
+            "w_bishop": 4,
+            "w_queen": 5,
+            "w_king": 6,
+            "b_pawn": 7,
+            "b_rook": 8,
+            "b_knight": 9,
+            "b_bishop": 10,
+            "b_queen": 11,
+            "b_king": 12,
+        }
+        data = np.vectorize(label_mapping.get)(data)
+        data = data.reshape((8, 8, 1))
+        for row in data:
+            print(row)
+        return data
+
+    def predict_move(self):
         return "E4"
 
 
