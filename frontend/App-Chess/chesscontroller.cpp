@@ -12,12 +12,12 @@ ChessController::ChessController(ChessModel *model, ChessView *view, QObject *pa
 
     connect(m_Model, &ChessModel::ShowEndGameDialog, m_View, &ChessView::CreateEndGameDialog);
 
-
+    Chessboard &board = Chessboard::GetInstance();
     for (char x = 0; x < 8; ++x)
     {
         for (char y = 0; y < 8; ++y)
         {
-            connect(Chessboard::GetInstance()[x][y], &ChessSquare::Clicked, m_View, &ChessView::OnSquareClicked);
+            connect(board[x][y], &ChessSquare::Clicked, m_View, &ChessView::OnSquareClicked);
         }
     }
 }
