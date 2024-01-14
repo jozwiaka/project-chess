@@ -143,7 +143,7 @@ QString Chessboard::GetChessboardAsString()
             }
             else
             {
-                str.append("e");
+                str.append("empty");
             }
             str.append(",");
         }

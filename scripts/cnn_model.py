@@ -31,7 +31,7 @@ class CNNModel:
         data = self._read_data()
         data = np.array(data).flatten()
         label_mapping = {
-            "e": 0,
+            "empty": 0,
             "w_pawn": 1,
             "w_rook": 2,
             "w_knight": 3,
