@@ -10,15 +10,9 @@ CNNModel::CNNModel(QObject *parent)
 
 ChessSquare::SquarePosition CNNModel::Run(const QString &data)
 {
-    // CNNModel::ReadImage();
     QStringList args;
     args.append(data);
     return CNNModel::GenerateMove(args);
-}
-
-QByteArray CNNModel::ReadImage()
-{
-    return CNNModel::RunPythonScript("../../backend/scripts/opencv.py");
 }
 
 ChessSquare::SquarePosition CNNModel::GenerateMove(const QStringList &args)

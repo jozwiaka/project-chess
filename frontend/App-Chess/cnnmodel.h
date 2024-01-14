@@ -17,7 +17,6 @@ public:
 signals:
 
 private:
-    static QByteArray ReadImage();
     static ChessSquare::SquarePosition GenerateMove(const QStringList &args);
     static QByteArray RunPythonScript(const QString &path, const QStringList &args = QStringList());
 };
