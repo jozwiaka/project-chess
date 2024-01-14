@@ -19,7 +19,7 @@ Chessboard::~Chessboard()
 void Chessboard::InitializeChessboard()
 {
     bool dark = false;
-    Board.reserve(8);
+    m_Board.reserve(8);
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
@@ -75,7 +75,7 @@ void Chessboard::InitializeChessboard()
             }
             rowVector.push_back(square);
         }
-        Board.push_back(rowVector);
+        m_Board.push_back(rowVector);
     }
 }
 
@@ -86,5 +86,16 @@ ChessSquare *Chessboard::GetSquareByPosition(const ChessSquare::SquarePosition &
         return nullptr;
     }
 
-    return GetInstance().Board[position.x][position.y];
+    return GetInstance().m_Board[position.x][position.y];
 }
+
+QVector<ChessSquare*> Chessboard::operator[](int index)
+{
+    return GetInstance().m_Board[index];
+}
+
+const QVector<ChessSquare*> Chessboard::operator[](int index) const
+{
+    return GetInstance().m_Board[index];
+}
+

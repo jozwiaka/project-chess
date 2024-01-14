@@ -12,10 +12,10 @@ class CNNModel : public QObject
 public:
     explicit CNNModel(QObject *parent = nullptr);
 
-    static ChessSquare::SquarePosition Run();
+    static ChessSquare::SquarePosition Run(const QString& data);
 private:
     static QByteArray ReadImage();
-    static ChessSquare::SquarePosition GenerateMove();
+    static ChessSquare::SquarePosition GenerateMove(const QStringList& args);
     static QByteArray RunPythonScript(const QString& path, const QStringList& args = QStringList());
 
 signals:

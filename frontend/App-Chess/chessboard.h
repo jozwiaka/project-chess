@@ -8,18 +8,24 @@ class Chessboard : public QObject
 {
     Q_OBJECT
 
-public:
+private:
     using ChessboardType = QVector<QVector<ChessSquare *>>;
 
 public:
-    ChessboardType Board;
-
-public:
     static Chessboard &GetInstance();
-    static ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
+
     ~Chessboard();
+
     Chessboard(const Chessboard &other) = delete;
     Chessboard &operator=(const Chessboard &other) = delete;
+
+    QString GetChessboardAsString();
+    QVector<ChessSquare *> operator[](int index);
+    const QVector<ChessSquare *> operator[](int index) const;
+    ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
+
+private:
+    ChessboardType m_Board;
 
 private:
     explicit Chessboard(QObject *parent = nullptr);

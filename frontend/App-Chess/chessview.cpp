@@ -1,7 +1,7 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(const Chessboard::ChessboardType &board, bool *computerTurn, QWidget *parent)
+ChessView::ChessView(const Chessboard &board, bool *computerTurn, QWidget *parent)
     : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
 {
     m_Ui->setupUi(this);
@@ -13,7 +13,7 @@ ChessView::~ChessView()
     delete m_Ui;
 }
 
-void ChessView::CreateChessboardGraphics(const Chessboard::ChessboardType &board)
+void ChessView::CreateChessboardGraphics(const Chessboard &board)
 {
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
@@ -42,7 +42,7 @@ void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &color)
     m_PromotionDialog->exec();
 }
 
-void ChessView::CreateEndGameDialog(const QString& message)
+void ChessView::CreateEndGameDialog(const QString &message)
 {
     m_EndGameDialog = new EndGameDialog(message, this);
     m_EndGameDialog->exec();

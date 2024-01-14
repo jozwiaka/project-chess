@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  your-qt-app:
+    build:
+      context: .
+    image: your_image_name
+    container_name: your_container_name
+    environment:
+      - DISPLAY=host.docker.internal:0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: ./your_application_executable

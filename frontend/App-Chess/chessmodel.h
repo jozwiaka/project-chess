@@ -29,7 +29,7 @@ public:
     bool *ComputerTurn;
 
 public:
-    explicit ChessModel(const Chessboard::ChessboardType &board, QObject *parent = nullptr);
+    explicit ChessModel(Chessboard &board, QObject *parent = nullptr);
 
     void UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position);
 
@@ -43,7 +43,7 @@ private:
     PlayerColor m_CurrentTurn;
     ChessSquare *m_FromSquare;
     ChessSquare *m_SquareUnderPromotion;
-    Chessboard::ChessboardType m_Board;
+    Chessboard &m_Board;
     bool m_Check;
 
 private:
