@@ -29,7 +29,7 @@ public:
     bool *ComputerTurn;
 
 public:
-    explicit ChessModel(Chessboard &board, QObject *parent = nullptr);
+    explicit ChessModel(QObject *parent = nullptr);
 
     void UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position);
 

@@ -1,11 +1,11 @@
 #include "chessview.h"
 #include "./ui_chessview.h"
 
-ChessView::ChessView(const Chessboard &board, bool *computerTurn, QWidget *parent)
+ChessView::ChessView(bool *computerTurn, QWidget *parent)
     : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
 {
     m_Ui->setupUi(this);
-    CreateChessboardGraphics(board);
+    CreateChessboardGraphics();
 }
 
 ChessView::~ChessView()
@@ -13,8 +13,9 @@ ChessView::~ChessView()
     delete m_Ui;
 }
 
-void ChessView::CreateChessboardGraphics(const Chessboard &board)
+void ChessView::CreateChessboardGraphics()
 {
+    Chessboard &board = Chessboard::GetInstance();
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);

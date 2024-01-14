@@ -4,8 +4,8 @@
 #include "cnnmodel.h"
 // #include <fstream>
 
-ChessModel::ChessModel(Chessboard &board, QObject *parent)
-    : m_Board{board},
+ChessModel::ChessModel(QObject *parent)
+    : m_Board{Chessboard::GetInstance()},
       QObject{parent},
       m_CurrentTurn{PlayerColor::White},
       m_FromSquare(nullptr),
