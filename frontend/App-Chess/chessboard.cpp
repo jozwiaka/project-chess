@@ -20,27 +20,27 @@ void Chessboard::InitializeChessboard()
 {
     bool dark = false;
     m_Data.reserve(8);
-    for (char row = '1'; row <= '8'; ++row)
+    for (char x = '1'; x <= '8'; ++x)
     {
         dark = !dark;
-        QVector<ChessSquare *> rowVector;
-        rowVector.reserve(8);
-        for (char col = 'A'; col <= 'H'; ++col)
+        QVector<ChessSquare *> xVector;
+        xVector.reserve(8);
+        for (char y = 'A'; y <= 'H'; ++y)
         {
-            ChessSquare::SquarePosition position{row - '1', col - 'A'};
+            ChessSquare::SquarePosition position{x - '1', y - 'A'};
             auto square = new ChessSquare(dark, position);
             dark = !dark;
 
-            if (row == '1' || row == '2' || row == '7' || row == '8')
+            if (x == '1' || x == '2' || x == '7' || x == '8')
             {
-                ChessPiece::PieceColor color = (row == '1' || row == '2') ? ChessPiece::PieceColor::White : ChessPiece::PieceColor::Black;
+                ChessPiece::PieceColor yor = (x == '1' || x == '2') ? ChessPiece::PieceColor::White : ChessPiece::PieceColor::Black;
                 ChessPiece::PieceType type;
 
-                switch (row)
+                switch (x)
                 {
                 case '1':
                 case '8':
-                    switch (col)
+                    switch (y)
                     {
                     case 'A':
                     case 'H':
@@ -70,12 +70,12 @@ void Chessboard::InitializeChessboard()
                     continue;
                 }
 
-                auto piece = new ChessPiece(type, color, square);
+                auto piece = new ChessPiece(type, yor, square);
                 square->SetPiece(piece);
             }
-            rowVector.push_back(square);
+            xVector.push_back(square);
         }
-        m_Data.push_back(rowVector);
+        m_Data.push_back(xVector);
     }
 }
 
@@ -99,12 +99,12 @@ const QVector<ChessSquare *> Chessboard::operator[](int index) const
     return m_Data[index];
 }
 
-Chessboard::QVector<QVector<ChessSquare *>>::Iterator Chessboard::begin()
+Chessboard::ChessboardType::Iterator Chessboard::begin()
 {
     return m_Data.begin();
 }
 
-Chessboard::QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
+Chessboard::ChessboardType::Iterator Chessboard::end()
 {
     return m_Data.end();
 }

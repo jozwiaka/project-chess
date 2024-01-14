@@ -24,7 +24,7 @@ class ChessView : public QMainWindow
 public:
     ChessView(const Chessboard &board, bool *computerTurn, QWidget *parent = nullptr);
     ~ChessView();
-    void CreatePromotionDialog(const ChessPiece::PieceColor &color);
+    void CreatePromotionDialog(const ChessPiece::PieceColor &yor);
     void CreateEndGameDialog(const QString& message);
     void UpdateChessboardGraphics();
     void OnSquareClicked(const ChessSquare::SquarePosition &position);

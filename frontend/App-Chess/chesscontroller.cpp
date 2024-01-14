@@ -13,11 +13,11 @@ ChessController::ChessController(ChessModel *model, ChessView *view, QObject *pa
     connect(m_Model, &ChessModel::ShowEndGameDialog, m_View, &ChessView::CreateEndGameDialog);
 
 
-    for (char row = 0; row < 8; ++row)
+    for (char x = 0; x < 8; ++x)
     {
-        for (char col = 0; col < 8; ++col)
+        for (char y = 0; y < 8; ++y)
         {
-            connect(Chessboard::GetInstance()[row][col], &ChessSquare::Clicked, m_View, &ChessView::OnSquareClicked);
+            connect(Chessboard::GetInstance()[x][y], &ChessSquare::Clicked, m_View, &ChessView::OnSquareClicked);
         }
     }
 }

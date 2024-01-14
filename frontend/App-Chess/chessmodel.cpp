@@ -22,9 +22,9 @@ ChessModel::~ChessModel()
 
 void ChessModel::ClearTemporaryStatuses()
 {
-    for (auto &row : m_Board)
+    for (auto &x : m_Board)
     {
-        for (auto &square : row)
+        for (auto &square : x)
         {
             if (square->StatusTemporary == ChessSquare::SquareStatusTemporary::Active || square->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidCapture || square->StatusTemporary == ChessSquare::SquareStatusTemporary::ValidMove)
             {
@@ -37,9 +37,9 @@ void ChessModel::ClearTemporaryStatuses()
 void ChessModel::ClearAfterPreviousMove()
 {
     ClearTemporaryStatuses();
-    for (auto &row : m_Board)
+    for (auto &x : m_Board)
     {
-        for (auto &square : row)
+        for (auto &square : x)
         {
             if (square->Status == ChessSquare::SquareStatus::PreviousMove ||
                 square->Status == ChessSquare::SquareStatus::Check)
@@ -760,9 +760,9 @@ void ChessModel::ValidateMovesUnderCheck()
 
 void ChessModel::ValidateKingMovesAndCheck()
 {
-    for (auto &row : m_Board)
+    for (auto &x : m_Board)
     {
-        for (auto *square : row)
+        for (auto *square : x)
         {
             ChessPiece *piece = square->GetPiece();
             if (piece)
