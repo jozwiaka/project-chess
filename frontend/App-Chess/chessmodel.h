@@ -78,7 +78,7 @@ private:
 
 signals:
     void UpdateChessboardGraphics();
-    void ShowPromotionDialog(const ChessPiece::PieceColor &yor);
+    void ShowPromotionDialog(const ChessPiece::PieceColor &color);
     void ShowEndGameDialog(const QString &message);
 };
 

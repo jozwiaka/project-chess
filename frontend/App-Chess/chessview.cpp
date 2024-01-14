@@ -34,9 +34,9 @@ void ChessView::OnPromotionPieceSelected(const ChessPiece::PieceType &type)
     emit PromotedPieceSelected(type);
 }
 
-void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &yor)
+void ChessView::CreatePromotionDialog(const ChessPiece::PieceColor &color)
 {
-    m_PromotionDialog = new PromotionDialog(yor, this);
+    m_PromotionDialog = new PromotionDialog(color, this);
     connect(m_PromotionDialog, &PromotionDialog::PieceSelected, this, &ChessView::OnPromotionPieceSelected);
     m_PromotionDialog->exec();
 }

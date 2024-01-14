@@ -2,7 +2,7 @@
 #include <QHBoxLayout>
 #include <QMap>
 
-PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &yor, QWidget *parent)
+PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &color, QWidget *parent)
     : QDialog(parent)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint);
@@ -13,7 +13,7 @@ PromotionDialog::PromotionDialog(const ChessPiece::PieceColor &yor, QWidget *par
     for (const auto &type : promotionChoices)
     {
         auto button = new QPushButton(this);
-        QString pieceImagePath = ChessPiece::GetPieceImageByColorAndType(type, yor);
+        QString pieceImagePath = ChessPiece::GetPieceImageByColorAndType(type, color);
         button->setIcon(QIcon(pieceImagePath));
         button->setIconSize(QSize(80, 80));
         connect(button, &QPushButton::clicked, this, &PromotionDialog::OnPromotionButtonClicked);

@@ -33,7 +33,7 @@ void Chessboard::InitializeChessboard()
 
             if (x == '1' || x == '2' || x == '7' || x == '8')
             {
-                ChessPiece::PieceColor yor = (x == '1' || x == '2') ? ChessPiece::PieceColor::White : ChessPiece::PieceColor::Black;
+                ChessPiece::PieceColor color = (x == '1' || x == '2') ? ChessPiece::ChessPiece::PieceColor::White : ChessPiece::ChessPiece::PieceColor::Black;
                 ChessPiece::PieceType type;
 
                 switch (x)
@@ -70,7 +70,7 @@ void Chessboard::InitializeChessboard()
                     continue;
                 }
 
-                auto piece = new ChessPiece(type, yor, square);
+                auto piece = new ChessPiece(type, color, square);
                 square->SetPiece(piece);
             }
             xVector.push_back(square);
@@ -107,4 +107,48 @@ QVector<QVector<ChessSquare *>>::Iterator Chessboard::begin()
 QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
 {
     return m_Data.end();
+}
+
+QString Chessboard::GetChessboardAsString()
+{
+    QString str;
+    for (int x = 0; x < 8; ++x)
+    {
+        for (int y = 0; y < 8; ++y)
+        {
+            ChessPiece *piece = m_Data[x][y]->GetPiece();
+            if (piece)
+            {
+                switch (piece->Type)
+                {
+                case ChessPiece::PieceType::Rook:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_rook" : "b_rook";
+                    break;
+                case ChessPiece::PieceType::Knight:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_knight" : "b_knight";
+                    break;
+                case ChessPiece::PieceType::Bishop:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_bishop" : "b_bishop";
+                    break;
+                case ChessPiece::PieceType::Queen:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_queen" : "b_queen";
+                    break;
+                case ChessPiece::PieceType::King:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_king" : "b_king";
+                    break;
+                case ChessPiece::PieceType::Pawn:
+                    str += (piece->Color == ChessPiece::PieceColor::White) ? "w_pawn" : "b_pawn";
+                    break;
+                }
+            }
+            else
+            {
+                str.append("e");
+            }
+            str.append(",");
+        }
+        str.removeLast();
+        str.append(";");
+    }
+    return str;
 }

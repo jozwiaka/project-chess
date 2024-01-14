@@ -17,7 +17,7 @@ class PromotionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PromotionDialog(const ChessPiece::PieceColor &yor, QWidget *parent = nullptr);
+    explicit PromotionDialog(const ChessPiece::PieceColor &color, QWidget *parent = nullptr);
 
 signals:
     void PieceSelected(const ChessPiece::PieceType &selectedPiece);

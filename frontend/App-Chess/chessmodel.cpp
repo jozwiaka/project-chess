@@ -800,7 +800,7 @@ void ChessModel::ValidateKingMovesAndCheck()
 void ChessModel::MoveCNNModel()
 {
     CNNModel model;
-    QString data = "a,b;c,d";
+    QString data = m_Board.GetChessboardAsString();
     model.Run(data);
 
     static QVector<ChessSquare::SquarePosition> moves{
