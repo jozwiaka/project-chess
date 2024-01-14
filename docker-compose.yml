@@ -8,7 +8,7 @@ services:
     image: frontend-image
     container_name: frontend-container
     environment:
-      - DISPLAY=host.docker.internal:0
+      - DISPLAY=host.docker.internal:0.0
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-    command: ./your_application_executable
+      - ./frontend/App-Chess:/app
+    command: ["./frontend/App-Chess/build/App-Chess.exe"]

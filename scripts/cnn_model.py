@@ -13,20 +13,25 @@ import os
 # tf.__version__
 
 
-def read_data():
-    args = sys.argv
-    if len(args) <= 1:
-        raise Exception("No data has been received.")
+class CNNModel:
+    def __init__(self):
+        self.data = self._read_data()
 
-    data = args[1]
-    rows = data.split(";")
-    parsed_data = [row.split(",") for row in rows]
-    return parsed_data
+    def _read_data(self):
+        args = sys.argv
+        if len(args) <= 1:
+            raise Exception("No data has been received.")
+
+        data = args[1]
+        rows = data.split(";")
+        parsed_data = [row.split(",") for row in rows]
+        return parsed_data
+
+    def predict_move(self):
+        data = self._read_data()
+        return "E4"
 
 
-def predict_move():
-    return "E4"
-
-
-# print(read_data())
-print(predict_move())
+if __name__ == "__main__":
+    cnn_model = CNNModel()
+    print(cnn_model.predict_move())

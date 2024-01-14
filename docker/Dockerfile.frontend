@@ -1,16 +1,27 @@
-# Use a base image with Qt 6 installed
-FROM stateoftheartio/qt6:6.6-mingw-aqt
+# Use Ubuntu as the base image
+FROM ubuntu:latest
+
 # Set the working directory
 WORKDIR /app
 
-# Install additional dependencies (if needed)
+# Update the package repository and install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    qtbase5-dev \
+    qtdeclarative5-dev 
+# Add other Qt development packages as needed
+
+# Install X11 utilities
+RUN apt-get install -y x11-apps
+
+# Set the display variable
+ENV DISPLAY=host.docker.internal:0.0
 
 # Copy the entire source code into the container
 COPY . .
 
 # Create a build directory and set it as the working directory
-WORKDIR /app/frontend/App-Chess
-RUN mkdir build
 WORKDIR /app/frontend/App-Chess/build
 
 # Configure and build the application
@@ -18,4 +29,4 @@ RUN cmake ..
 RUN make
 
 # Set the entry point for the container
-CMD [".\App-Chess.exe"]
+CMD ["./App-Chess.exe"]
