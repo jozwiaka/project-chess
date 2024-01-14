@@ -8,7 +8,7 @@ CNNModel::CNNModel(QObject *parent)
 {
 }
 
-ChessSquare::SquarePosition CNNModel::Run(const QString& data)
+ChessSquare::SquarePosition CNNModel::Run(const QString &data)
 {
     // CNNModel::ReadImage();
     QStringList args;
@@ -16,23 +16,24 @@ ChessSquare::SquarePosition CNNModel::Run(const QString& data)
     return CNNModel::GenerateMove(args);
 }
 
-QByteArray CNNModel::ReadImage() {
-    return CNNModel::RunPythonScript("../../scripts/opencv.py");
+QByteArray CNNModel::ReadImage()
+{
+    return CNNModel::RunPythonScript("../../backend/scripts/opencv.py");
 }
 
-ChessSquare::SquarePosition CNNModel::GenerateMove(const QStringList& args)
+ChessSquare::SquarePosition CNNModel::GenerateMove(const QStringList &args)
 {
-    QByteArray output = CNNModel::RunPythonScript("../../scripts/cnn_model.py", args);
-    ChessSquare::SquarePosition position{output[1]-'1',output[0]-'A'};
+    QByteArray output = CNNModel::RunPythonScript("../../backend/scripts/cnn_model.py", args);
+    ChessSquare::SquarePosition position{output[1] - '1', output[0] - 'A'};
     return position;
 }
 
-QByteArray CNNModel::RunPythonScript(const QString& path, const QStringList& args)
+QByteArray CNNModel::RunPythonScript(const QString &path, const QStringList &args)
 {
     QProcess process;
     process.start("python", QStringList() << path << args);
     process.waitForFinished(-1);
     auto output = process.readAllStandardOutput();
-    qDebug()<<output<<"\n";
+    qDebug() << output << "\n";
     return output;
 }

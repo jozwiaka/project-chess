@@ -18,22 +18,22 @@ QString ChessPiece::GetPieceImageByColorAndType(const PieceType &type, const Pie
     switch (type)
     {
     case ChessPiece::PieceType::Rook:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_rook_1x_ns.png" : "../../resources/b_rook_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_rook_1x_ns.png" : "../resources/b_rook_1x_ns.png";
         break;
     case ChessPiece::PieceType::Knight:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_knight_1x_ns.png" : "../../resources/b_knight_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_knight_1x_ns.png" : "../resources/b_knight_1x_ns.png";
         break;
     case ChessPiece::PieceType::Bishop:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_bishop_1x_ns.png" : "../../resources/b_bishop_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_bishop_1x_ns.png" : "../resources/b_bishop_1x_ns.png";
         break;
     case ChessPiece::PieceType::Queen:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_queen_1x_ns.png" : "../../resources/b_queen_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_queen_1x_ns.png" : "../resources/b_queen_1x_ns.png";
         break;
     case ChessPiece::PieceType::King:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_king_1x_ns.png" : "../../resources/b_king_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_king_1x_ns.png" : "../resources/b_king_1x_ns.png";
         break;
     case ChessPiece::PieceType::Pawn:
-        pieceImagePath = (color == PieceColor::White) ? "../../resources/w_pawn_1x_ns.png" : "../../resources/b_pawn_1x_ns.png";
+        pieceImagePath = (color == PieceColor::White) ? "../resources/w_pawn_1x_ns.png" : "../resources/b_pawn_1x_ns.png";
         break;
     }
 
