@@ -19,7 +19,7 @@ Chessboard::~Chessboard()
 void Chessboard::InitializeChessboard()
 {
     bool dark = false;
-    m_Board.reserve(8);
+    m_Data.reserve(8);
     for (char row = '1'; row <= '8'; ++row)
     {
         dark = !dark;
@@ -75,7 +75,7 @@ void Chessboard::InitializeChessboard()
             }
             rowVector.push_back(square);
         }
-        m_Board.push_back(rowVector);
+        m_Data.push_back(rowVector);
     }
 }
 
@@ -86,26 +86,25 @@ ChessSquare *Chessboard::GetSquareByPosition(const ChessSquare::SquarePosition &
         return nullptr;
     }
 
-    return GetInstance().m_Board[position.x][position.y];
+    return GetInstance().m_Data[position.x][position.y];
 }
 
-QVector<ChessSquare*> Chessboard::operator[](int index)
+QVector<ChessSquare *> Chessboard::operator[](int index)
 {
-    return m_Board[index];
+    return m_Data[index];
 }
 
-const QVector<ChessSquare*> Chessboard::operator[](int index) const
+const QVector<ChessSquare *> Chessboard::operator[](int index) const
 {
-    return m_Board[index];
+    return m_Data[index];
 }
 
-Chessboard::ChessboardType::Iterator Chessboard::begin()
+Chessboard::QVector<QVector<ChessSquare *>>::Iterator Chessboard::begin()
 {
-    return m_Board.begin();
+    return m_Data.begin();
 }
 
-Chessboard::ChessboardType::Iterator Chessboard::end()
+Chessboard::QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
 {
-    return m_Board.end();
+    return m_Data.end();
 }
-

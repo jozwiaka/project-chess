@@ -27,7 +27,7 @@ public:
     QString GetChessboardAsString();
 
 private:
-    ChessboardType m_Board;
+    ChessboardType m_Data;
 
 private:
     explicit Chessboard(QObject *parent = nullptr);
