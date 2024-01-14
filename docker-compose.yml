@@ -4,8 +4,9 @@ services:
   your-qt-app:
     build:
       context: .
-    image: your_image_name
-    container_name: your_container_name
+      dockerfile: ./docker/Dockerfile.frontend
+    image: frontend-image
+    container_name: frontend-container
     environment:
       - DISPLAY=host.docker.internal:0
     volumes:
