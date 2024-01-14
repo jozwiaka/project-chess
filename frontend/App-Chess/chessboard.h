@@ -8,9 +8,6 @@ class Chessboard : public QObject
 {
     Q_OBJECT
 
-private:
-    using ChessboardType = QVector<QVector<ChessSquare *>>;
-
 public:
     static Chessboard &GetInstance();
     ~Chessboard();
@@ -21,13 +18,13 @@ public:
     QVector<ChessSquare *> operator[](int index);
     const QVector<ChessSquare *> operator[](int index) const;
     ChessSquare *GetSquareByPosition(const ChessSquare::SquarePosition &position);
-    ChessboardType::Iterator begin();
-    ChessboardType::Iterator end();
+    QVector<QVector<ChessSquare *>>::Iterator begin();
+    QVector<QVector<ChessSquare *>>::Iterator end();
 
     QString GetChessboardAsString();
 
 private:
-    ChessboardType m_Data;
+    QVector<QVector<ChessSquare *>> m_Data;
 
 private:
     explicit Chessboard(QObject *parent = nullptr);

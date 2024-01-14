@@ -99,12 +99,12 @@ const QVector<ChessSquare *> Chessboard::operator[](int index) const
     return m_Data[index];
 }
 
-Chessboard::ChessboardType::Iterator Chessboard::begin()
+QVector<QVector<ChessSquare *>>::Iterator Chessboard::begin()
 {
     return m_Data.begin();
 }
 
-Chessboard::ChessboardType::Iterator Chessboard::end()
+QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
 {
     return m_Data.end();
 }
