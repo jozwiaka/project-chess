@@ -27,6 +27,7 @@ class CNNModel:
             raise Exception("No data has been received.")
 
         data = args[1]
+        print(data)
         rows = data.split(";")
         parsed_data = [row.split(",") for row in rows]
         return parsed_data
@@ -35,19 +36,19 @@ class CNNModel:
         data = self._read_data()
         data = np.array(data).flatten()
         label_mapping = {
-            "empty": 0,
-            "w_pawn": 1,
-            "w_rook": 2,
-            "w_knight": 3,
-            "w_bishop": 4,
-            "w_queen": 5,
-            "w_king": 6,
-            "b_pawn": 7,
-            "b_rook": 8,
-            "b_knight": 9,
-            "b_bishop": 10,
-            "b_queen": 11,
-            "b_king": 12,
+            ".": 0,
+            "P": 1,
+            "R": 2,
+            "N": 3,
+            "B": 4,
+            "Q": 5,
+            "K": 6,
+            "p": 7,
+            "r": 8,
+            "n": 9,
+            "b": 10,
+            "q": 11,
+            "k": 12,
         }
         data = np.vectorize(label_mapping.get)(data)
         data = data.reshape((8, 8, 1))
