@@ -28,4 +28,3 @@ class PGNReader:
 pgn_dir = "../data"
 pgn_reader = PGNReader(pgn_dir)
 games = pgn_reader.read()
-print(games[0])
