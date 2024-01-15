@@ -35,7 +35,6 @@ def board_to_array(board):
     for i in range(8):
         for j in range(8):
             piece = board.piece_at(chess.square(j, 7 - i))
-            # print(piece)
             if piece is not None:
                 board_array[i, j, piece_dict[str(piece)]] = 1
             else:
