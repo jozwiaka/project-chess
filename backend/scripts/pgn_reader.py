@@ -1,27 +1,31 @@
 import chess
 import chess.pgn
+import os
 
 
 class PGNReader:
-    def __init__(self, pgn_file_path):
-        self.pgn_file_path = pgn_file_path
+    def __init__(self, pgn_dir):
+        self.pgn_dir = pgn_dir
 
     def read(self):
         games = []
-        with open(self.pgn_file_path) as pgn_file:
-            game = chess.pgn.read_game(pgn_file)
-            while game is not None:
-                board = chess.Board()
-                boards = []
-                for move in game.mainline_moves():
-                    board.push(move)
-                    boards.append(board)
-                games.append(boards)
-                game = chess.pgn.read_game(pgn_file)
+        for filename in os.listdir(self.pgn_dir):
+            if filename.endswith(".pgn"):
+                pgn_file_path = os.path.join(self.pgn_dir, filename)
+                with open(pgn_file_path) as pgn_file:
+                    game = chess.pgn.read_game(pgn_file)
+                    while game is not None:
+                        board = chess.Board()
+                        boards = []
+                        for move in game.mainline_moves():
+                            board.push(move)
+                            boards.append(board)
+                        games.append(boards)
+                        game = chess.pgn.read_game(pgn_file)
         return games
 
 
-pgn_file_path = "../data/London2g6.pgn"
-pgn_viewer = PGNReader(pgn_file_path)
-games = pgn_viewer.read()
+pgn_dir = "../data"
+pgn_reader = PGNReader(pgn_dir)
+games = pgn_reader.read()
 print(games[0])
