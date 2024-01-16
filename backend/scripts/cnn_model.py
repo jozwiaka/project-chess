@@ -34,3 +34,6 @@ class CNNModel:
         model.fit(
             X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val)
         )
+
+    def predict_move():
+        pass
