@@ -19,10 +19,15 @@ class CNNModel:
     def train(self):
         X, y = self.data
         label_encoder = LabelEncoder()
-        y_encoded = label_encoder.fit_transform(y)
+
+        # Convert the moves to a list of FEN strings representing the next position
+        fen_list = [ChessDataProcessor.get_next_fen(move) for move in y]
+
+        y_encoded = label_encoder.fit_transform(fen_list)
         X_train, X_val, y_train, y_val = train_test_split(
             X, y_encoded, test_size=0.2, random_state=42
         )
+
         model = models.Sequential(
             [
                 layers.Conv2D(32, (3, 3), activation="relu", input_shape=(8, 8, 12)),
@@ -58,8 +63,8 @@ class ChessModel:
         input_matrix = ChessDataProcessor.fen_to_matrix(fen)
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)
-        decoded_label = self.label_encoder.inverse_transform(np.argmax(prediction))
-        return decoded_label
+        decoded_label = self.label_encoder.inverse_transform([np.argmax(prediction)])
+        return decoded_label[0]
 
 
 class ChessDataProcessor:
@@ -81,7 +86,7 @@ class ChessDataProcessor:
                             board.push(move)
                             fen = board.fen()
                             positions.append(ChessDataProcessor.fen_to_matrix(fen))
-                            outcomes.append(game.headers["Result"])
+                            outcomes.append(move.uci())  # Store the move in UCI format
 
         return np.array(positions), np.array(outcomes)
 
@@ -113,22 +118,32 @@ class ChessDataProcessor:
                     matrix[r, c, piece_mapping[piece.symbol()]] = 1
         return matrix
 
+    @staticmethod
+    def get_next_fen(move):
+        board = chess.Board()
+        source_square = chess.parse_square(move[:2])
+        dest_square = chess.parse_square(move[2:])
+
+        move_obj = chess.Move(source_square, dest_square)
+        board.push(move_obj)
+
+        return board.fen()
+
 
 if __name__ == "__main__":
     pgn_dir = "../data"
+    model_path = "../models/chess_model.h5"
+    label_encoder_path = "../models/label_encoder.npy"
+
+    # Uncomment the following lines to train the model
     data = ChessDataProcessor.load_data(pgn_dir)
     cnn_model = CNNModel(data)
     cnn_model.train()
-
-    model_path = "../models/chess_model.h5"
-    label_encoder_path = "../models/label_encoder.npy"
     cnn_model.save_model(model_path, label_encoder_path)
 
-    # Load the saved model and label encoder
     chess_model = ChessModel()
     chess_model.load_model(model_path, label_encoder_path)
 
-    # Example of using the loaded model for prediction
     fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     move_prediction = chess_model.predict_move(fen)
 
