@@ -55,3 +55,6 @@ compile_commands.json
 *_qmlcache.qrc
 
 data
+
+__pycache__
+.vscode
