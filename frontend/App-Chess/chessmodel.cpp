@@ -11,7 +11,7 @@ ChessModel::ChessModel(QObject *parent)
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
       m_Check(false),
-      m_FiftyRuleCounter(false),
+      m_FiftyRuleCounter(0),
       m_FENData(new FENData),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
@@ -741,9 +741,9 @@ void ChessModel::ValidateMovesUnderCheck()
         }
     }
 
+    QString message;
     if (noValidSquares)
     {
-        QString message;
         if (m_Check)
         {
             PlayerColor winner = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
@@ -760,6 +760,11 @@ void ChessModel::ValidateMovesUnderCheck()
         {
             message = "Stale mate.";
         }
+        emit ShowEndGameDialog(message);
+    }
+    else if (m_FiftyRuleCounter == 50)
+    {
+        message = "Draw - 50 rule";
         emit ShowEndGameDialog(message);
     }
 }
