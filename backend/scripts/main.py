@@ -121,12 +121,8 @@ class ChessDataProcessor:
     @staticmethod
     def get_next_fen(move):
         board = chess.Board()
-        source_square = chess.parse_square(move[:2])
-        dest_square = chess.parse_square(move[2:])
-
-        move_obj = chess.Move(source_square, dest_square)
-        board.push(move_obj)
-
+        uci_move = chess.Move.from_uci(move)
+        board.push(uci_move)
         return board.fen()
 
 
