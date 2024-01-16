@@ -109,16 +109,22 @@ QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
     return m_Data.end();
 }
 
-QString Chessboard::GetChessboardAsString()
+QString Chessboard::Str()
 {
     QString str;
     for (int x = 0; x < 8; ++x)
     {
+        char i = '0';
         for (int y = 0; y < 8; ++y)
         {
             ChessPiece *piece = m_Data[x][y]->GetPiece();
             if (piece)
             {
+                if (i != '0')
+                {
+                    str.append(i);
+                    i = '0';
+                }
                 switch (piece->Type)
                 {
                 case ChessPiece::PieceType::Rook:
@@ -143,12 +149,15 @@ QString Chessboard::GetChessboardAsString()
             }
             else
             {
-                str.append(".");
+                ++i;
             }
-            str.append(",");
+            if (y==7 && i!='0')
+            {
+                str.append(i);
+                i='0';
+            }
         }
-        str.removeLast();
-        str.append(";");
+        str.append("/");
     }
     str.removeLast();
     return str;

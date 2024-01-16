@@ -21,7 +21,7 @@ public:
     QVector<QVector<ChessSquare *>>::Iterator begin();
     QVector<QVector<ChessSquare *>>::Iterator end();
 
-    QString GetChessboardAsString();
+    QString Str();
 
 signals:
 
