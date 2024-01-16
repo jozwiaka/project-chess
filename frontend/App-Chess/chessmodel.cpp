@@ -11,6 +11,7 @@ ChessModel::ChessModel(QObject *parent)
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
       m_Check(false),
+      m_FENData(new FENData),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
 }
@@ -18,6 +19,7 @@ ChessModel::ChessModel(QObject *parent)
 ChessModel::~ChessModel()
 {
     delete ComputerTurn;
+    delete m_FENData;
 }
 
 void ChessModel::ClearTemporaryStatuses()
@@ -624,6 +626,11 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     SetPreviousMove(toSquare);
     ValidateKingMovesAndCheck();
 
+
+    UpdateFENData();
+    QString data = m_FENData->Str();
+    qDebug()<<data;
+
     // End of turn
     EndOfTurn();
 
@@ -799,9 +806,9 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    CNNModel model;
-    QString data = m_Board.GetChessboardAsString();
-    qDebug()<<data;
+    // CNNModel model;
+    // QString data = m_Board.GetChessboardAsString();
+    // qDebug()<<data;
     //model.Run(data);
 
     // static QVector<ChessSquare::SquarePosition> moves{
@@ -840,3 +847,5 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
         }
     }
 }
+
+void ChessModel::UpdateFENData(){}
