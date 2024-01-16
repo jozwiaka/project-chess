@@ -848,7 +848,7 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
 
 void ChessModel::UpdateFENData()
 {
-
+    m_FENData->EnPassantTargetSquare="-";
     if (m_CurrentTurn == PlayerColor::White)
     {
         m_FENData->ActiveColor = "w";
@@ -862,6 +862,7 @@ void ChessModel::UpdateFENData()
     QString CastlingAvailabilityWhite = "";
     QString CastlingAvailabilityBlack = "";
 
+
     for (auto &row : m_Board)
     {
         for (auto *source : row)
@@ -869,6 +870,11 @@ void ChessModel::UpdateFENData()
             ChessPiece *piece = source->GetPiece();
             if (piece)
             {
+                if(piece->EnPassant)
+                {
+                    m_FENData->EnPassantTargetSquare = source->Position.Str();
+                }
+
                 if (piece->Type == ChessPiece::PieceType::King)
                 {
                     ChessPiece *rookAtKingSide = m_Board[source->Position.x][7]->GetPiece();

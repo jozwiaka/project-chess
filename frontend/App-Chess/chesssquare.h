@@ -18,6 +18,13 @@ public:
         {
             return this->x == other.x && this->y == other.y;
         }
+
+        QString Str() const
+        {
+            QString letter = QString(QChar('a'+y));
+            QString number = QString(QChar('1'+x));
+            return letter+number;
+        }
     };
 
 public:
