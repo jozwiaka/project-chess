@@ -11,7 +11,7 @@ class CNNModel:
     def __init__(self, data):
         self.data = data
 
-    def run(self):
+    def train(self):
         X, y = self.data
         label_encoder = LabelEncoder()
         y_encoded = label_encoder.fit_transform(y)

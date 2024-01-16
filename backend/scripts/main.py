@@ -6,4 +6,4 @@ if __name__ == "__main__":
     pgn_dir = "../data"
     data = ChessDataProcessor.load_data(pgn_dir)
     cnn_model = CNNModel(data)
-    cnn_model.run()
+    cnn_model.train()
