@@ -391,13 +391,27 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
 
     if (mode == Mode::Validate)
     {
-
-        ChessPiece *rook1 = m_Board[source->Position.x][0]->GetPiece();
-        if (rook1)
+        ChessPiece *rookAtKingSide = m_Board[source->Position.x][7]->GetPiece();
+        if (rookAtKingSide)
         {
             if (
                 !piece->Moved &&
-                !rook1->Moved &&
+                !rookAtKingSide->Moved &&
+                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 6})) &&
+                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 5})) &&
+                !m_Board.GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
+                !m_Board.GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
+            {
+                m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
+            }
+        }
+
+        ChessPiece *rookAtQueenSide = m_Board[source->Position.x][0]->GetPiece();
+        if (rookAtQueenSide)
+        {
+            if (
+                !piece->Moved &&
+                !rookAtQueenSide->Moved &&
                 CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 1})) &&
                 CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 2})) &&
                 CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 3})) &&
@@ -406,21 +420,6 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
                 !m_Board.GetSquareByPosition({source->Position.x, 3})->BlockedForKing)
             {
                 m_Board[source->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
-            }
-        }
-
-        ChessPiece *rook2 = m_Board[source->Position.x][7]->GetPiece();
-        if (rook2)
-        {
-            if (
-                !piece->Moved &&
-                !rook2->Moved &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 6})) &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 5})) &&
-                !m_Board.GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
-                !m_Board.GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
-            {
-                m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
         }
     }
@@ -626,13 +625,11 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     SetPreviousMove(toSquare);
     ValidateKingMovesAndCheck();
 
-
-    UpdateFENData();
-    QString data = m_FENData->Str();
-    qDebug()<<data;
-
     // End of turn
     EndOfTurn();
+    UpdateFENData();
+    QString data = m_FENData->Str();
+    qDebug() << data;
 
     // Beginning of the next turn
     ValidateMovesUnderCheck();
@@ -809,7 +806,7 @@ void ChessModel::MoveCNNModel()
     // CNNModel model;
     // QString data = m_Board.GetChessboardAsString();
     // qDebug()<<data;
-    //model.Run(data);
+    // model.Run(data);
 
     // static QVector<ChessSquare::SquarePosition> moves{
     //     {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
@@ -848,4 +845,85 @@ void ChessModel::PromotePawnToTheType(const ChessPiece::PieceType &type)
     }
 }
 
-void ChessModel::UpdateFENData(){}
+void ChessModel::UpdateFENData()
+{
+
+    if (m_CurrentTurn == PlayerColor::White)
+    {
+        m_FENData->ActiveColor = "w";
+        ++m_FENData->FullmoveNumber;
+    }
+    else
+    {
+        m_FENData->ActiveColor = "b";
+    }
+
+    QString CastlingAvailabilityWhite = "";
+    QString CastlingAvailabilityBlack = "";
+
+    for (auto &row : m_Board)
+    {
+        for (auto *source : row)
+        {
+            ChessPiece *piece = source->GetPiece();
+            if (piece)
+            {
+                if (piece->Type == ChessPiece::PieceType::King)
+                {
+
+                    ChessPiece *rookAtKingSide = m_Board[source->Position.x][7]->GetPiece();
+                    if (rookAtKingSide)
+                    {
+                        if (
+                            !piece->Moved &&
+                            !rookAtKingSide->Moved &&
+                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 6})) &&
+                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 5})) &&
+                            !m_Board.GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
+                            !m_Board.GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
+                        {
+                            if (piece->Color == ChessPiece::PieceColor::White)
+                            {
+                                CastlingAvailabilityWhite += "K";
+                            }
+                            else
+                            {
+                                CastlingAvailabilityBlack += "k";
+                            }
+                        }
+                    }
+
+                    ChessPiece *rookAtQueenSide = m_Board[source->Position.x][0]->GetPiece();
+                    if (rookAtQueenSide)
+                    {
+                        if (
+                            !piece->Moved &&
+                            !rookAtQueenSide->Moved &&
+                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 1})) &&
+                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 2})) &&
+                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 3})) &&
+                            !m_Board.GetSquareByPosition({source->Position.x, 1})->BlockedForKing &&
+                            !m_Board.GetSquareByPosition({source->Position.x, 2})->BlockedForKing &&
+                            !m_Board.GetSquareByPosition({source->Position.x, 3})->BlockedForKing)
+                        {
+                            if (piece->Color == ChessPiece::PieceColor::White)
+                            {
+                                CastlingAvailabilityWhite += "Q";
+                            }
+                            else
+                            {
+                                CastlingAvailabilityBlack += "q";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    m_FENData->CastlingAvailability = CastlingAvailabilityWhite + CastlingAvailabilityBlack;
+    if (m_FENData->CastlingAvailability == "")
+    {
+        m_FENData->CastlingAvailability = "-";
+    }
+}
