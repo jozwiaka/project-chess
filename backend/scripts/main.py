@@ -18,6 +18,9 @@ class CNNModel:
 
     def train(self):
         X, y = self.data
+
+        print(f"X = {X[0]}")
+        print(f"y = {y[0]}")
         label_encoder = LabelEncoder()
 
         # Convert the moves to a list of FEN strings representing the next position
@@ -121,7 +124,9 @@ class ChessDataProcessor:
     @staticmethod
     def get_next_fen(move):
         board = chess.Board()
+        print(board)
         uci_move = chess.Move.from_uci(move)
+        print(uci_move)
         board.push(uci_move)
         return board.fen()
 

@@ -51,6 +51,16 @@ private:
     Chessboard &m_Board;
     bool m_Check;
 
+    //rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
+    QString m_PiecePlacementData = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+    QString m_ActiveColor = "w";
+    QString m_CastlingAvailability = "KQkq";
+    QString m_EnPassantTargetSquare = "-"; //e6
+    int m_HalfmoveClock = 0;
+    int m_FullmoveNumber = 1;
+
+
+
 private:
     void ClearTemporaryStatuses();
     void ClearAfterPreviousMove();

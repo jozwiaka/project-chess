@@ -801,7 +801,8 @@ void ChessModel::MoveCNNModel()
 {
     CNNModel model;
     QString data = m_Board.GetChessboardAsString();
-    model.Run(data);
+    qDebug()<<data;
+    //model.Run(data);
 
     // static QVector<ChessSquare::SquarePosition> moves{
     //     {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
