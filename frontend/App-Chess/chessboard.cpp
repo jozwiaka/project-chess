@@ -151,11 +151,10 @@ QString Chessboard::Str()
             {
                 ++i;
             }
-            if (y==7 && i!='0')
-            {
-                str.append(i);
-                i='0';
-            }
+        }
+        if (i!='0')
+        {
+            str.append(i);
         }
         str.append("/");
     }
