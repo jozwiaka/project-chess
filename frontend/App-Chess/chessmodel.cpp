@@ -876,11 +876,7 @@ void ChessModel::UpdateFENData()
                     {
                         if (
                             !piece->Moved &&
-                            !rookAtKingSide->Moved &&
-                            CheckIfFreeSquare(m_Board[source->Position.x][6]) &&
-                            CheckIfFreeSquare(m_Board[source->Position.x][5]) &&
-                            !m_Board[source->Position.x][6]->BlockedForKing &&
-                            !m_Board[source->Position.x][5]->BlockedForKing)
+                            !rookAtKingSide->Moved)
                         {
                             if (piece->Color == ChessPiece::PieceColor::White)
                             {
@@ -898,13 +894,7 @@ void ChessModel::UpdateFENData()
                     {
                         if (
                             !piece->Moved &&
-                            !rookAtQueenSide->Moved &&
-                            CheckIfFreeSquare(m_Board[source->Position.x][1]) &&
-                            CheckIfFreeSquare(m_Board[source->Position.x][2]) &&
-                            CheckIfFreeSquare(m_Board[source->Position.x][3]) &&
-                            !m_Board[source->Position.x][1]->BlockedForKing &&
-                            !m_Board[source->Position.x][2]->BlockedForKing &&
-                            !m_Board[source->Position.x][3]->BlockedForKing)
+                            !rookAtQueenSide->Moved)
                         {
                             if (piece->Color == ChessPiece::PieceColor::White)
                             {
@@ -922,8 +912,8 @@ void ChessModel::UpdateFENData()
     }
 
     m_FENData->CastlingAvailability = CastlingAvailabilityWhite + CastlingAvailabilityBlack;
-    // if (m_FENData->CastlingAvailability == "")
-    // {
-    //     m_FENData->CastlingAvailability = "-";
-    // }
+    if (m_FENData->CastlingAvailability == "")
+    {
+        m_FENData->CastlingAvailability = "-";
+    }
 }
