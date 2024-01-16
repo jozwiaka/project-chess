@@ -11,7 +11,7 @@ ChessModel::ChessModel(QObject *parent)
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
       m_Check(false),
-      m_PieceCapturedOrPawnMoved(false),
+      m_FiftyRuleCounter(false),
       m_FENData(new FENData),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {

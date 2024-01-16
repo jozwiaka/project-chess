@@ -28,7 +28,7 @@ private:
         QString PiecePlacementData = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
         QString ActiveColor = "w";
         QString CastlingAvailability = "KQkq";
-        QString EnPassantTargetSquare = "-"; //e6
+        QString EnPassantTargetSquare = "-"; // e6
         int HalfmoveClock = 0;
         int FullmoveNumber = 1;
 
@@ -71,8 +71,8 @@ private:
     ChessSquare *m_SquareUnderPromotion;
     Chessboard &m_Board;
     bool m_Check;
-    FENData* m_FENData;
-    bool m_PieceCapturedOrPawnMoved;
+    FENData *m_FENData;
+    int m_FiftyRuleCounter;
 
 private:
     void ClearTemporaryStatuses();
