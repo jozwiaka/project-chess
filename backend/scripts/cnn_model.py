@@ -20,8 +20,9 @@ class CNNModel:
         label_encoder = LabelEncoder()
 
         # Convert the moves to a list of FEN strings representing the next position
-        fen_list = [ChessDataProcessor.get_next_fen(move) for move in y]
+        # fen_list = [ChessDataProcessor.get_next_fen(move) for move in y]
 
+        fen_list = y
         y_encoded = label_encoder.fit_transform(fen_list)
         X_train, X_val, y_train, y_val = train_test_split(
             X, y_encoded, test_size=0.2, random_state=42
