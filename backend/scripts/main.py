@@ -55,7 +55,7 @@ class ChessModel:
         self.label_encoder.classes_ = classes
 
     def predict_move(self, fen):
-        input_matrix = ChessDataProcessor._fen_to_matrix(fen)
+        input_matrix = ChessDataProcessor.fen_to_matrix(fen)
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)
         decoded_label = self.label_encoder.inverse_transform(np.argmax(prediction))
@@ -80,13 +80,13 @@ class ChessDataProcessor:
                         for move in game.mainline_moves():
                             board.push(move)
                             fen = board.fen()
-                            positions.append(ChessDataProcessor._fen_to_matrix(fen))
+                            positions.append(ChessDataProcessor.fen_to_matrix(fen))
                             outcomes.append(game.headers["Result"])
 
         return np.array(positions), np.array(outcomes)
 
     @staticmethod
-    def _fen_to_matrix(fen):
+    def fen_to_matrix(fen):
         board = chess.Board(fen)
         matrix = np.zeros((8, 8, 12), dtype=np.uint8)
         piece_mapping = {

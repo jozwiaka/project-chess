@@ -21,13 +21,13 @@ class ChessDataProcessor:
                         for move in game.mainline_moves():
                             board.push(move)
                             fen = board.fen()
-                            positions.append(ChessDataProcessor._fen_to_matrix(fen))
+                            positions.append(ChessDataProcessor.fen_to_matrix(fen))
                             outcomes.append(game.headers["Result"])
 
         return np.array(positions), np.array(outcomes)
 
     @staticmethod
-    def _fen_to_matrix(fen):
+    def fen_to_matrix(fen):
         board = chess.Board(fen)
         matrix = np.zeros((8, 8, 12), dtype=np.uint8)
         piece_mapping = {
