@@ -72,6 +72,7 @@ private:
     Chessboard &m_Board;
     bool m_Check;
     FENData* m_FENData;
+    bool m_PieceCapturedOrPawnMoved;
 
 private:
     void ClearTemporaryStatuses();
