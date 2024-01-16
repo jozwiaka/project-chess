@@ -1,19 +1,16 @@
-import chess
-import chess.pgn
 import os
 import numpy as np
+import chess
 
 
 class ChessDataProcessor:
-    def __init__(self, pgn_dir):
-        self.pgn_dir = pgn_dir
-
-    def load_data(self):
+    @staticmethod
+    def load_data(pgn_dir):
         positions = []
         outcomes = []
-        for filename in os.listdir(self.pgn_dir):
+        for filename in os.listdir(pgn_dir):
             if filename.endswith(".pgn"):
-                pgn_file = os.path.join(self.pgn_dir, filename)
+                pgn_file = os.path.join(pgn_dir, filename)
                 with open(pgn_file) as f:
                     while True:
                         game = chess.pgn.read_game(f)
@@ -24,12 +21,13 @@ class ChessDataProcessor:
                         for move in game.mainline_moves():
                             board.push(move)
                             fen = board.fen()
-                            positions.append(self._fen_to_matrix(fen))
+                            positions.append(ChessDataProcessor._fen_to_matrix(fen))
                             outcomes.append(game.headers["Result"])
 
         return np.array(positions), np.array(outcomes)
 
-    def _fen_to_matrix(self, fen):
+    @staticmethod
+    def _fen_to_matrix(fen):
         board = chess.Board(fen)
         matrix = np.zeros((8, 8, 12), dtype=np.uint8)
         piece_mapping = {
