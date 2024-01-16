@@ -11,7 +11,7 @@ ChessModel::ChessModel(QObject *parent)
       m_FromSquare(nullptr),
       m_SquareUnderPromotion(nullptr),
       m_Check(false),
-      m_FiftyRuleCounter(0),
+      m_HalfMoveClock(0),
       m_FENData(new FENData),
       ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
@@ -595,6 +595,14 @@ void ChessModel::EndOfTurn()
 void ChessModel::MovePiece(ChessSquare *toSquare)
 {
     ChessPiece *pieceToMove = m_FromSquare->GetPiece();
+    if (toSquare->GetPiece() || pieceToMove->Type == ChessPiece::PieceType::Pawn)
+    {
+        m_HalfMoveClock = 0;
+    }
+    else
+    {
+        ++m_HalfMoveClock;
+    }
     pieceToMove->Moved = true;
     toSquare->RemoveChessPiece();
     toSquare->SetPiece(pieceToMove);
@@ -762,7 +770,7 @@ void ChessModel::ValidateMovesUnderCheck()
         }
         emit ShowEndGameDialog(message);
     }
-    else if (m_FiftyRuleCounter == 50)
+    else if (m_HalfMoveClock == 50)
     {
         message = "Draw - 50 rule";
         emit ShowEndGameDialog(message);
@@ -928,4 +936,5 @@ void ChessModel::UpdateFENData()
         m_FENData->CastlingAvailability = "-";
     }
     m_FENData->PiecePlacementData = m_Board.Str();
+    m_FENData->HalfmoveClock = m_HalfMoveClock;
 }

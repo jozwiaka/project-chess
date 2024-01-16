@@ -72,7 +72,7 @@ private:
     Chessboard &m_Board;
     bool m_Check;
     FENData *m_FENData;
-    int m_FiftyRuleCounter;
+    int m_HalfMoveClock;
 
 private:
     void ClearTemporaryStatuses();
