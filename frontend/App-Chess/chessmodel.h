@@ -34,7 +34,12 @@ private:
 
         QString Str() const
         {
-            return PiecePlacementData;
+            return PiecePlacementData + " " +
+                   ActiveColor + " " +
+                   CastlingAvailability + " " +
+                   EnPassantTargetSquare + " " +
+                   QString::number(HalfmoveClock) + " " +
+                   QString::number(FullmoveNumber);
         }
     };
 

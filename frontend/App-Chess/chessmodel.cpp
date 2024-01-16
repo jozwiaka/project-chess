@@ -397,10 +397,10 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             if (
                 !piece->Moved &&
                 !rookAtKingSide->Moved &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 6})) &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 5})) &&
-                !m_Board.GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
-                !m_Board.GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
+                CheckIfFreeSquare(m_Board[source->Position.x][6]) &&
+                CheckIfFreeSquare(m_Board[source->Position.x][5]) &&
+                !m_Board[source->Position.x][6]->BlockedForKing &&
+                !m_Board[source->Position.x][5]->BlockedForKing)
             {
                 m_Board[source->Position.x][6]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -412,12 +412,12 @@ void ChessModel::SetKingValidMoves(ChessSquare *source, Mode mode, bool &outChec
             if (
                 !piece->Moved &&
                 !rookAtQueenSide->Moved &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 1})) &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 2})) &&
-                CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 3})) &&
-                !m_Board.GetSquareByPosition({source->Position.x, 1})->BlockedForKing &&
-                !m_Board.GetSquareByPosition({source->Position.x, 2})->BlockedForKing &&
-                !m_Board.GetSquareByPosition({source->Position.x, 3})->BlockedForKing)
+                CheckIfFreeSquare(m_Board[source->Position.x][1]) &&
+                CheckIfFreeSquare(m_Board[source->Position.x][2]) &&
+                CheckIfFreeSquare(m_Board[source->Position.x][3]) &&
+                !m_Board[source->Position.x][1]->BlockedForKing &&
+                !m_Board[source->Position.x][2]->BlockedForKing &&
+                !m_Board[source->Position.x][3]->BlockedForKing)
             {
                 m_Board[source->Position.x][2]->StatusTemporary = ChessSquare::SquareStatusTemporary::ValidMove;
             }
@@ -627,12 +627,13 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     // End of turn
     EndOfTurn();
-    UpdateFENData();
-    QString data = m_FENData->Str();
-    qDebug() << data;
 
     // Beginning of the next turn
     ValidateMovesUnderCheck();
+
+    UpdateFENData();
+    QString data = m_FENData->Str();
+    qDebug() << data;
     //  MoveCNNModel(); // TODO
 }
 
@@ -870,17 +871,16 @@ void ChessModel::UpdateFENData()
             {
                 if (piece->Type == ChessPiece::PieceType::King)
                 {
-
                     ChessPiece *rookAtKingSide = m_Board[source->Position.x][7]->GetPiece();
                     if (rookAtKingSide)
                     {
                         if (
                             !piece->Moved &&
                             !rookAtKingSide->Moved &&
-                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 6})) &&
-                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 5})) &&
-                            !m_Board.GetSquareByPosition({source->Position.x, 6})->BlockedForKing &&
-                            !m_Board.GetSquareByPosition({source->Position.x, 5})->BlockedForKing)
+                            CheckIfFreeSquare(m_Board[source->Position.x][6]) &&
+                            CheckIfFreeSquare(m_Board[source->Position.x][5]) &&
+                            !m_Board[source->Position.x][6]->BlockedForKing &&
+                            !m_Board[source->Position.x][5]->BlockedForKing)
                         {
                             if (piece->Color == ChessPiece::PieceColor::White)
                             {
@@ -899,12 +899,12 @@ void ChessModel::UpdateFENData()
                         if (
                             !piece->Moved &&
                             !rookAtQueenSide->Moved &&
-                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 1})) &&
-                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 2})) &&
-                            CheckIfFreeSquare(m_Board.GetSquareByPosition({source->Position.x, 3})) &&
-                            !m_Board.GetSquareByPosition({source->Position.x, 1})->BlockedForKing &&
-                            !m_Board.GetSquareByPosition({source->Position.x, 2})->BlockedForKing &&
-                            !m_Board.GetSquareByPosition({source->Position.x, 3})->BlockedForKing)
+                            CheckIfFreeSquare(m_Board[source->Position.x][1]) &&
+                            CheckIfFreeSquare(m_Board[source->Position.x][2]) &&
+                            CheckIfFreeSquare(m_Board[source->Position.x][3]) &&
+                            !m_Board[source->Position.x][1]->BlockedForKing &&
+                            !m_Board[source->Position.x][2]->BlockedForKing &&
+                            !m_Board[source->Position.x][3]->BlockedForKing)
                         {
                             if (piece->Color == ChessPiece::PieceColor::White)
                             {
@@ -922,8 +922,8 @@ void ChessModel::UpdateFENData()
     }
 
     m_FENData->CastlingAvailability = CastlingAvailabilityWhite + CastlingAvailabilityBlack;
-    if (m_FENData->CastlingAvailability == "")
-    {
-        m_FENData->CastlingAvailability = "-";
-    }
+    // if (m_FENData->CastlingAvailability == "")
+    // {
+    //     m_FENData->CastlingAvailability = "-";
+    // }
 }
