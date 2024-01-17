@@ -822,7 +822,7 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    if (*ComputerTurn)
+    // if (*ComputerTurn)
     {
         qDebug() << m_FENData->Str();
         auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
