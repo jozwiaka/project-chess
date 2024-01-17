@@ -102,7 +102,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
                 break;
             }
         }
-        if(!*ComputerTurn)
+        if (!*ComputerTurn)
         {
             emit UpdateChessboardGraphics();
         }
@@ -581,7 +581,8 @@ void ChessModel::PerformPromotion(ChessSquare *toSquare)
     if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
     {
         m_SquareUnderPromotion = toSquare;
-        if (!*ComputerTurn)
+        // if (!*ComputerTurn) //TODO
+        if (false)
         {
             emit ShowPromotionDialog(pieceToMove->Color);
         }
@@ -822,7 +823,7 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    // if (*ComputerTurn)
+    // if (*ComputerTurn)//TODO
     {
         qDebug() << m_FENData->Str();
         auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
