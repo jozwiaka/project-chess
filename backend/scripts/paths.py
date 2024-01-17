@@ -1,7 +1,7 @@
 import os
 
 pgn_dir = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "_data"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data"
 )
 
 model_path = os.path.join(

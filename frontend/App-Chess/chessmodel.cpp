@@ -490,11 +490,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                 }
             }
         }
-        else
-        {
-            return true;
         }
-    }
     return false;
 }
 
