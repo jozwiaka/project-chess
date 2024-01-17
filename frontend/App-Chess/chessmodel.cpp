@@ -14,7 +14,7 @@ ChessModel::ChessModel(QObject *parent)
       m_Check(false),
       m_HalfMoveClock(0),
       m_FENData(new FENData),
-      ComputerTurn(new bool(true /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
+      ComputerTurn(new bool(false /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
 {
 }
 
@@ -102,7 +102,8 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
                 break;
             }
         }
-        if (!*ComputerTurn)
+        // if (!*ComputerTurn) //TODO
+        if (false)
         {
             emit UpdateChessboardGraphics();
         }
@@ -586,6 +587,10 @@ void ChessModel::PerformPromotion(ChessSquare *toSquare)
         {
             emit ShowPromotionDialog(pieceToMove->Color);
         }
+        else
+        {
+            PromotePawnToTheType(ChessPiece::PieceType::Queen);
+        }
     }
 }
 
@@ -830,7 +835,6 @@ void ChessModel::MoveCNNModel()
         qDebug() << positionFrom.Str() << positionTo.Str();
         UpdateModelOnSquareClick(positionFrom);
         UpdateModelOnSquareClick(positionTo);
-        PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 
