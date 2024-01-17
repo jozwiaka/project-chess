@@ -1,0 +1,14 @@
+version: "3"
+services:
+  frontend-service:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.frontend
+    container_name: frontend-container
+    image: frontend-image:latest
+    networks:
+      - my_network
+    restart: always
+
+networks:
+  my_network:
