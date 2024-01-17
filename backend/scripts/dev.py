@@ -166,15 +166,15 @@ def play_chess_game(model):
 
 
 if __name__ == "__main__":
-    pgn_dir = "../_data"
+    pgn_dir = "../data"
     model_path = "../models/chess_model.h5"
     label_encoder_path = "../models/label_encoder.npy"
 
-    remove_files_in_directory("../models")
-    data = ChessDataProcessor.load_data(pgn_dir)
-    cnn_model = CNNModel(data)
-    cnn_model.train()
-    cnn_model.save_model(model_path, label_encoder_path)
+    # remove_files_in_directory("../models")
+    # data = ChessDataProcessor.load_data(pgn_dir)
+    # cnn_model = CNNModel(data)
+    # cnn_model.train()
+    # cnn_model.save_model(model_path, label_encoder_path)
 
     # Load the model for playing the game
     chess_model = ChessModel()

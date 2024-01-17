@@ -17,10 +17,10 @@ if __name__ == "__main__":
     model_path = "../models/chess_model.h5"
     label_encoder_path = "../models/label_encoder.npy"
 
-    # data = ChessDataProcessor.load_data(pgn_dir)
-    # cnn_model = CNNModel(data)
-    # cnn_model.train()
-    # cnn_model.save_model(model_path, label_encoder_path)
+    data = ChessDataProcessor.load_data(pgn_dir)
+    cnn_model = CNNModel(data)
+    cnn_model.train()
+    cnn_model.save_model(model_path, label_encoder_path)
 
     chess_model = ChessModel()
     chess_model.load_model(model_path, label_encoder_path)
