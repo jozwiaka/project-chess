@@ -657,7 +657,6 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     ValidateMovesUnderCheck();
 
     UpdateFENData();
-    qDebug() << m_FENData->Str();
     emit UpdateChessboardGraphics();
     QCoreApplication::processEvents();
     if (*ComputerTurn)
@@ -838,9 +837,8 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    qDebug() << m_FENData->Str();
     auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
-    qDebug() << positionFrom.Str() << positionTo.Str();
+    qDebug() << positionFrom.Str() << positionTo.Str() << m_FENData->Str();
     UpdateModelOnSquareClick(positionFrom);
     UpdateModelOnSquareClick(positionTo);
 }
