@@ -17,7 +17,6 @@ if __name__ == "__main__":
     model_path = "../models/chess_model.h5"
     label_encoder_path = "../models/label_encoder.npy"
 
-    # Uncomment the following lines to train the model
     # data = ChessDataProcessor.load_data(pgn_dir)
     # cnn_model = CNNModel(data)
     # cnn_model.train()
