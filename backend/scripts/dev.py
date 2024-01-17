@@ -6,7 +6,6 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-import time
 
 
 class ChessDataProcessor:
@@ -156,7 +155,6 @@ def play_chess_game(model):
 
         board.push(chess.Move.from_uci(move))
         print(board)
-        # time.sleep(1)  # Add a delay for visualization purposes
 
     result = board.result()
     if result == "1-0":
@@ -173,8 +171,6 @@ if __name__ == "__main__":
     label_encoder_path = "../models/label_encoder.npy"
 
     remove_files_in_directory("../models")
-
-    # Train and save the model
     data = ChessDataProcessor.load_data(pgn_dir)
     cnn_model = CNNModel(data)
     cnn_model.train()
