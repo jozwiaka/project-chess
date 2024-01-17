@@ -6,8 +6,8 @@ from sklearn.preprocessing import LabelEncoder
 
 
 class ChessModel:
-    def load_model(self, model_path, label_encoder_path):
-        self.model = models.load_model(model_path)
+    def load_model(self, chess_model_path, label_encoder_path):
+        self.model = models.load_model(chess_model_path)
         classes = np.load(label_encoder_path)
         self.label_encoder = LabelEncoder()
         self.label_encoder.classes_ = classes

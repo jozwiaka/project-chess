@@ -4,16 +4,12 @@ pgn_dir = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data"
 )
 
-model_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models/chess_model.h5"
+models_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models"
 )
 
-label_encoder_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "models/label_encoder.npy",
-)
+chess_model_path = f"{models_dir}/chess_model.h5"
 
+label_encoder_path = f"{models_dir}/label_encoder.npy"
 
-move_out_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "out/move.out"
-)
+test_out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test.out")

@@ -3,7 +3,7 @@ import paths
 from flask import Flask, request, jsonify
 
 chess_model = ChessModel()
-chess_model.load_model(paths.model_path, paths.label_encoder_path)
+chess_model.load_model(paths.chess_model_path, paths.label_encoder_path)
 app = Flask(__name__)
 
 

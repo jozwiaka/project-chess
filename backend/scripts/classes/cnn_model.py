@@ -42,6 +42,6 @@ class CNNModel:
         self.model = model
         self.label_encoder = label_encoder
 
-    def save_model(self, model_path, label_encoder_path):
-        self.model.save(model_path)
+    def save_model(self, chess_model_path, label_encoder_path):
+        self.model.save(chess_model_path)
         np.save(label_encoder_path, self.label_encoder.classes_)
