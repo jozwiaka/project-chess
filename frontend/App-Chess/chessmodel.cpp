@@ -102,7 +102,10 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
                 break;
             }
         }
-        emit UpdateChessboardGraphics();
+        if(!*ComputerTurn)
+        {
+            emit UpdateChessboardGraphics();
+        }
     }
 }
 
@@ -821,13 +824,13 @@ void ChessModel::MoveCNNModel()
 {
     if (*ComputerTurn)
     {
-        // qDebug() << m_FENData->Str();
-        // CNNModel model;
-        // auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
-        // qDebug() << positionFrom.Str() << positionTo.Str();
-        // UpdateModelOnSquareClick(positionFrom);
-        // UpdateModelOnSquareClick(positionTo);
-        // PromotePawnToTheType(ChessPiece::PieceType::Queen);
+        qDebug() << m_FENData->Str();
+        CNNModel model;
+        auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
+        qDebug() << positionFrom.Str() << positionTo.Str();
+        UpdateModelOnSquareClick(positionFrom);
+        UpdateModelOnSquareClick(positionTo);
+        PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 
