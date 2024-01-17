@@ -641,6 +641,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     ValidateMovesUnderCheck();
 
     UpdateFENData();
+    qDebug() << m_FENData->Str();
     emit UpdateChessboardGraphics();
     QCoreApplication::processEvents();
     MoveCNNModel(); // TODO
@@ -820,13 +821,13 @@ void ChessModel::MoveCNNModel()
 {
     if (*ComputerTurn)
     {
-        qDebug() << m_FENData->Str();
-        CNNModel model;
-        auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
-        qDebug() << positionFrom.Str() << positionTo.Str();
-        UpdateModelOnSquareClick(positionFrom);
-        UpdateModelOnSquareClick(positionTo);
-        PromotePawnToTheType(ChessPiece::PieceType::Queen);
+        // qDebug() << m_FENData->Str();
+        // CNNModel model;
+        // auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
+        // qDebug() << positionFrom.Str() << positionTo.Str();
+        // UpdateModelOnSquareClick(positionFrom);
+        // UpdateModelOnSquareClick(positionTo);
+        // PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 
@@ -879,7 +880,17 @@ void ChessModel::UpdateFENData()
             {
                 if (piece->EnPassant)
                 {
-                    m_FENData->EnPassantTargetSquare = source->Position.Str();
+                    auto pos = source->Position;
+                    if (piece->Color == ChessPiece::PieceColor::White)
+                    {
+                        --pos.x;
+                    }
+                    else
+                    {
+                        ++pos.x;
+                    }
+
+                    m_FENData->EnPassantTargetSquare = pos.Str();
                 }
 
                 if (piece->Type == ChessPiece::PieceType::King)
