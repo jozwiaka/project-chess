@@ -13,13 +13,11 @@ class CNNModel : public QObject
 public:
     explicit CNNModel(QObject *parent = nullptr);
 
-    static std::tuple<ChessSquare::SquarePosition,ChessSquare::SquarePosition> Run(const QString &data);
+    static std::tuple<ChessSquare::SquarePosition,ChessSquare::SquarePosition> GenerateMove(const QString& data);
 
 signals:
 
 private:
-    static std::tuple<ChessSquare::SquarePosition,ChessSquare::SquarePosition> GenerateMove(const QStringList &args);
-    static QByteArray RunPythonScript(const QString &path, const QStringList &args = QStringList());
 };
 
 #endif // CNNMODEL_H

@@ -5,41 +5,45 @@
 #include <QFile>
 #include <QTextStream>
 #include <tuple>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QEventLoop>
+
 
 CNNModel::CNNModel(QObject *parent)
     : QObject{parent}
 {
 }
 
-std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::Run(const QString &data)
+std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::GenerateMove(const QString& data)
 {
-    QStringList args;
-    args.append(data);
-    return CNNModel::GenerateMove(args);
-}
+    QNetworkAccessManager manager;
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/generate_move"));
 
-std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::GenerateMove(const QStringList &args)
-{
-    CNNModel::RunPythonScript("../../backend/scripts/move.py", args);
-    QFile file("../../backend/out/move.out");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug() << "Could not open the file.";
-    }
-    QTextStream in(&file);
-    QString fileContents = in.readAll();
-    file.close();
+    // Set the content type to application/json
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    auto positionFrom = ChessSquare::SquarePosition::StrToPosition(fileContents.mid(0, 2));
-    auto positionTo = ChessSquare::SquarePosition::StrToPosition(fileContents.mid(2, 2));
+    QJsonObject json;
+    json["fen_data"] = data;
+
+    // Send the POST request with JSON payload
+    QNetworkReply *reply = manager.post(request, QJsonDocument(json).toJson());
+    QEventLoop loop;
+    QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    auto output = reply->readAll();
+    reply->deleteLater();
+
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(output);
+    QJsonObject jsonObject = jsonResponse.object();
+
+    auto positionFrom = ChessSquare::SquarePosition::StrToPosition(jsonObject["positionFrom"].toString());
+    auto positionTo = ChessSquare::SquarePosition::StrToPosition(jsonObject["positionTo"].toString());
+
     return std::make_tuple(positionFrom, positionTo);
-}
-
-QByteArray CNNModel::RunPythonScript(const QString &path, const QStringList &args)
-{
-    QProcess process;
-    process.start("python", QStringList() << path << args);
-    process.waitForFinished(-1);
-    auto output = process.readAllStandardOutput();
-    return output;
 }

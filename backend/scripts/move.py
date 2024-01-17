@@ -19,7 +19,7 @@ def generate_move():
     legal_moves = [str(legal_move) for legal_move in board.legal_moves]
     if move not in legal_moves:
         move = np.random.choice(legal_moves)
-    return jsonify({"move": move})
+    return jsonify({"positionFrom": move[0:2], "positionTo": move[2:4]})
 
 
 if __name__ == "__main__":

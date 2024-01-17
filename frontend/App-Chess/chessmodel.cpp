@@ -825,8 +825,7 @@ void ChessModel::MoveCNNModel()
     if (*ComputerTurn)
     {
         qDebug() << m_FENData->Str();
-        CNNModel model;
-        auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
+        auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
         qDebug() << positionFrom.Str() << positionTo.Str();
         UpdateModelOnSquareClick(positionFrom);
         UpdateModelOnSquareClick(positionTo);
