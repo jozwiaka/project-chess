@@ -58,4 +58,4 @@ data
 
 __pycache__
 .vscode
-**/out/*
+test.out
