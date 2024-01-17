@@ -12,13 +12,13 @@ class ChessModel:
         self.label_encoder = LabelEncoder()
         self.label_encoder.classes_ = classes
 
-    def predict_move(self, fen):
-        input_matrix = ChessDataProcessor.fen_to_matrix(fen)
+    def predict_move(self, fen_data):
+        input_matrix = ChessDataProcessor.fen_to_matrix(fen_data)
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)
 
         # Determine the current side (white or black)
-        current_side = chess.Board(fen).turn
+        current_side = chess.Board(fen_data).turn
 
         # Filter predictions for the current side
         if current_side == chess.WHITE:
@@ -34,4 +34,11 @@ class ChessModel:
             [np.argmax(relevant_predictions)]
         )
 
-        return decoded_label[0]
+        move = decoded_label[0]
+
+        board = chess.Board(fen_data)
+        legal_moves = [str(legal_move) for legal_move in board.legal_moves]
+        if move not in legal_moves:
+            move = np.random.choice(legal_moves)
+
+        return move
