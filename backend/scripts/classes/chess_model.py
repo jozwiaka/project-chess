@@ -33,4 +33,5 @@ class ChessModel:
         decoded_label = self.label_encoder.inverse_transform(
             [np.argmax(relevant_predictions)]
         )
+
         return decoded_label[0]

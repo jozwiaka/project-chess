@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include "cnnmodel.h"
+#include <QCoreApplication>
 // #include <fstream>
 
 ChessModel::ChessModel(QObject *parent)
@@ -101,9 +102,8 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
                 break;
             }
         }
+        emit UpdateChessboardGraphics();
     }
-
-    emit UpdateChessboardGraphics();
 }
 
 void ChessModel::SetRookValidMoves(ChessSquare *source, Mode mode, bool &outCheckDetected)
@@ -643,6 +643,8 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     UpdateFENData();
     QString data = m_FENData->Str();
     qDebug() << data;
+    emit UpdateChessboardGraphics();
+    QCoreApplication::processEvents();
     MoveCNNModel(); // TODO
 }
 
@@ -818,21 +820,15 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    CNNModel model;
-    auto position = model.Run(m_FENData->Str());
-
-    qDebug()<<position.x;
-    qDebug()<<position.y;
-    // static QVector<ChessSquare::SquarePosition> moves{
-    //     {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
-
     if (*ComputerTurn)
     {
-        // UpdateModelOnSquareClick(moves.back());
-        // moves.pop_back();
-        // UpdateModelOnSquareClick(moves.back());
-        // moves.pop_back();
-        // PromotePawnToTheType(ChessPiece::PieceType::Queen);
+        qDebug()<<m_FENData->Str();
+        CNNModel model;
+        auto [positionFrom, positionTo] = model.Run(m_FENData->Str());
+        qDebug()<<positionFrom.Str()<<positionTo.Str();
+        UpdateModelOnSquareClick(positionFrom);
+        UpdateModelOnSquareClick(positionTo);
+        PromotePawnToTheType(ChessPiece::PieceType::Queen);
     }
 }
 

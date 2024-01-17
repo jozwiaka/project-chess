@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include "chesssquare.h"
+#include <tuple>
 
 class CNNModel : public QObject
 {
@@ -12,12 +13,12 @@ class CNNModel : public QObject
 public:
     explicit CNNModel(QObject *parent = nullptr);
 
-    static ChessSquare::SquarePosition Run(const QString &data);
+    static std::tuple<ChessSquare::SquarePosition,ChessSquare::SquarePosition> Run(const QString &data);
 
 signals:
 
 private:
-    static ChessSquare::SquarePosition GenerateMove(const QStringList &args);
+    static std::tuple<ChessSquare::SquarePosition,ChessSquare::SquarePosition> GenerateMove(const QStringList &args);
     static QByteArray RunPythonScript(const QString &path, const QStringList &args = QStringList());
 };
 
