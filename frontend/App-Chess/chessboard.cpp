@@ -112,10 +112,10 @@ QVector<QVector<ChessSquare *>>::Iterator Chessboard::end()
 QString Chessboard::Str()
 {
     QString str;
-    for (int x = 0; x < 8; ++x)
+    for (int x = 7; x >= 0; --x)
     {
         char i = '0';
-        for (int y = 0; y < 8; ++y)
+        for (int y = 7; y >= 0; --y)
         {
             ChessPiece *piece = m_Data[x][y]->GetPiece();
             if (piece)
