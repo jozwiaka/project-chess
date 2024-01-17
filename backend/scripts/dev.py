@@ -143,14 +143,11 @@ def remove_files_in_directory(directory_path):
         print(f"The directory '{directory_path}' does not exist.")
 
 
-def play_chess_game(model1, model2):
+def play_chess_game(model):
     board = chess.Board()
 
     while not board.is_game_over():
-        if board.turn == chess.WHITE:
-            move = model1.predict_move(board.fen())
-        else:
-            move = model2.predict_move(board.fen())
+        move = model.predict_move(board.fen())
 
         legal_moves = [str(legal_move) for legal_move in board.legal_moves]
         if move not in legal_moves:
@@ -163,40 +160,29 @@ def play_chess_game(model1, model2):
 
     result = board.result()
     if result == "1-0":
-        print("Model 1 wins!")
+        print("Model wins!")
     elif result == "0-1":
-        print("Model 2 wins!")
+        print("Model wins!")
     else:
         print("The game is a draw.")
 
 
 if __name__ == "__main__":
     pgn_dir = "../_data"
-    model_path1 = "../models/chess_model1.h5"
-    label_encoder_path1 = "../models/label_encoder1.npy"
-    model_path2 = "../models/chess_model2.h5"
-    label_encoder_path2 = "../models/label_encoder2.npy"
+    model_path = "../models/chess_model.h5"
+    label_encoder_path = "../models/label_encoder.npy"
 
     remove_files_in_directory("../models")
 
-    # Train and save the first model
-    data1 = ChessDataProcessor.load_data(pgn_dir)
-    cnn_model1 = CNNModel(data1)
-    cnn_model1.train()
-    cnn_model1.save_model(model_path1, label_encoder_path1)
+    # Train and save the model
+    data = ChessDataProcessor.load_data(pgn_dir)
+    cnn_model = CNNModel(data)
+    cnn_model.train()
+    cnn_model.save_model(model_path, label_encoder_path)
 
-    # Train and save the second model
-    data2 = ChessDataProcessor.load_data(pgn_dir)
-    cnn_model2 = CNNModel(data2)
-    cnn_model2.train()
-    cnn_model2.save_model(model_path2, label_encoder_path2)
-
-    # Load models for playing the game
-    chess_model1 = ChessModel()
-    chess_model1.load_model(model_path1, label_encoder_path1)
-
-    chess_model2 = ChessModel()
-    chess_model2.load_model(model_path2, label_encoder_path2)
+    # Load the model for playing the game
+    chess_model = ChessModel()
+    chess_model.load_model(model_path, label_encoder_path)
 
     # Play the game
-    play_chess_game(chess_model1, chess_model2)
+    play_chess_game(chess_model)
