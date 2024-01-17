@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chessmodel.h"
 #include <QDebug>
 #include <QRandomGenerator>
@@ -14,7 +15,15 @@ ChessModel::ChessModel(QObject *parent)
       m_Check(false),
       m_HalfMoveClock(0),
       m_FENData(new FENData),
-      ComputerTurn(new bool(false /*QRandomGenerator::global()->bounded(0, 2)*/)) // TODO
+#if defined(PVP)
+      ComputerTurn(new bool(false)) // TODO
+#endif
+#if defined(PVC)
+      ComputerTurn(new bool(QRandomGenerator::global()->bounded(0, 2))) // TODO
+#endif
+#if defined(CVC)
+      ComputerTurn(new bool(true)) // TODO
+#endif
 {
 }
 
@@ -102,8 +111,8 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
                 break;
             }
         }
-        // if (!*ComputerTurn) //TODO
-        if (true)
+
+        if (!*ComputerTurn) // TODO
         {
             emit UpdateChessboardGraphics();
         }
@@ -490,7 +499,7 @@ bool ChessModel::SetValidMove(ChessSquare *source, ChessSquare *target, Mode mod
                 }
             }
         }
-        }
+    }
     return false;
 }
 
@@ -578,8 +587,8 @@ void ChessModel::PerformPromotion(ChessSquare *toSquare)
     if (pieceToMove->Type == ChessPiece::PieceType::Pawn && (toSquare->Position.x == 0 || toSquare->Position.x == 7))
     {
         m_SquareUnderPromotion = toSquare;
-        // if (!*ComputerTurn) //TODO
-        if (false)
+
+        if (!*ComputerTurn)
         {
             emit ShowPromotionDialog(pieceToMove->Color);
         }
@@ -594,7 +603,9 @@ void ChessModel::EndOfTurn()
 {
     m_FromSquare = nullptr;
     m_CurrentTurn = m_CurrentTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
+#if defined(PVC)
     *ComputerTurn = !*ComputerTurn;
+#endif
 }
 
 void ChessModel::MovePiece(ChessSquare *toSquare)
@@ -649,7 +660,10 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     qDebug() << m_FENData->Str();
     emit UpdateChessboardGraphics();
     QCoreApplication::processEvents();
-    MoveCNNModel(); // TODO
+    if (*ComputerTurn)
+    {
+        MoveCNNModel(); // TODO
+    }
 }
 
 void ChessModel::ValidateMovesUnderCheck()
@@ -824,14 +838,11 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    // if (*ComputerTurn)//TODO
-    {
-        qDebug() << m_FENData->Str();
-        auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
-        qDebug() << positionFrom.Str() << positionTo.Str();
-        UpdateModelOnSquareClick(positionFrom);
-        UpdateModelOnSquareClick(positionTo);
-    }
+    qDebug() << m_FENData->Str();
+    auto [positionFrom, positionTo] = CNNModel::GenerateMove(m_FENData->Str());
+    qDebug() << positionFrom.Str() << positionTo.Str();
+    UpdateModelOnSquareClick(positionFrom);
+    UpdateModelOnSquareClick(positionTo);
 }
 
 void ChessModel::OnPromotionPieceSelected(const ChessPiece::PieceType &type)

@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chessgame.h"
 #include <QApplication>
 

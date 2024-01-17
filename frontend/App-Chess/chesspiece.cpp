@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chesspiece.h"
 
 ChessPiece::ChessPiece(const PieceType &type, const PieceColor &color, QWidget *parent)

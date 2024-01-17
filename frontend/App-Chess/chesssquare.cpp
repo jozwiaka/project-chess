@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chesssquare.h"
 #include <QMouseEvent>
 #include <QColor>

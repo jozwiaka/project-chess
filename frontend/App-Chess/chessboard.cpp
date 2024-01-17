@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chessboard.h"
 
 Chessboard &Chessboard::GetInstance()
@@ -115,7 +116,7 @@ QString Chessboard::Str()
     for (int x = 7; x >= 0; --x)
     {
         char i = '0';
-        for (int y = 0; y <8; ++y)
+        for (int y = 0; y < 8; ++y)
         {
             ChessPiece *piece = m_Data[x][y]->GetPiece();
             if (piece)
@@ -152,7 +153,7 @@ QString Chessboard::Str()
                 ++i;
             }
         }
-        if (i!='0')
+        if (i != '0')
         {
             str.append(i);
         }

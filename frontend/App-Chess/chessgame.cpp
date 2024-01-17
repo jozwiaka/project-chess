@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chessgame.h"
 
 ChessGame::ChessGame() : m_Model{},
@@ -7,5 +8,8 @@ ChessGame::ChessGame() : m_Model{},
 void ChessGame::Start()
 {
     m_View.show();
-    m_Model.MoveCNNModel(); // TODO
+    if (*m_Model.ComputerTurn)
+    {
+        m_Model.MoveCNNModel(); // TODO
+    }
 }

@@ -1,3 +1,4 @@
+#include "config.h"
 #include "promotiondialog.h"
 #include <QHBoxLayout>
 #include <QMap>

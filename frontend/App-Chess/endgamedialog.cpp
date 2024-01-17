@@ -1,10 +1,11 @@
+#include "config.h"
 #include "EndGameDialog.h"
 #include <QVBoxLayout>
 #include <QMap>
 #include <QLabel>
 #include <QString>
 
-EndGameDialog::EndGameDialog(const QString& message, QWidget *parent)
+EndGameDialog::EndGameDialog(const QString &message, QWidget *parent)
     : QDialog(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);

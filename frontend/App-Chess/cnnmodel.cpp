@@ -1,3 +1,4 @@
+#include "config.h"
 #include "cnnmodel.h"
 #include <QProcess>
 #include <QDebug>
@@ -13,13 +14,12 @@
 #include <QJsonArray>
 #include <QEventLoop>
 
-
 CNNModel::CNNModel(QObject *parent)
     : QObject{parent}
 {
 }
 
-std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::GenerateMove(const QString& data)
+std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::GenerateMove(const QString &data)
 {
     QNetworkAccessManager manager;
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/generate_move"));

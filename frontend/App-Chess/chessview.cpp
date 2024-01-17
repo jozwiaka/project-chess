@@ -1,3 +1,4 @@
+#include "config.h"
 #include "chessview.h"
 #include "./ui_chessview.h"
 
@@ -50,8 +51,7 @@ void ChessView::CreateEndGameDialog(const QString &message)
 
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 {
-    // if (!*m_ComputerTurn) // TODO
-    if (true)
+    if (!*m_ComputerTurn) // TODO
     {
         emit SquareClicked(position);
     }
