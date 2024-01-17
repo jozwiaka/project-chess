@@ -103,7 +103,7 @@ void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &pos
             }
         }
         // if (!*ComputerTurn) //TODO
-        if (false)
+        if (true)
         {
             emit UpdateChessboardGraphics();
         }

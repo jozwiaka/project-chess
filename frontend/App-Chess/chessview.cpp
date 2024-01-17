@@ -51,7 +51,7 @@ void ChessView::CreateEndGameDialog(const QString &message)
 void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 {
     // if (!*m_ComputerTurn) // TODO
-    if (false)
+    if (true)
     {
         emit SquareClicked(position);
     }
