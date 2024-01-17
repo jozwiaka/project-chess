@@ -25,6 +25,14 @@ public:
             QString number = QString(QChar('1'+x));
             return letter+number;
         }
+
+        static SquarePosition StrToPosition(QString str)
+        {
+            SquarePosition position;
+            position.x = str[1].digitValue() - 1;
+            position.y = str[0].toLatin1() - 'a';
+            return position;
+        }
     };
 
 public:

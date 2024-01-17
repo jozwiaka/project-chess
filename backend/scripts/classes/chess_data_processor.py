@@ -22,7 +22,7 @@ class ChessDataProcessor:
                             board.push(move)
                             fen = board.fen()
                             positions.append(ChessDataProcessor.fen_to_matrix(fen))
-                            outcomes.append(fen)  # Store the move in UCI format
+                            outcomes.append(move.uci())  # Store the move in UCI format
 
         return np.array(positions), np.array(outcomes)
 
@@ -53,12 +53,3 @@ class ChessDataProcessor:
                 if piece is not None:
                     matrix[r, c, piece_mapping[piece.symbol()]] = 1
         return matrix
-
-    @staticmethod
-    def get_next_fen(move):
-        board = chess.Board()
-        print(board)
-        uci_move = chess.Move.from_uci(move)
-        print(uci_move)
-        board.push(uci_move)
-        return board.fen()

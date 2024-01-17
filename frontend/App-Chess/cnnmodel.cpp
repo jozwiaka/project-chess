@@ -2,6 +2,8 @@
 #include <QProcess>
 #include <QDebug>
 #include <QString>
+#include <QFile>
+#include <QTextStream>
 
 CNNModel::CNNModel(QObject *parent)
     : QObject{parent}
@@ -17,8 +19,17 @@ ChessSquare::SquarePosition CNNModel::Run(const QString &data)
 
 ChessSquare::SquarePosition CNNModel::GenerateMove(const QStringList &args)
 {
-    QByteArray output = CNNModel::RunPythonScript("../../backend/scripts/cnn_model.py", args);
-    ChessSquare::SquarePosition position{output[1] - '1', output[0] - 'A'};
+    CNNModel::RunPythonScript("../../backend/scripts/move.py", args);
+    QFile file("../../backend/out/move.out");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Could not open the file.";
+    }
+    QTextStream in(&file);
+    QString fileContents = in.readAll();
+    file.close();
+    qDebug() << "File Contents:\n" << fileContents;
+
+    auto position = ChessSquare::SquarePosition::StrToPosition(fileContents);
     return position;
 }
 

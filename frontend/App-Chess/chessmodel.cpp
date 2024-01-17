@@ -643,7 +643,7 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
     UpdateFENData();
     QString data = m_FENData->Str();
     qDebug() << data;
-    //  MoveCNNModel(); // TODO
+    MoveCNNModel(); // TODO
 }
 
 void ChessModel::ValidateMovesUnderCheck()
@@ -818,11 +818,11 @@ void ChessModel::ValidateKingMovesAndCheck()
 
 void ChessModel::MoveCNNModel()
 {
-    // CNNModel model;
-    // QString data = m_Board.Str();
-    // qDebug()<<data;
-    // model.Run(data);
+    CNNModel model;
+    auto position = model.Run(m_FENData->Str());
 
+    qDebug()<<position.x;
+    qDebug()<<position.y;
     // static QVector<ChessSquare::SquarePosition> moves{
     //     {7, 5}, {6, 6}, {6, 6}, {5, 7}, {5, 7}, {4, 7}, {4, 7}, {3, 7}, {3, 7}, {1, 7}};
 

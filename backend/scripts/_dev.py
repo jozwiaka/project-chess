@@ -143,18 +143,22 @@ def remove_files_in_directory(directory_path):
 
 
 def play_chess_game(model):
-    board = chess.Board()
+    with open("result.txt", "w") as f:
+        for i in range(1):
+            board = chess.Board()
 
-    while not board.is_game_over():
-        move = model.predict_move(board.fen())
+            while not board.is_game_over():
+                print(board.fen())
+                move = model.predict_move(board.fen())
+                f.write(move)
 
-        legal_moves = [str(legal_move) for legal_move in board.legal_moves]
-        if move not in legal_moves:
-            # Handle invalid move, e.g., choose a random legal move
-            move = np.random.choice(legal_moves)
-
-        board.push(chess.Move.from_uci(move))
-        print(board)
+                legal_moves = [str(legal_move) for legal_move in board.legal_moves]
+                if move not in legal_moves:
+                    # Handle invalid move, e.g., choose a random legal move
+                    move = np.random.choice(legal_moves)
+                    f.write(" -> " + move)
+                f.write("\n")
+                board.push(chess.Move.from_uci(move))
 
     result = board.result()
     if result == "1-0":
@@ -166,15 +170,15 @@ def play_chess_game(model):
 
 
 if __name__ == "__main__":
-    pgn_dir = "../data"
+    pgn_dir = "../_data"
     model_path = "../models/chess_model.h5"
     label_encoder_path = "../models/label_encoder.npy"
 
     # remove_files_in_directory("../models")
-    # data = ChessDataProcessor.load_data(pgn_dir)
-    # cnn_model = CNNModel(data)
-    # cnn_model.train()
-    # cnn_model.save_model(model_path, label_encoder_path)
+    data = ChessDataProcessor.load_data(pgn_dir)
+    cnn_model = CNNModel(data)
+    cnn_model.train()
+    cnn_model.save_model(model_path, label_encoder_path)
 
     # Load the model for playing the game
     chess_model = ChessModel()

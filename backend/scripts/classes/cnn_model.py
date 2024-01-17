@@ -5,7 +5,7 @@ from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 import os
-from chess_data_processor import ChessDataProcessor
+from classes.chess_data_processor import ChessDataProcessor
 
 
 class CNNModel:
@@ -15,12 +15,7 @@ class CNNModel:
     def train(self):
         X, y = self.data
 
-        print(f"X = {X[0]}")
-        print(f"y = {y[0]}")
         label_encoder = LabelEncoder()
-
-        # Convert the moves to a list of FEN strings representing the next position
-        # fen_list = [ChessDataProcessor.get_next_fen(move) for move in y]
 
         fen_list = y
         y_encoded = label_encoder.fit_transform(fen_list)
