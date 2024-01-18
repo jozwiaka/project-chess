@@ -5,6 +5,6 @@
 #define CVC
 
 #if !defined(PVP) && !defined(PVC) && !defined(CVC)
-#error "At least one of A, B, or C must be defined."
+#error "At least one of PVP, PVC, or CVC must be defined."
 #endif
 #endif // CONFIG_H
