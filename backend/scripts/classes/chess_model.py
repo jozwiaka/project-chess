@@ -17,10 +17,8 @@ class ChessModel:
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)
 
-        # Determine the current side (white or black)
         current_side = chess.Board(fen_data).turn
 
-        # Filter predictions for the current side
         if current_side == chess.WHITE:
             relevant_predictions = prediction[
                 :, : len(self.label_encoder.classes_) // 2
