@@ -167,8 +167,10 @@ def play_chess_game(model):
                     turn = "w"
                 else:
                     turn = "b"
-
-                f.write(f"{board.fen()}; {turn}: {move_raw} -> {move}")
+                if move_raw == move:
+                    f.write(f"{board.fen()}; {turn}: {move}")
+                else:
+                    f.write(f"{board.fen()}; {turn}: {move_raw} -> {move}")
                 f.write("\n")
                 board.push(chess.Move.from_uci(move))
             result = board.result()
