@@ -24,14 +24,12 @@ class ChessModel:
 
         current_side = chess.Board(fen_data).turn
 
+        num_classes_per_side = len(self.label_encoder.classes_) // 2
+
         if current_side == chess.WHITE:
-            relevant_predictions = prediction[
-                :, : len(self.label_encoder.classes_) // 2
-            ]
+            relevant_predictions = prediction[:, :num_classes_per_side]
         else:
-            relevant_predictions = prediction[
-                :, len(self.label_encoder.classes_) // 2 :
-            ]
+            relevant_predictions = prediction[:, num_classes_per_side:]
 
         decoded_label = self.label_encoder.inverse_transform(
             [np.argmax(relevant_predictions)]
@@ -39,7 +37,7 @@ class ChessModel:
 
         move = decoded_label[0]
 
-        return move, chess.WHITE
+        return move, current_side
 
 
 class CNNModel:
@@ -62,15 +60,21 @@ class CNNModel:
 
         model = models.Sequential(
             [
-                layers.Conv2D(32, (3, 3), activation="relu", input_shape=(8, 8, 12)),
+                layers.Conv2D(64, (3, 3), activation="relu", input_shape=(8, 8, 12)),
+                layers.BatchNormalization(),
+                layers.Conv2D(64, (3, 3), activation="relu"),
+                layers.BatchNormalization(),
                 layers.Flatten(),
-                layers.Dense(64, activation="relu"),
+                layers.Dense(128, activation="relu"),
+                layers.Dropout(0.5),
                 layers.Dense(len(label_encoder.classes_), activation="softmax"),
             ]
         )
+
         model.compile(
             optimizer="adam",
-            loss="sparse_categorical_crossentropy",
+            loss="categorical_crossentropy",
+            # loss="sparse_categorical_crossentropy",
             metrics=["accuracy"],
         )
         model.fit(
@@ -168,10 +172,10 @@ def play_chess_game(model):
 
 
 if __name__ == "__main__":
-    # data = ChessDataProcessor.load_data(paths.pgn_dir)
-    # cnn_model = CNNModel(data)
-    # cnn_model.train()
-    # cnn_model.save_model(paths.chess_model_path, paths.label_encoder_path)
+    data = ChessDataProcessor.load_data(paths.pgn_dir)
+    cnn_model = CNNModel(data)
+    cnn_model.train()
+    cnn_model.save_model(paths.chess_model_path, paths.label_encoder_path)
     chess_model = ChessModel()
     chess_model.load_model(paths.chess_model_path, paths.label_encoder_path)
     play_chess_game(chess_model)
