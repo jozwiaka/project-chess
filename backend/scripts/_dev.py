@@ -75,24 +75,24 @@ class CNNModel:
 
         model.compile(
             optimizer="adam",
-            loss="categorical_crossentropy",
-            # loss="sparse_categorical_crossentropy",
+            # loss="categorical_crossentropy",
+            loss="sparse_categorical_crossentropy",
             metrics=["accuracy"],
         )
         history = model.fit(
             X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val)
         )
-        plt.plot(history.history["loss"], label="Training Loss")
-        plt.plot(history.history["val_loss"], label="Validation Loss")
-        plt.legend()
-        plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
-        plt.close()
+        # plt.plot(history.history["loss"], label="Training Loss")
+        # plt.plot(history.history["val_loss"], label="Validation Loss")
+        # plt.legend()
+        # plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
+        # plt.close()
 
-        plt.plot(history.history["accuracy"], label="Training Accuracy")
-        plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
-        plt.legend()
-        plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
-        plt.close()
+        # plt.plot(history.history["accuracy"], label="Training Accuracy")
+        # plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+        # plt.legend()
+        # plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
+        # plt.close()
         self.model = model
         self.label_encoder = label_encoder
 
