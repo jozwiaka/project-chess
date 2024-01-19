@@ -116,12 +116,10 @@ class ChessDataProcessor:
 
                             board = game.board()
                             for move in game.mainline_moves():
-                                board.push(move)
                                 fen = board.fen()
                                 positions.append(ChessDataProcessor.fen_to_matrix(fen))
-                                outcomes.append(
-                                    move.uci()
-                                )  # Store the move in UCI format
+                                outcomes.append(move.uci())
+                                board.push(move)
 
         return np.array(positions), np.array(outcomes)
 
