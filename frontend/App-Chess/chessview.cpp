@@ -58,12 +58,10 @@ void ChessView::OnSquareClicked(const ChessSquare::SquarePosition &position)
 
 void ChessView::UpdateChessboardGraphics()
 {
-    for (int x = 0; x < 8; ++x)
+    for (auto &row : m_Board)
     {
-        for (int y = 0; y < 8; ++y)
+        for (auto* square : row)
         {
-            ChessSquare *square = m_Board[x][y];
-
             switch (square->Status)
             {
             case ChessSquare::SquareStatus::Normal:
