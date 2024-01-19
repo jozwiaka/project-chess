@@ -54,7 +54,6 @@ class CNNModel:
 
         y_encoded = label_encoder.fit_transform(fen_list)
 
-        print(y_encoded)
         X_train, X_val, y_train, y_val = train_test_split(
             X, y_encoded, test_size=0.2, random_state=42
         )
@@ -63,10 +62,12 @@ class CNNModel:
             [
                 layers.Conv2D(64, (3, 3), activation="relu", input_shape=(8, 8, 12)),
                 layers.BatchNormalization(),
-                layers.Conv2D(64, (3, 3), activation="relu"),
+                layers.Conv2D(128, (3, 3), activation="relu"),
+                layers.BatchNormalization(),
+                layers.Conv2D(128, (3, 3), activation="relu"),
                 layers.BatchNormalization(),
                 layers.Flatten(),
-                layers.Dense(128, activation="relu"),
+                layers.Dense(256, activation="relu"),
                 layers.Dropout(0.5),
                 layers.Dense(len(label_encoder.classes_), activation="softmax"),
             ]
