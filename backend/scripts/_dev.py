@@ -50,9 +50,7 @@ class CNNModel:
 
         label_encoder = LabelEncoder()
 
-        fen_list = y
-
-        y_encoded = label_encoder.fit_transform(fen_list)
+        y_encoded = label_encoder.fit_transform(y)
 
         X_train, X_val, y_train, y_val = train_test_split(
             X, y_encoded, test_size=0.2, random_state=42
