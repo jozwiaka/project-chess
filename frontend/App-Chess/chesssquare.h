@@ -21,9 +21,9 @@ public:
 
         QString Str() const
         {
-            QString letter = QString(QChar('a'+y));
-            QString number = QString(QChar('1'+x));
-            return letter+number;
+            QString letter = QString(QChar('a' + y));
+            QString number = QString(QChar('1' + x));
+            return letter + number;
         }
 
         static SquarePosition StrToPosition(QString str)
@@ -89,6 +89,7 @@ private:
     const size_t m_Size;
     const QColor m_NormalColor;
     const QColor m_HighlightedColor;
+    const QColor m_ValidColor;
 };
 
 #endif // CHESSSQUARE_H

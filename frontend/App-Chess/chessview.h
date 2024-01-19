@@ -9,6 +9,7 @@
 #include <QVector>
 #include "promotiondialog.h"
 #include "endgamedialog.h"
+#include "chessboard.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -39,6 +40,7 @@ private:
     PromotionDialog *m_PromotionDialog;
     EndGameDialog *m_EndGameDialog;
     bool *m_ComputerTurn;
+    Chessboard &m_Board;
 
 private:
     void CreateChessboardGraphics();

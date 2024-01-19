@@ -4,8 +4,16 @@
 #include <QColor>
 
 ChessSquare::ChessSquare(bool dark, const SquarePosition &position, QWidget *parent)
-    : QLabel(parent), Position(position), Status(SquareStatus::Normal), StatusTemporary(SquareStatusTemporary::Normal), m_Size(80), m_Piece(nullptr), BlockedForKing(false), m_NormalColor(dark ? QColor(101, 67, 33) : QColor(193, 154, 107)),
-      m_HighlightedColor(dark ? QColor(255, 220, 185) : QColor(255, 236, 210))
+    : QLabel(parent),
+      Position(position),
+      Status(SquareStatus::Normal),
+      StatusTemporary(SquareStatusTemporary::Normal),
+      m_Size(80),
+      m_Piece(nullptr),
+      BlockedForKing(false),
+      m_NormalColor(dark ? QColor(101, 67, 33) : QColor(193, 154, 107)),
+      m_HighlightedColor(dark ? QColor(255, 220, 185) : QColor(255, 236, 210)),
+      m_ValidColor(dark ? QColor(0, 200, 100) : QColor(144, 255, 144))
 {
     setFixedSize(m_Size, m_Size);
     setMargin(0);
@@ -23,22 +31,22 @@ void ChessSquare::mousePressEvent(QMouseEvent *event)
 
 void ChessSquare::SetHighlightBackgroundColor()
 {
-    setStyleSheet(QString("background-color: %1;border: none;").arg(m_HighlightedColor.name()));
+    setStyleSheet(QString("background-color: %1;").arg(m_HighlightedColor.name()));
 }
 
 void ChessSquare::SetNormalBackgroundColor()
 {
-    setStyleSheet(QString("background-color: %1;border: none;").arg(m_NormalColor.name()));
+    setStyleSheet(QString("background-color: %1;").arg(m_NormalColor.name()));
 }
 
 void ChessSquare::SetValidBackgroundColor()
 {
-    setStyleSheet(QString("background-color: lightgreen; border: 1px solid black;"));
+    setStyleSheet(QString("background-color: %1;").arg(m_ValidColor.name()));
 }
 
 void ChessSquare::SetCheckBackgroundColor()
 {
-    setStyleSheet(QString("background-color: red; border: 1px solid black;"));
+    setStyleSheet(QString("background-color: red;"));
 }
 
 void ChessSquare::SetPiece(ChessPiece *piece)

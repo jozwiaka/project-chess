@@ -3,7 +3,7 @@
 #include "./ui_chessview.h"
 
 ChessView::ChessView(bool *computerTurn, QWidget *parent)
-    : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn)
+    : QMainWindow(parent), m_Ui(new Ui::ChessView()), m_ComputerTurn(computerTurn), m_Board(Chessboard::GetInstance())
 {
     m_Ui->setupUi(this);
     CreateChessboardGraphics();
@@ -16,7 +16,6 @@ ChessView::~ChessView()
 
 void ChessView::CreateChessboardGraphics()
 {
-    Chessboard &board = Chessboard::GetInstance();
     m_ChessboardLayout = new QGridLayout(m_Ui->centralwidget);
     m_ChessboardLayout->setSpacing(0);
     m_ChessboardLayout->setAlignment(Qt::AlignCenter);
@@ -26,7 +25,7 @@ void ChessView::CreateChessboardGraphics()
     {
         for (char y = 0; y < 8; ++y)
         {
-            m_ChessboardLayout->addWidget(board[x][y], *m_ComputerTurn ? x : 8 - 1 - x, *m_ComputerTurn ? 8 - 1 - y : y);
+            m_ChessboardLayout->addWidget(m_Board[x][y], *m_ComputerTurn ? x : 8 - 1 - x, *m_ComputerTurn ? 8 - 1 - y : y);
         }
     }
 }
@@ -63,7 +62,7 @@ void ChessView::UpdateChessboardGraphics()
     {
         for (int y = 0; y < 8; ++y)
         {
-            ChessSquare *square = qobject_cast<ChessSquare *>(m_ChessboardLayout->itemAtPosition(x, y)->widget());
+            ChessSquare *square = m_Board[x][y];
 
             switch (square->Status)
             {
