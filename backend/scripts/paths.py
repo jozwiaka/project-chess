@@ -1,5 +1,9 @@
 import os
 
+plots_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plots"
+)
+
 pgn_dir = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pgn_data"
 )

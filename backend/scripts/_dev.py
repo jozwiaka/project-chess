@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras import models
 import paths
+import matplotlib.pyplot as plt
 
 
 class ChessModel:
@@ -77,9 +78,20 @@ class CNNModel:
             # loss="sparse_categorical_crossentropy",
             metrics=["accuracy"],
         )
-        model.fit(
+        history = model.fit(
             X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val)
         )
+        plt.plot(history.history["loss"], label="Training Loss")
+        plt.plot(history.history["val_loss"], label="Validation Loss")
+        plt.legend()
+        plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
+        plt.close()
+
+        plt.plot(history.history["accuracy"], label="Training Accuracy")
+        plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+        plt.legend()
+        plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
+        plt.close()
         self.model = model
         self.label_encoder = label_encoder
 
