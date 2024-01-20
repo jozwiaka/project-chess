@@ -22,23 +22,8 @@ class ChessModel:
         input_matrix = ChessDataProcessor.fen_to_matrix(fen_data)
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)
-
-        current_side = chess.Board(fen_data).turn
-
-        num_classes_per_side = len(self.label_encoder.classes_) // 2
-
-        if current_side == chess.WHITE:
-            relevant_predictions = prediction[:, :num_classes_per_side]
-        else:
-            relevant_predictions = prediction[:, num_classes_per_side:]
-
-        decoded_label = self.label_encoder.inverse_transform(
-            [np.argmax(relevant_predictions)]
-        )
-
-        move = decoded_label[0]
-
-        return move, current_side
+        move = self.label_encoder.inverse_transform([np.argmax(prediction)])[0]
+        return move
 
 
 class CNNModel:
@@ -80,17 +65,17 @@ class CNNModel:
         history = model.fit(
             X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val)
         )
-        # plt.plot(history.history["loss"], label="Training Loss")
-        # plt.plot(history.history["val_loss"], label="Validation Loss")
-        # plt.legend()
-        # plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
-        # plt.close()
+        plt.plot(history.history["loss"], label="Training Loss")
+        plt.plot(history.history["val_loss"], label="Validation Loss")
+        plt.legend()
+        plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
+        plt.close()
 
-        # plt.plot(history.history["accuracy"], label="Training Accuracy")
-        # plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
-        # plt.legend()
-        # plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
-        # plt.close()
+        plt.plot(history.history["accuracy"], label="Training Accuracy")
+        plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+        plt.legend()
+        plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
+        plt.close()
         self.model = model
         self.label_encoder = label_encoder
 
@@ -120,7 +105,6 @@ class ChessDataProcessor:
                                 positions.append(ChessDataProcessor.fen_to_matrix(fen))
                                 outcomes.append(move.uci())
                                 board.push(move)
-
         return np.array(positions), np.array(outcomes)
 
     @staticmethod
@@ -157,16 +141,12 @@ def play_chess_game(model):
         for i in range(1):
             board = chess.Board()
             while not board.is_game_over():
-                move, white = model.predict_move(board.fen())
+                move = model.predict_move(board.fen())
                 legal_moves = [str(legal_move) for legal_move in board.legal_moves]
                 move_raw = move
                 if move not in legal_moves:
                     move = np.random.choice(legal_moves)
                 turn = ""
-                if white:
-                    turn = "w"
-                else:
-                    turn = "b"
                 if move_raw == move:
                     f.write(f"{board.fen()}; {turn}: {move}")
                 else:
