@@ -1,11 +1,16 @@
 import os
 
+web_driver = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "web_driver/chromedriver.exe",
+)
+
 plots_dir = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plots"
 )
 
-pgn_dir = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pgn_data"
+data_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data"
 )
 
 models_dir = os.path.join(

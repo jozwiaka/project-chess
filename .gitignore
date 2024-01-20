@@ -58,3 +58,4 @@ __pycache__
 .vscode
 test.out
 models
+data/

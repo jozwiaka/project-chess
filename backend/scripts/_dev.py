@@ -108,12 +108,12 @@ class CNNModel:
 
 class ChessDataProcessor:
     @staticmethod
-    def load_data(pgn_dir):
+    def load_data(data_dir):
         positions = []
         outcomes = []
-        for filename in os.listdir(pgn_dir):
+        for filename in os.listdir(data_dir):
             if filename.endswith(".pgn"):
-                pgn_file = os.path.join(pgn_dir, filename)
+                pgn_file = os.path.join(data_dir, filename)
                 with open(pgn_file) as f:
                     while True:
                         game = chess.pgn.read_game(f)
@@ -182,7 +182,7 @@ def play_chess_game(model):
 
 
 if __name__ == "__main__":
-    data = ChessDataProcessor.load_data(paths.pgn_dir)
+    data = ChessDataProcessor.load_data(paths.data_dir)
     cnn_model = CNNModel(data)
     cnn_model.train()
     cnn_model.save_model(paths.chess_model_path, paths.label_encoder_path)
