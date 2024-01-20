@@ -57,5 +57,6 @@ compile_commands.json
 __pycache__
 .vscode
 test.out
-models
+models/
 data/
+plots/

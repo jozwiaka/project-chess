@@ -84,6 +84,7 @@ class CNNModel:
             callbacks=[lr_scheduler, early_stopping],
         )
 
+        os.makedirs(paths.plots_dir, exist_ok=True)
         # Plotting Training and Validation Loss
         plt.plot(history.history["loss"], label="Training Loss")
         plt.plot(history.history["val_loss"], label="Validation Loss")
@@ -102,6 +103,7 @@ class CNNModel:
         self.label_encoder = label_encoder
 
     def save_model(self, chess_model_path, label_encoder_path):
+        os.makedirs(paths.models_dir, exist_ok=True)
         self.model.save(chess_model_path)
         np.save(label_encoder_path, self.label_encoder.classes_)
 
