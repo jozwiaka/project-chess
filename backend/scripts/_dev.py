@@ -2,11 +2,9 @@ import os
 import numpy as np
 import chess
 import chess.pgn
-import numpy as np
-from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models, callbacks
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras import models
 import paths
 import matplotlib.pyplot as plt
 
@@ -34,7 +32,6 @@ class CNNModel:
         X, y = self.data
 
         label_encoder = LabelEncoder()
-
         y_encoded = label_encoder.fit_transform(y)
 
         X_train, X_val, y_train, y_val = train_test_split(
@@ -50,7 +47,7 @@ class CNNModel:
                 layers.Conv2D(128, (3, 3), activation="relu"),
                 layers.BatchNormalization(),
                 layers.Flatten(),
-                layers.Dense(256, activation="relu"),
+                layers.Dense(256, activation="relu", kernel_regularizer="l2"),
                 layers.Dropout(0.5),
                 layers.Dense(len(label_encoder.classes_), activation="softmax"),
             ]
@@ -58,24 +55,49 @@ class CNNModel:
 
         model.compile(
             optimizer="adam",
-            # loss="categorical_crossentropy",
             loss="sparse_categorical_crossentropy",
             metrics=["accuracy"],
         )
-        history = model.fit(
-            X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val)
+
+        # Learning Rate Scheduler
+        def lr_schedule(epoch):
+            if epoch < 5:
+                return 0.001
+            elif epoch < 10:
+                return 0.0005
+            else:
+                return 0.0001
+
+        lr_scheduler = callbacks.LearningRateScheduler(lr_schedule)
+
+        # Early Stopping
+        early_stopping = callbacks.EarlyStopping(
+            monitor="val_loss", patience=3, restore_best_weights=True
         )
+
+        history = model.fit(
+            X_train,
+            y_train,
+            epochs=15,
+            batch_size=32,
+            validation_data=(X_val, y_val),
+            callbacks=[lr_scheduler, early_stopping],
+        )
+
+        # Plotting Training and Validation Loss
         plt.plot(history.history["loss"], label="Training Loss")
         plt.plot(history.history["val_loss"], label="Validation Loss")
         plt.legend()
         plt.savefig(f"{paths.plots_dir}/training_validation_loss.pdf")
         plt.close()
 
+        # Plotting Training and Validation Accuracy
         plt.plot(history.history["accuracy"], label="Training Accuracy")
         plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
         plt.legend()
         plt.savefig(f"{paths.plots_dir}/training_validation_accuracy.pdf")
         plt.close()
+
         self.model = model
         self.label_encoder = label_encoder
 
@@ -89,22 +111,21 @@ class ChessDataProcessor:
     def load_data(pgn_dir):
         positions = []
         outcomes = []
-        with open(paths.test_out_path, "w") as o:
-            for filename in os.listdir(pgn_dir):
-                if filename.endswith(".pgn"):
-                    pgn_file = os.path.join(pgn_dir, filename)
-                    with open(pgn_file) as f:
-                        while True:
-                            game = chess.pgn.read_game(f)
-                            if game is None:
-                                break
+        for filename in os.listdir(pgn_dir):
+            if filename.endswith(".pgn"):
+                pgn_file = os.path.join(pgn_dir, filename)
+                with open(pgn_file) as f:
+                    while True:
+                        game = chess.pgn.read_game(f)
+                        if game is None:
+                            break
 
-                            board = game.board()
-                            for move in game.mainline_moves():
-                                fen = board.fen()
-                                positions.append(ChessDataProcessor.fen_to_matrix(fen))
-                                outcomes.append(move.uci())
-                                board.push(move)
+                        board = game.board()
+                        for move in game.mainline_moves():
+                            fen = board.fen()
+                            positions.append(ChessDataProcessor.fen_to_matrix(fen))
+                            outcomes.append(move.uci())
+                            board.push(move)
         return np.array(positions), np.array(outcomes)
 
     @staticmethod
@@ -154,9 +175,7 @@ def play_chess_game(model):
                 f.write("\n")
                 board.push(chess.Move.from_uci(move))
             result = board.result()
-            if result == "1-0":
-                f.write("Model wins!")
-            elif result == "0-1":
+            if result == "1-0" or result == "0-1":
                 f.write("Model wins!")
             else:
                 f.write("The game is a draw.")
