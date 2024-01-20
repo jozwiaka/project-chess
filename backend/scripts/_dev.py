@@ -59,29 +59,12 @@ class CNNModel:
             metrics=["accuracy"],
         )
 
-        # Learning Rate Scheduler
-        def lr_schedule(epoch):
-            if epoch < 5:
-                return 0.001
-            elif epoch < 10:
-                return 0.0005
-            else:
-                return 0.0001
-
-        lr_scheduler = callbacks.LearningRateScheduler(lr_schedule)
-
-        # Early Stopping
-        early_stopping = callbacks.EarlyStopping(
-            monitor="val_loss", patience=3, restore_best_weights=True
-        )
-
         history = model.fit(
             X_train,
             y_train,
-            epochs=15,
+            epochs=10,
             batch_size=32,
             validation_data=(X_val, y_val),
-            callbacks=[lr_scheduler, early_stopping],
         )
 
         # Plotting Training and Validation Loss
