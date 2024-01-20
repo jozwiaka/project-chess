@@ -9,3 +9,5 @@ spyder
 pyautogui
 python-chess
 flask
+selenium
+requests
