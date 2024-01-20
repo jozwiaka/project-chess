@@ -99,16 +99,28 @@ class ChessDataProcessor:
                 pgn_file = os.path.join(data_dir, filename)
                 with open(pgn_file) as f:
                     while True:
-                        game = chess.pgn.read_game(f)
-                        if game is None:
-                            break
+                        try:
+                            game = chess.pgn.read_game(f)
+                            if game is None:
+                                break
 
-                        board = game.board()
-                        for move in game.mainline_moves():
-                            fen = board.fen()
-                            positions.append(ChessDataProcessor.fen_to_matrix(fen))
-                            outcomes.append(move.uci())
-                            board.push(move)
+                            board = game.board()
+                            for move in game.mainline_moves():
+                                fen = board.fen()
+                                try:
+                                    positions.append(
+                                        ChessDataProcessor.fen_to_matrix(fen)
+                                    )
+                                    outcomes.append(move.uci())
+                                    board.push(move)
+                                except ValueError:
+                                    print(f"Illegal move found in game: {filename}")
+                                    positions.pop()
+                                    outcomes.pop()
+                                    break
+                        except chess.pgn.Error:
+                            print(f"Error reading PGN file: {filename}")
+                            break
         return np.array(positions), np.array(outcomes)
 
     @staticmethod
