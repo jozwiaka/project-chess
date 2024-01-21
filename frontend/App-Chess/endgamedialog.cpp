@@ -1,5 +1,5 @@
 #include "config.h"
-#include "EndGameDialog.h"
+#include "endgamedialog.h"
 #include <QVBoxLayout>
 #include <QMap>
 #include <QLabel>
