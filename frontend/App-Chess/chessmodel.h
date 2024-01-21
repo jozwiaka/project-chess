@@ -73,6 +73,7 @@ private:
     bool m_Check;
     FENData *m_FENData;
     int m_HalfMoveClock;
+    bool m_Terminated;
 
 private:
     void ClearTemporaryStatuses();

@@ -4,6 +4,7 @@
 #include <QRandomGenerator>
 #include "cnnmodel.h"
 #include <QCoreApplication>
+#include <QApplication>
 // #include <fstream>
 
 ChessModel::ChessModel(QObject *parent)
@@ -15,6 +16,7 @@ ChessModel::ChessModel(QObject *parent)
       m_Check(false),
       m_HalfMoveClock(0),
       m_FENData(new FENData),
+      m_Terminated(false),
 #if defined(PVP)
       ComputerTurn(new bool(false)) // TODO
 #endif
@@ -71,6 +73,11 @@ void ChessModel::ClearAfterPreviousMove()
 
 void ChessModel::UpdateModelOnSquareClick(const ChessSquare::SquarePosition &position)
 {
+    if (m_Terminated)
+    {
+        return;
+    }
+
     ChessSquare *clickedSquare = m_Board.GetSquareByPosition(position);
 
     if (!clickedSquare)
@@ -655,10 +662,11 @@ void ChessModel::MakeMove(ChessSquare *toSquare)
 
     // Beginning of the next turn
     ValidateMovesUnderCheck();
-
-    UpdateFENData();
     emit UpdateChessboardGraphics();
     QCoreApplication::processEvents();
+
+    UpdateFENData();
+
     if (*ComputerTurn)
     {
         MoveCNNModel(); // TODO
@@ -787,12 +795,22 @@ void ChessModel::ValidateMovesUnderCheck()
         {
             message = "Stale mate.";
         }
+        emit UpdateChessboardGraphics();
+        QCoreApplication::processEvents();
         emit ShowEndGameDialog(message);
+        QCoreApplication::processEvents();
+        m_Terminated = true;
+        QApplication::quit();
     }
     else if (m_HalfMoveClock == 50)
     {
         message = "Draw - 50 rule";
+        emit UpdateChessboardGraphics();
+        QCoreApplication::processEvents();
         emit ShowEndGameDialog(message);
+        QCoreApplication::processEvents();
+        m_Terminated = true;
+        QApplication::quit();
     }
 }
 
