@@ -38,6 +38,7 @@ services:
       - "8080:80"
     environment:
       - DISPLAY=:0
+      - DOCKER_BACKEND_SERVER_ADDRESS=http://backend-service:5000
     networks:
       - my_network
     restart: always
