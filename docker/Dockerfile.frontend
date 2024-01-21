@@ -1,13 +1,11 @@
-FROM ubuntu:22.04
+FROM dorowu/ubuntu-desktop-lxde-vnc
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 
 RUN apt-get update && \
     apt-get install -y \
     cmake \
     qtbase5-dev \
-    build-essential \
-    libx11-dev 
-
-ENV DISPLAY=host.docker.internal:0
+    build-essential
 
 WORKDIR /app
 
@@ -15,4 +13,8 @@ COPY frontend/. .
 
 RUN make build
 
-CMD ["make", "run"]
+EXPOSE 8080
+ENV DISPLAY=:0
+
+RUN chmod +x startup.sh
+CMD ["startup.sh"]

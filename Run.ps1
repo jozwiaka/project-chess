@@ -57,7 +57,7 @@ function Invoke-DockerRestart {
 function Invoke-DockerBuild {
     Log-Message "Building Docker images..."
     # docker build -t db-image -f docker/Dockerfile.db .
-    # docker build -t backend-image -f docker/Dockerfile.backend .
+    docker build -t backend-image -f docker/Dockerfile.backend .
     docker build -t frontend-image -f docker/Dockerfile.frontend .
 }
 
