@@ -1,0 +1,15 @@
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    apt-get install -y \
+    cmake \
+    qtbase5-dev \
+    build-essential 
+
+WORKDIR /app
+
+COPY frontend/. .
+
+RUN make build
+
+CMD ["make", "run"]

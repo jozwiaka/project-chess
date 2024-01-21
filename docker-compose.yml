@@ -14,31 +14,31 @@ services:
   #     - db_data:/var/lib/mysql
   #   restart: always
 
-  backend-service:
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile.backend
-    container_name: backend-container
-    image: backend-image:latest
-    ports:
-      - "5000:5000"
-    networks:
-      - my_network
-    # depends_on:
-    # - db-service
-    restart: always
-
-  # frontend-service:
+  # backend-service:
   #   build:
   #     context: ./
-  #     dockerfile: ./docker/Dockerfile.frontend
-  #   container_name: frontend-container
-  #   image: frontend-image:latest
+  #     dockerfile: ./docker/Dockerfile.backend
+  #   container_name: backend-container
+  #   image: backend-image:latest
   #   ports:
-  #     - "4200:4200"
+  #     - "5000:5000"
   #   networks:
   #     - my_network
+  #   # depends_on:
+  #   # - db-service
   #   restart: always
+
+  frontend-service:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.frontend
+    container_name: frontend-container
+    image: frontend-image:latest
+    # ports:
+    #   - "4200:4200"
+    networks:
+      - my_network
+    restart: always
 
 # volumes:
 #   db_data:
