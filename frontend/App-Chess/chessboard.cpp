@@ -159,6 +159,6 @@ QString Chessboard::Str()
         }
         str.append("/");
     }
-    str.removeLast();
+    str.chop(1);
     return str;
 }

@@ -17,21 +17,21 @@ set(PROJECT_SOURCES
     chessview.cpp
     chessview.h
     chessview.ui
+    chessmodel.h chessmodel.cpp
+    chesscontroller.h chesscontroller.cpp
+    chesssquare.h chesssquare.cpp
+    cnnmodel.h cnnmodel.cpp
+    chesspiece.h chesspiece.cpp
+    chessboard.h chessboard.cpp
+    chessgame.h chessgame.cpp
+    promotiondialog.h promotiondialog.cpp
+    endgamedialog.h endgamedialog.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(App-Chess
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        chessmodel.h chessmodel.cpp
-        chesscontroller.h chesscontroller.cpp
-        chesssquare.h chesssquare.cpp
-        cnnmodel.h cnnmodel.cpp
-        chesspiece.h chesspiece.cpp
-        chessboard.h chessboard.cpp
-        chessgame.h chessgame.cpp
-        promotiondialog.h promotiondialog.cpp
-        endgamedialog.h endgamedialog.cpp
     )
 else()
     if(ANDROID)
