@@ -22,7 +22,7 @@ CNNModel::CNNModel(QObject *parent)
 std::tuple<ChessSquare::SquarePosition, ChessSquare::SquarePosition> CNNModel::GenerateMove(const QString &data)
 {
     QNetworkAccessManager manager;
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/generate_move"));
+    QNetworkRequest request(QUrl("http://backend-service:5000/generate_move"));
 
     // Set the content type to application/json
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
