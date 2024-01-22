@@ -1,4 +1,4 @@
-.PHONY: prepare configure build test run callgrind all
+.PHONY: prepare configure build run all
 
 prepare:
 	rm -rf build
@@ -7,10 +7,6 @@ configure: prepare
 	cd build && cmake ../App-Chess
 build: configure
 	cd build && cmake --build .
-test: build
-	# cd build && make test
 run:
 	cd build && ./App-Chess
-callgrind:
-	cd build && valgrind --tool=callgrind ./exe && kcachegrin callgrind.out.*
-all: prepare configure build test run
+all: prepare configure build run
