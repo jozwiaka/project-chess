@@ -41,7 +41,7 @@ class ChessDataProcessor:
                             pgn_file_path = os.path.join(root, file)
                             shutil.move(pgn_file_path, os.path.join(data_dir, file))
 
-            shutil.rmtree(download_dir)
+        shutil.rmtree(download_dir)
 
     @staticmethod
     def load_data(data_dir):
