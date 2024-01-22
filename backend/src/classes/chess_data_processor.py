@@ -2,9 +2,47 @@ import os
 import numpy as np
 import chess
 import chess.pgn
+import zipfile
+import shutil
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import requests
 
 
 class ChessDataProcessor:
+    @staticmethod
+    def download_data(data_dir):
+        download_dir = f"{data_dir}/tmp"
+        os.makedirs(download_dir, exist_ok=True)
+        driver = webdriver.Chrome()
+        website_url = "https://www.pgnmentor.com/files.html#players"
+        driver.get(website_url)
+        download_links = driver.find_elements(
+            By.XPATH, '//a[text()="Download" and contains(@href, "player")]'
+        )
+        for link in download_links:
+            href = link.get_attribute("href")
+            response = requests.get(href)
+            filename = os.path.join(download_dir, os.path.basename(href))
+            with open(filename, "wb") as file:
+                file.write(response.content)
+        driver.quit()
+
+        os.makedirs(data_dir, exist_ok=True)
+        for item in os.listdir(download_dir):
+            item_path = os.path.join(download_dir, item)
+            print(item_path)
+            if item_path.endswith(".zip"):
+                with zipfile.ZipFile(item_path, "r") as zip_ref:
+                    zip_ref.extractall(download_dir)
+                for root, dirs, files in os.walk(download_dir):
+                    for file in files:
+                        if file.endswith(".pgn"):
+                            pgn_file_path = os.path.join(root, file)
+                            shutil.move(pgn_file_path, os.path.join(data_dir, file))
+
+            shutil.rmtree(download_dir)
+
     @staticmethod
     def load_data(data_dir):
         positions = []
