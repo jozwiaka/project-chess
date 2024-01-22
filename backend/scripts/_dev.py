@@ -38,17 +38,26 @@ class CNNModel:
             X, y_encoded, test_size=0.2, random_state=42
         )
 
+        # model = models.Sequential(
+        #     [
+        #         layers.Conv2D(64, (3, 3), activation="relu", input_shape=(8, 8, 12)),
+        #         layers.BatchNormalization(),
+        #         layers.Conv2D(128, (3, 3), activation="relu"),
+        #         layers.BatchNormalization(),
+        #         layers.Conv2D(128, (3, 3), activation="relu"),
+        #         layers.BatchNormalization(),
+        #         layers.Flatten(),
+        #         layers.Dense(256, activation="relu", kernel_regularizer="l2"),
+        #         layers.Dropout(0.5),
+        #         layers.Dense(len(label_encoder.classes_), activation="softmax"),
+        #     ]
+        # )
+
         model = models.Sequential(
             [
                 layers.Conv2D(64, (3, 3), activation="relu", input_shape=(8, 8, 12)),
-                layers.BatchNormalization(),
-                layers.Conv2D(128, (3, 3), activation="relu"),
-                layers.BatchNormalization(),
-                layers.Conv2D(128, (3, 3), activation="relu"),
-                layers.BatchNormalization(),
                 layers.Flatten(),
                 layers.Dense(256, activation="relu", kernel_regularizer="l2"),
-                layers.Dropout(0.5),
                 layers.Dense(len(label_encoder.classes_), activation="softmax"),
             ]
         )
