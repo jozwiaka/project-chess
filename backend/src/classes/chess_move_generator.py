@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 
-class ChessModel:
+class ChessMoveGenerator:
     def load_model(self, chess_model_path, label_encoder_path):
         self.model = models.load_model(chess_model_path)
         classes = np.load(label_encoder_path)

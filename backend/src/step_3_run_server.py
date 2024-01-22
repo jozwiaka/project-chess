@@ -1,16 +1,16 @@
-from classes.chess_model import ChessModel
+from classes.chess_move_generator import ChessMoveGenerator
 import paths
 from flask import Flask, request, jsonify
 
-chess_model = ChessModel()
-chess_model.load_model(paths.chess_model_path, paths.label_encoder_path)
+chess_move_generator = ChessMoveGenerator()
+chess_move_generator.load_model(paths.chess_model_path, paths.label_encoder_path)
 app = Flask(__name__)
 
 
 @app.route("/generate_move", methods=["POST"])
 def generate_move():
     fen_data = request.json.get("fen_data")
-    move = chess_model.predict_move(fen_data)
+    move = chess_move_generator.predict_move(fen_data)
     return jsonify({"positionFrom": move[0:2], "positionTo": move[2:4]})
 
 

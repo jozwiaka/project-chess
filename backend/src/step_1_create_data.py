@@ -23,7 +23,7 @@ def unzip_all_and_move_pgn(src_path, dest_path):
 
 
 if __name__ == "__main__":
-    download_dir = "c:/Users/DELL/Downloads/tmp"
+    download_dir = "/project-chess-backend-data-tmp"
     os.makedirs(download_dir, exist_ok=True)
     driver = webdriver.Chrome()
     website_url = "https://www.pgnmentor.com/files.html#players"

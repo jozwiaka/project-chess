@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["python", "scripts/server.py"]
+CMD ["python", "src/step_3_run_server.py"]
