@@ -12,7 +12,7 @@ class ChessMoveGenerator:
         self.label_encoder = LabelEncoder()
         self.label_encoder.classes_ = classes
 
-    def predict_move(self, fen_data):
+    def generate_move(self, fen_data):
         input_matrix = ChessDataProcessor.fen_to_matrix(fen_data)
         input_matrix = np.reshape(input_matrix, (1, 8, 8, 12))
         prediction = self.model.predict(input_matrix)

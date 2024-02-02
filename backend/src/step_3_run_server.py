@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/generate_move", methods=["POST"])
 def generate_move():
     fen_data = request.json.get("fen_data")
-    move = chess_move_generator.predict_move(fen_data)
+    move = chess_move_generator.generate_move(fen_data)
     return jsonify({"positionFrom": move[0:2], "positionTo": move[2:4]})
 
 

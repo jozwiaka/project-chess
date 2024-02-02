@@ -8,7 +8,7 @@ def play_chess_game(model):
         for i in range(1):
             board = chess.Board()
             while not board.is_game_over():
-                move = model.predict_move(board.fen())
+                move = model.generate_move(board.fen())
                 legal_moves = [str(legal_move) for legal_move in board.legal_moves]
                 move_raw = move
                 if move not in legal_moves:
