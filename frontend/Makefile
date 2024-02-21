@@ -6,7 +6,7 @@ prepare:
 configure: prepare
 	cd build && cmake ../App-Chess
 build: configure
-	cd build && cmake --build .
+	cd build && cmake --build . -j$(nproc)
 run:
 	cd build && ./App-Chess
 all: prepare configure build run
