@@ -24,12 +24,8 @@ function Invoke-DockerClean {
 
 function Invoke-KubernetesClean {
     Log-Message "Cleaning Kubernetes resources..."
-    kubectl delete deployment db-deployment
-    kubectl delete deployment backend-deployment
-    kubectl delete deployment frontend-deployment
-    kubectl delete service db-service
-    kubectl delete service backend-service
-    kubectl delete service frontend-service
+    kubectl delete deployment --all
+    kubectl delete service --all
 }
 function Invoke-DockerCleanBuildStart {
     Log-Message "Cleaning resources, building and starting Docker containers..."
@@ -63,9 +59,7 @@ function Invoke-KubernetesCleanBuildStart {
     Log-Message "Cleaning resources, building Docker images, and starting Kubernetes resources..."
     Invoke-Clean
     Invoke-DockerBuild
-    kubectl apply -f kubernetes/db-deployment.yaml
-    kubectl apply -f kubernetes/backend-deployment.yaml
-    kubectl apply -f kubernetes/frontend-deployment.yaml
+    kubectl apply -f kubernetes/*.yaml
     kubectl get deployments
     kubectl get pods
     kubectl get services
