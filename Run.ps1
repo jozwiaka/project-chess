@@ -59,7 +59,7 @@ function Invoke-KubernetesCleanBuildStart {
     Log-Message "Cleaning resources, building Docker images, and starting Kubernetes resources..."
     Invoke-Clean
     Invoke-DockerBuild
-    kubectl apply -f kubernetes/*.yaml
+    kubectl apply -f kubernetes
     kubectl get deployments
     kubectl get pods
     kubectl get services
