@@ -1,3 +1,3 @@
-# chess-game
+# project-chess
 
-.\Run.ps1 -Option Docker
+![alt text](img_chess.png)
